@@ -1,0 +1,162 @@
+define Target {
+  _id: null,
+  contact: null,
+  deleted: null,
+  type: null,
+  pass: null,
+  date: null
+}
+
+define Contact {
+  contact: null,
+  reports: null
+}
+
+define Task {
+  _id: null,
+  deleted: null,
+  doc: null,
+  contact: null,
+  icon: null,
+  date: null,
+  readyStart: null,
+  readyEnd: null,
+  title: null,
+  fields: null,
+  resolved: null,
+  priority: null,
+  priorityLabel: null,
+  reports: null,
+  actions: null
+}
+
+rule GenerateEvents {
+  when {
+    c: Contact
+  }
+  then {
+    var createTask = function(contact, schedule, report) {
+      return new Task({
+        // One task instance for each schedule event per form that triggers a task, not per contact
+        // Otherwise they collide when contact has multiple reports of the same form
+        // _id: report._id + '-' + schedule.id,
+        _id: contact.contact._id + '-' + schedule.id,
+        deleted: (contact.contact ? contact.contact.deleted : false) || (report ? report.deleted : false),
+        doc: contact,
+        contact: contact.contact,
+        icon: schedule.icon,
+        priority: schedule.description ? 'high' : null,
+        priorityLabel: schedule.description ? schedule.description : '',
+        icon: schedule.type,
+        date: null,
+        readyStart: schedule.start,
+        readyEnd: schedule.end,
+        title: schedule.title,
+        resolved: false,
+        actions: []
+      });
+    };
+
+    var emitTask = function(task, scheduleEvent) {
+      if (Utils.isTimely(task.date, scheduleEvent)) {
+        emit('task', task);
+      }
+    };
+
+    var generateClientReviewTask = function(r, ctx) {
+      let schedule = Utils.getSchedule('client-review-request');
+      let form = 'client_review';
+      if(schedule){
+        schedule.events.forEach(function(s) {
+          var dueDate = new Date(Utils.addDate(new Date(r.reported_date), s.days));
+          var visit = createTask(c, s, r);
+          visit.date = dueDate;
+          visit.resolved = Utils.isFormSubmittedInWindow(c.reports, form, Utils.addDate(dueDate, s.start * -1).getTime(), Utils.addDate(dueDate, (s.end + 1)).getTime());
+          visit.actions.push({
+            type: 'report',
+            form: form,
+            label: 'Client review',
+            content: {
+              source: 'task',
+              source_id: r._id,
+              contact: c.contact,
+              is_referral_for_care: ctx && ctx.is_referral_for_care,
+              is_no_contact: ctx && ctx.is_no_contact,
+            }
+          });
+          emitTask(visit, s);
+        });
+      }
+    };
+
+    // ==============================
+    // GENERATES TASKS
+    // ==============================
+    if (c.contact && c.contact.type === 'person') {
+      // ------------------------------
+      // PERSON-BASED TASKS
+      // ------------------------------
+      // Avoid generating tasks for these pilot phase clients who don't have a
+      // 2WT scheduled messages report (https://github.com/medic/medic-projects/issues/4443)
+      let pilot_users = [
+        "58284f3c-9c2e-49f5-a039-8d90071c8022",
+        "303f9f4c-0c6f-405c-940a-b2f573a85a0c",
+        "fcac5344-c15d-4c04-b888-df0cf77fc275",
+        "f69d7760-fd9c-418a-a41d-a349cbe5cba2",
+        "f8af310b-ffb3-4ecf-b345-b46c196f6d5c",
+        "711fe306-e072-433b-9de7-1666d709e87b",
+        "d36fb82a-c150-4745-a991-4644f10e1883",
+        "3457a5f1-e806-438a-929b-a246ffdb98d4",
+        "749cc214-d05a-4f19-8ce0-61e233bac7b2",
+        "323d1b41-3427-4109-9336-32e5f37c03dd",
+        "4bccd638-6f69-4fbd-914a-c115eba1563b",
+        "72a86cdc-4d32-4cb0-85c2-7b5c63d0bb32",
+        "4b9ac080-a3ee-4959-94dd-c5b7ea29e7a1",
+        "112d37f9-25e2-49b7-b289-d4ead1ce248c",
+        "5fe44ccb-8cc2-4d26-9157-df01d4899d34",
+        "f4d7b1e7-ff89-40b3-9d70-9afa5685c6fa"
+      ];
+      let schedule = Utils.getSchedule('scheduled-msgs');
+      if (schedule && pilot_users.indexOf(c.contact._id) == -1 && !c.contact.is_nurse) {
+        schedule.events.forEach(function(s){
+          let dueDate = new Date(Utils.addDate(new Date(c.contact.reported_date), s.days));
+          let task = createTask(c, s);
+          task.date = dueDate;
+          task.resolved = !!Utils.getMostRecentReport(c.reports, 'scheduled_msgs');
+          task.actions.push({
+            type: 'report',
+            form: "scheduled_msgs",
+            label: 'Send 14-day scheduled SMSs',
+            content: {
+              source: 'task',
+              source_id: c._id,
+              contact: c.contact
+            }
+          });
+          emitTask(task, s);
+        });
+      }
+
+      // Report based tasks
+      c.reports.forEach(
+        function(r) {
+          let ctx = {};
+          switch(r.form) {
+            case 'no_contact':
+                if(r.fields.n.client_ok && r.fields.n.client_ok === 'yes') {
+                    break;
+                }
+                ctx.is_no_contact = true;
+                generateClientReviewTask(r, ctx);
+                break;
+            case 'referral_for_care':
+                ctx.is_referral_for_care = true;
+                generateClientReviewTask(r, ctx);
+                break;
+        }
+      });
+
+    }
+    emit('_complete', { _id: true });
+  }
+}

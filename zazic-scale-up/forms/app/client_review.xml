@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>Client Review</h:title>
+    <model>
+      <instance>
+        <r delimiter="#" id="client_review" prefix="J1!client_review!" version="2020-03-04 00:00:00">
+          <inputs>
+            <meta>
+              <location>
+                <lat/>
+                <long/>
+                <error/>
+                <message/>
+              </location>
+            </meta>
+            <source>user</source>
+            <source_id/>
+            <is_referral_for_care/>
+            <is_no_contact/>
+            <contact>
+              <_id/>
+              <name/>
+              <phone/>
+            </contact>
+          </inputs>
+          <patient_name/>
+          <patient_id/>
+          <phone/>
+          <is_referral_for_care/>
+          <is_no_contact/>
+          <n>
+            <client_came/>
+            <return_client>
+              <clinic_name/>
+              <visit_date/>
+              <ae_positive/>
+              <ae_severity/>
+              <ae_type/>
+            </return_client>
+            <trace_client>
+              <client_traced/>
+              <client_not_traced_reason/>
+              <client_ok/>
+              <n_thanks/>
+              <ae_positive/>
+              <ae_severity/>
+              <ae_type/>
+            </trace_client>
+            <nurse/>
+            <additional_comments/>
+          </n>
+          <meta>
+            <instanceID/>
+          </meta>
+        </r>
+      </instance>
+      <instance id="contact-summary"/>
+      <bind nodeset="/r/inputs" relevant="./source = 'user'"/>
+      <bind nodeset="/r/inputs/source" type="string"/>
+      <bind nodeset="/r/inputs/source_id" type="string"/>
+      <bind nodeset="/r/inputs/is_referral_for_care" type="string"/>
+      <bind nodeset="/r/inputs/is_no_contact" type="string"/>
+      <bind nodeset="/r/inputs/contact/_id" type="db:person"/>
+      <bind nodeset="/r/inputs/contact/name" type="string"/>
+      <bind nodeset="/r/inputs/contact/phone" type="string"/>
+      <bind calculate="../inputs/contact/name" nodeset="/r/patient_name" type="string"/>
+      <bind calculate="../inputs/contact/_id" nodeset="/r/patient_id" required="true()" type="string"/>
+      <bind calculate="../inputs/contact/phone" nodeset="/r/phone" type="string"/>
+      <bind calculate="../inputs/is_referral_for_care" nodeset="/r/is_referral_for_care" type="string"/>
+      <bind calculate="../inputs/is_no_contact" nodeset="/r/is_no_contact" type="string"/>
+      <bind nodeset="/r/n/client_came" required="true()" type="select1"/>
+      <bind nodeset="/r/n/return_client" relevant=" /r/n/client_came  = 'yes'"/>
+      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/r/n/return_client/clinic_name" required="true()" type="string"/>
+      <bind constraint=". &lt;= today() and ((decimal-date-time(today()) - decimal-date-time(.)) &lt;= 28)" jr:constraintMsg="Visit date must be within the past 4 weeks" nodeset="/r/n/return_client/visit_date" required="true()" type="date"/>
+      <bind nodeset="/r/n/return_client/ae_positive" required="true()" type="select1"/>
+      <bind nodeset="/r/n/return_client/ae_severity" relevant="../ae_positive = 'yes'" required="true()" type="select1"/>
+      <bind constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)" jr:constraintMsg="Please type in proper characters e.g AN-A" nodeset="/r/n/return_client/ae_type" relevant="../ae_positive = 'yes'" required="true()" type="string"/>
+      <bind nodeset="/r/n/trace_client" relevant=" /r/n/client_came ='no'"/>
+      <bind nodeset="/r/n/trace_client/client_traced" required="true()" type="select1"/>
+      <bind nodeset="/r/n/trace_client/client_not_traced_reason" relevant=" /r/n/trace_client/client_traced  = 'no'" required="true()" type="string"/>
+      <bind nodeset="/r/n/trace_client/client_ok" relevant=" /r/n/trace_client/client_traced  = 'yes'" required="true()" type="select1"/>
+      <bind nodeset="/r/n/trace_client/n_thanks" readonly="true()" relevant=" /r/n/trace_client/client_traced  = 'yes'" type="string"/>
+      <bind nodeset="/r/n/trace_client/ae_positive" relevant=" /r/n/trace_client/client_ok  = 'no'" required="true()" type="select1"/>
+      <bind nodeset="/r/n/trace_client/ae_severity" relevant="../ae_positive = 'yes'" required="true()" type="select1"/>
+      <bind constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)" jr:constraintMsg="Please type in proper characters e.g AN-A" nodeset="/r/n/trace_client/ae_type" relevant="../ae_positive = 'yes'" required="true()" type="string"/>
+      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/r/n/nurse" required="true()" type="string"/>
+      <bind nodeset="/r/n/additional_comments" required="false()" type="string"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/r/meta/instanceID" readonly="true()" type="string"/>
+    </model>
+  </h:head>
+  <h:body class="pages">
+    <group appearance="field-list" ref="/r/inputs">
+      <label>Patient</label>
+      <input appearance="hidden" ref="/r/inputs/source">
+        <label>Source</label>
+      </input>
+      <input appearance="hidden" ref="/r/inputs/source_id">
+        <label>Source ID</label>
+      </input>
+      <input appearance="hidden" ref="/r/inputs/is_referral_for_care">
+        <label>Is a referral for care case</label>
+      </input>
+      <input appearance="hidden" ref="/r/inputs/is_no_contact">
+        <label>Is a no contact case</label>
+      </input>
+      <group ref="/r/inputs/contact">
+        <label>Contact</label>
+        <input appearance="db-object" ref="/r/inputs/contact/_id">
+          <label>What is the patient's name?</label>
+          <hint>Select a person from list</hint>
+        </input>
+        <input ref="/r/inputs/contact/name">
+          <label>Patient Name</label>
+        </input>
+        <input ref="/r/inputs/contact/phone">
+          <label>Phone Number</label>
+        </input>
+      </group>
+    </group>
+    <group appearance="field-list" ref="/r/n">
+      <select1 ref="/r/n/client_came">
+        <label>Did client return to clinic?</label>
+        <item>
+          <label>Yes</label>
+          <value>yes</value>
+        </item>
+        <item>
+          <label>No</label>
+          <value>no</value>
+        </item>
+      </select1>
+      <group ref="/r/n/return_client">
+        <input ref="/r/n/return_client/clinic_name">
+          <label>Which clinic?</label>
+        </input>
+        <input ref="/r/n/return_client/visit_date">
+          <label>Date of visit/review</label>
+        </input>
+        <select1 ref="/r/n/return_client/ae_positive">
+          <label>Did nurse identify an AE?</label>
+          <item>
+            <label>Yes</label>
+            <value>yes</value>
+          </item>
+          <item>
+            <label>No</label>
+            <value>no</value>
+          </item>
+        </select1>
+        <select1 ref="/r/n/return_client/ae_severity">
+          <label>Severity of the Adverse Event (AE)</label>
+          <item>
+            <label>Mild</label>
+            <value>mild</value>
+          </item>
+          <item>
+            <label>Moderate</label>
+            <value>moderate</value>
+          </item>
+          <item>
+            <label>Severe</label>
+            <value>severe</value>
+          </item>
+        </select1>
+        <input ref="/r/n/return_client/ae_type">
+          <label>AE type and timing</label>
+        </input>
+      </group>
+      <group ref="/r/n/trace_client">
+        <select1 ref="/r/n/trace_client/client_traced">
+          <label>Have you traced the client?</label>
+          <item>
+            <label>Yes</label>
+            <value>yes</value>
+          </item>
+          <item>
+            <label>No</label>
+            <value>no</value>
+          </item>
+        </select1>
+        <input ref="/r/n/trace_client/client_not_traced_reason">
+          <label>No tracing, explain why not.</label>
+        </input>
+        <select1 ref="/r/n/trace_client/client_ok">
+          <label>Is VMMC Client okay?</label>
+          <item>
+            <label>Yes</label>
+            <value>yes</value>
+          </item>
+          <item>
+            <label>No</label>
+            <value>no</value>
+          </item>
+        </select1>
+        <input ref="/r/n/trace_client/n_thanks">
+          <label>Thanks for tracing the client</label>
+        </input>
+        <select1 ref="/r/n/trace_client/ae_positive">
+          <label>Did nurse identify an AE?</label>
+          <item>
+            <label>Yes</label>
+            <value>yes</value>
+          </item>
+          <item>
+            <label>No</label>
+            <value>no</value>
+          </item>
+        </select1>
+        <select1 ref="/r/n/trace_client/ae_severity">
+          <label>Severity of the Adverse Event (AE)</label>
+          <item>
+            <label>Mild</label>
+            <value>mild</value>
+          </item>
+          <item>
+            <label>Moderate</label>
+            <value>moderate</value>
+          </item>
+          <item>
+            <label>Severe</label>
+            <value>severe</value>
+          </item>
+        </select1>
+        <input ref="/r/n/trace_client/ae_type">
+          <label>AE type and timing</label>
+        </input>
+      </group>
+      <input ref="/r/n/nurse">
+        <label>Name of health provider/Nurse</label>
+      </input>
+      <input ref="/r/n/additional_comments">
+        <label>Any Additional Comments</label>
+      </input>
+    </group>
+  </h:body>
+</h:html>

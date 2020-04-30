@@ -1,0 +1,38 @@
+[
+  {
+    "name": "scheduled-msgs",
+    "events": [
+      {
+        "id": "scheduled-msgs-0",
+        "days": 0,
+        "start": 1,
+        "end": 365,
+        "icon": "network",
+        "title": [
+          {
+            "content": "Send scheduled messages to {{contact.name}}",
+            "locale": "en"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "client-review-request",
+    "events": [
+      {
+        "id": "client-review-request-0",
+        "days": 0,
+        "start": 1,
+        "end": 365,
+        "icon": "network",
+        "title": [
+          {
+            "content": "Site request to review {{contact.name}}",
+            "locale": "en"
+          }
+        ]
+      }
+    ]
+  }
+]

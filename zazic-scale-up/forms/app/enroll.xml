@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>Enroll New Person</h:title>
+    <model>
+      <instance>
+        <enroll delimiter="#" id="enroll" prefix="J1!enroll!" version="2020-03-10 00:00:00">
+          <inputs>
+            <meta>
+              <location>
+                <lat/>
+                <long/>
+                <error/>
+                <message/>
+              </location>
+            </meta>
+            <source/>
+            <source_id/>
+            <contact>
+              <_id/>
+            </contact>
+          </inputs>
+          <place_id/>
+          <patient_uuid db-doc-ref=" /enroll/person "/>
+          <patient_id db-doc-ref=" /enroll/person "/>
+          <phone/>
+          <person db-doc="true">
+            <parent>
+              <_id/>
+              <parent>
+                <_id/>
+              </parent>
+            </parent>
+            <type>person</type>
+            <patient_id db-doc-ref=" /enroll/person "/>
+            <name/>
+            <enrollment_facility/>
+            <enrollment_location/>
+            <vmmc_no/>
+            <age_years/>
+            <enrollment_date/>
+            <phone/>
+            <alternative_phone/>
+            <language_preference/>
+            <enrollment_nurse/>
+          </person>
+          <meta>
+            <instanceID/>
+          </meta>
+        </enroll>
+      </instance>
+      <instance id="contact-summary"/>
+      <bind nodeset="/enroll/inputs" relevant="./source = 'user'"/>
+      <bind jr:constraintMsg="user" nodeset="/enroll/inputs/source" type="string"/>
+      <bind nodeset="/enroll/inputs/source_id" type="string"/>
+      <bind constraint="Select a person from list" nodeset="/enroll/inputs/contact/_id" type="db:person"/>
+      <bind calculate="../inputs/contact/_id" nodeset="/enroll/place_id" required="true()" type="string"/>
+      <bind calculate="person" nodeset="/enroll/patient_uuid" type="string"/>
+      <bind calculate="person" nodeset="/enroll/patient_id" type="string"/>
+      <bind calculate="../person/phone" nodeset="/enroll/phone" type="string"/>
+      <bind calculate="../../../inputs/contact/_id" nodeset="/enroll/person/parent/_id" type="string"/>
+      <bind nodeset="/enroll/person/parent/parent" relevant="../../inputs/contact/parent/_id != ''"/>
+      <bind calculate="../../../inputs/contact/parent/_id" nodeset="/enroll/person/parent/parent/_id" type="string"/>
+      <bind calculate="&quot;person&quot;" nodeset="/enroll/person/type" type="string"/>
+      <bind calculate="person" nodeset="/enroll/person/patient_id" type="string"/>
+      <bind nodeset="/enroll/person/name" required="true()" type="string"/>
+      <bind nodeset="/enroll/person/enrollment_facility" required="true()" type="select1"/>
+      <bind nodeset="/enroll/person/enrollment_location" relevant=" /enroll/person/enrollment_facility  = 'other'" required="true()" type="string"/>
+      <bind constraint="regex(., '[0-9]{5,9}')" jr:constraintMsg="Must be 5 – 9 numeric digits" nodeset="/enroll/person/vmmc_no" required="true()" type="string"/>
+      <bind constraint="(.) &gt;= 18 and (.) &lt;= 75" jr:constraintMsg="Only over 18 yrs men can enroll." nodeset="/enroll/person/age_years" required="true()" type="decimal"/>
+      <bind constraint="decimal-date-time(.) = floor(decimal-date-time(today()))" jr:constraintMsg="Only today's date is allowed" nodeset="/enroll/person/enrollment_date" required="true()" type="date"/>
+      <bind constraint="regex(., '^\+?\d{3,15}$')" nodeset="/enroll/person/phone" required="true()" type="string"/>
+      <bind constraint="regex(., '^\+?\d{3,15}$')" nodeset="/enroll/person/alternative_phone" required="false()" type="string"/>
+      <bind nodeset="/enroll/person/language_preference" required="true()" type="select1"/>
+      <bind nodeset="/enroll/person/enrollment_nurse" required="true()" type="string"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/enroll/meta/instanceID" readonly="true()" type="string"/>
+    </model>
+  </h:head>
+  <h:body class="pages">
+    <group appearance="field-list" ref="/enroll/inputs">
+      <label>Patient</label>
+      <input appearance="hidden" ref="/enroll/inputs/source">
+        <label>Source</label>
+      </input>
+      <input appearance="hidden" ref="/enroll/inputs/source_id">
+        <label>Source ID</label>
+      </input>
+      <group ref="/enroll/inputs/contact">
+        <label>Contact</label>
+        <input appearance="db-object" ref="/enroll/inputs/contact/_id">
+          <label>What is the patient's name?</label>
+        </input>
+      </group>
+    </group>
+    <group appearance="field-list" ref="/enroll/person">
+      <label></label>
+      <group appearance="hidden" ref="/enroll/person/parent">
+        <label></label>
+        <group appearance="hidden" ref="/enroll/person/parent/parent">
+          <label></label>
+        </group>
+      </group>
+      <input ref="/enroll/person/name">
+        <label>VMMC Client Name</label>
+      </input>
+      <select1 ref="/enroll/person/enrollment_facility">
+        <label>VMMC Enrollment Facility</label>
+        <item>
+          <label>Other</label>
+          <value>other</value>
+        </item>
+      </select1>
+      <input ref="/enroll/person/enrollment_location">
+        <label>Specify Enrollment Location</label>
+      </input>
+      <input ref="/enroll/person/vmmc_no">
+        <label>VMMC Client Number</label>
+      </input>
+      <input ref="/enroll/person/age_years">
+        <label>VMMC Client Age in Years</label>
+      </input>
+      <input ref="/enroll/person/enrollment_date">
+        <label>Enrollment Date</label>
+      </input>
+      <input ref="/enroll/person/phone">
+        <label>Client Mobile phone number</label>
+      </input>
+      <input ref="/enroll/person/alternative_phone">
+        <label>Alternative/Next of Kin's Mobile Number</label>
+      </input>
+      <select1 ref="/enroll/person/language_preference">
+        <label>What is this client's language of preference for the texts?</label>
+        <item>
+          <label>English</label>
+          <value>english</value>
+        </item>
+        <item>
+          <label>Shona</label>
+          <value>shona</value>
+        </item>
+      </select1>
+      <input ref="/enroll/person/enrollment_nurse">
+        <label>Name of enrollment nurse</label>
+      </input>
+    </group>
+  </h:body>
+</h:html>
