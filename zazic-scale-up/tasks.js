@@ -49,7 +49,7 @@ module.exports = [
     {
         name: 'client-review-request',
         icon: 'network',
-        title: 'tasks.client-review-reques.title',
+        title: 'tasks.client-review-request.title',
         appliesTo: 'reports',
         appliesToType: ['no_contact', 'referral_for_care'],
         appliesIf: (contact, report) => {
