@@ -10,8 +10,6 @@ const harness = new Harness({
     harnessDataPath: './harness.defaults.json',
 });
 
-
-
 describe('Scheduled messages task', () => {
 
     before(async () => { return await harness.start(); });
