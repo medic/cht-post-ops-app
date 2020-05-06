@@ -267,27 +267,33 @@
       "events": [
         {
           "name": "on_create",
+          "trigger": "add_patient",
+          "params": "{\"patient_name_field\": \"patient_name\"}",
+          "bool_expr": ""
+        },
+        {
+          "name": "on_create",
           "trigger": "assign_schedule",
           "params": "Enrolled Clients Reminders English",
-          "bool_expr": "doc.fields.language_preference == 'english'"
+          "bool_expr": "doc.fields.patient.language_preference == 'english'"
         },
         {
           "name": "on_create",
           "trigger": "assign_schedule",
           "params": "Day 7 No Response Reminder English",
-          "bool_expr": "doc.fields.language_preference == 'english'"
+          "bool_expr": "doc.fields.patient.language_preference == 'english'"
         },
         {
           "name": "on_create",
           "trigger": "assign_schedule",
           "params": "Enrolled Clients Reminders Shona",
-          "bool_expr": "doc.fields.language_preference == 'shona'"
+          "bool_expr": "doc.fields.patient.language_preference == 'shona'"
         },
         {
           "name": "on_create",
           "trigger": "assign_schedule",
           "params": "Day 7 No Response Reminder Shona",
-          "bool_expr": "doc.fields.language_preference == 'shona'"
+          "bool_expr": "doc.fields.patient.language_preference == 'shona'"
         }
       ],
       "validations": {
@@ -981,9 +987,26 @@
         "label": {
           "en": "Client Enrollment"
         },
-        "code": ""
+        "code": "enroll"
       },
-      "fields": {},
+      "fields": {
+        "patient_id": {
+          "position": 1,
+          "type": "string",
+          "labels": {
+            "tiny": {
+              "en": "patient_id"
+            },
+            "short": {
+              "en": "Signal ID"
+            },
+            "description": {
+              "en": "Signal ID"
+            }
+          },
+          "list": []
+        }
+      },
       "facility_reference": "rc_code",
       "use_sentinel": false
     },
