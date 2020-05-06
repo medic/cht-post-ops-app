@@ -16,8 +16,8 @@
             </meta>
             <source>user</source>
             <source_id/>
-            <is_referral_for_care/>
-            <is_no_contact/>
+            <is_referral_for_care_ctx/>
+            <is_no_contact_ctx/>
             <contact>
               <_id/>
               <name/>
@@ -50,7 +50,7 @@
             <nurse/>
             <additional_comments/>
           </n>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </r>
@@ -59,8 +59,8 @@
       <bind nodeset="/r/inputs" relevant="./source = 'user'"/>
       <bind nodeset="/r/inputs/source" type="string"/>
       <bind nodeset="/r/inputs/source_id" type="string"/>
-      <bind nodeset="/r/inputs/is_referral_for_care" type="string"/>
-      <bind nodeset="/r/inputs/is_no_contact" type="string"/>
+      <bind nodeset="/r/inputs/is_referral_for_care_ctx" type="string"/>
+      <bind nodeset="/r/inputs/is_no_contact_ctx" type="string"/>
       <bind nodeset="/r/inputs/contact/_id" type="db:person"/>
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
@@ -98,10 +98,10 @@
       <input appearance="hidden" ref="/r/inputs/source_id">
         <label>Source ID</label>
       </input>
-      <input appearance="hidden" ref="/r/inputs/is_referral_for_care">
+      <input appearance="hidden" ref="/r/inputs/is_referral_for_care_ctx">
         <label>Is a referral for care case</label>
       </input>
-      <input appearance="hidden" ref="/r/inputs/is_no_contact">
+      <input appearance="hidden" ref="/r/inputs/is_no_contact_ctx">
         <label>Is a no contact case</label>
       </input>
       <group ref="/r/inputs/contact">
@@ -119,6 +119,7 @@
       </group>
     </group>
     <group appearance="field-list" ref="/r/n">
+      <label></label>
       <select1 ref="/r/n/client_came">
         <label>Did client return to clinic?</label>
         <item>
@@ -131,6 +132,7 @@
         </item>
       </select1>
       <group ref="/r/n/return_client">
+        <label></label>
         <input ref="/r/n/return_client/clinic_name">
           <label>Which clinic?</label>
         </input>
@@ -168,6 +170,7 @@
         </input>
       </group>
       <group ref="/r/n/trace_client">
+        <label></label>
         <select1 ref="/r/n/trace_client/client_traced">
           <label>Have you traced the client?</label>
           <item>
