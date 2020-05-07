@@ -21,7 +21,7 @@ module.exports = [
     {
         name: 'scheduled-msgs',
         icon: 'network',
-        title: 'tasks.scheduled-msgs.title',
+        title: 'task.scheduled-msgs.title',
         appliesTo: 'contacts',
         appliesToType: ['person'],
         appliesIf: (contact) => {
@@ -49,7 +49,7 @@ module.exports = [
     {
         name: 'client-review-request',
         icon: 'network',
-        title: 'tasks.client-review-request.title',
+        title: 'task.client-review-request.title',
         appliesTo: 'reports',
         appliesToType: ['no_contact', 'referral_for_care'],
         appliesIf: (contact, report) => {
