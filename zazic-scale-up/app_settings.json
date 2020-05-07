@@ -263,7 +263,7 @@
   ],
   "registrations": [
     {
-      "form": "enroll",
+      "form": "scheduled_msgs",
       "events": [
         {
           "name": "on_create",
