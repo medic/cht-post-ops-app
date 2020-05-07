@@ -1,0 +1,14 @@
+{
+  "user": {
+    "_id": "org.couchdb.user:user1",
+    "name": "CHW",
+    "type": "user-settings",
+    "roles": [],
+    "contact_id": "user_contact_id",
+    "facility_id": "user_facility_id"
+  },
+  "content": {
+    "source": "user",
+    "source_id": ""
+  }
+}

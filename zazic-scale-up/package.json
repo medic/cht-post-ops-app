@@ -9,7 +9,7 @@
     "eslint": "eslint **.js",
     "test": "npm run eslint && npm run test-unit",
     "test-contact-summary": "medic-contact-summary-test",
-    "test-unit": "nyc --exclude=tests/* mocha --reporter progress tests/*.spec.js --timeout 10000",
+    "test-unit": "mocha --reporter progress test/*/*.spec.js --timeout 10000",
     "travis": "npm install && npm test",
     "deploy-app-forms": "medic-conf --url=$url convert-app-forms upload-app-forms -- scheduled_msgs client_review no_contact referral_for_care",
     "deploy-contact-forms": "medic-conf --url=$url convert-contact-forms upload-contact-forms -- person-create --person-edit",
@@ -19,9 +19,17 @@
     "deploy": "npm-run-all deploy-translations deploy-app-forms deploy-contact-forms deploy-app-settings deploy-resources"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-exclude": "^1.0.8",
+    "chai-like": "^1.1.1",
+    "chai-things": "^0.2.0",
     "eslint": "^6.8.0",
-    "medic-conf": "^2.2.0",
-    "medic-conf-test-harness": "^0.1.29",
-    "npm-run-all": "^4.1.5"
+    "eslint-plugin-json": "^2.1.1",
+    "medic-conf": "^3.2.0",
+    "medic-conf-test-harness": "^0.1.30",
+    "mocha": "^5.1.1",
+    "moment": "^2.25.3",
+    "npm-run-all": "^4.1.5",
+    "sinon": "^9.0.2"
   }
 }
