@@ -44,7 +44,7 @@
             <language_preference/>
             <enrollment_nurse/>
           </person>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </enroll>
@@ -105,6 +105,46 @@
       </input>
       <select1 ref="/enroll/person/enrollment_facility">
         <label>VMMC Enrollment Facility</label>
+        <item>
+          <label>Chitungwiza-Seke North clinic</label>
+          <value>csnc</value>
+        </item>
+        <item>
+          <label>Chitungwiza-Seke South clinic</label>
+          <value>cssc</value>
+        </item>
+        <item>
+          <label>Chitungwiza-City Med hospital</label>
+          <value>ccmh</value>
+        </item>
+        <item>
+          <label>Chitungwiza-Zengeza Clinic</label>
+          <value>czc</value>
+        </item>
+        <item>
+          <label>Chitungwiza-Chitungwiza Central Hospital</label>
+          <value>ccch</value>
+        </item>
+        <item>
+          <label>Chegutu- Norton hospital</label>
+          <value>cnh</value>
+        </item>
+        <item>
+          <label>Chegutu- District Hospital</label>
+          <value>cdh</value>
+        </item>
+        <item>
+          <label>Chegutu- Monera clinic (Norton Outreach)</label>
+          <value>cmc</value>
+        </item>
+        <item>
+          <label>Marondera- Marondera District Hospital</label>
+          <value>mmdh</value>
+        </item>
+        <item>
+          <label>Marondera- Mahusekwa Hospital</label>
+          <value>mmh</value>
+        </item>
         <item>
           <label>Other</label>
           <value>other</value>
