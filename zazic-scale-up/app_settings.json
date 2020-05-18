@@ -126,8 +126,7 @@
       "national_admin"
     ],
     "can_create_people": [
-      "national_admin",
-      "district_admin"
+      "national_admin"
     ],
     "can_create_places": [
       "national_admin"
@@ -262,56 +261,6 @@
     }
   ],
   "registrations": [
-    {
-      "form": "scheduled_msgs",
-      "events": [
-        {
-          "name": "on_create",
-          "trigger": "add_patient",
-          "params": "{\"patient_name_field\": \"patient_name\"}",
-          "bool_expr": ""
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
-          "params": "Enrolled Clients Reminders English",
-          "bool_expr": "doc.fields.patient.language_preference == 'english'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
-          "params": "Day 7 No Response Reminder English",
-          "bool_expr": "doc.fields.patient.language_preference == 'english'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
-          "params": "Enrolled Clients Reminders Shona",
-          "bool_expr": "doc.fields.patient.language_preference == 'shona'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
-          "params": "Day 7 No Response Reminder Shona",
-          "bool_expr": "doc.fields.patient.language_preference == 'shona'"
-        }
-      ],
-      "validations": {
-        "join_responses": false,
-        "list": []
-      },
-      "messages": [
-        {
-          "message": [
-            {
-              "content": "Thank you for participating in this study to improve male circumcision services. Tinokutendai nekupinda mutsvakiridzo ichabatsira kuvandudza chirongwa chekuchecheudzwa.",
-              "locale": "en"
-            }
-          ],
-          "recipient": "phone"
-        }
-      ]
-    },
     {
       "form": "enroll",
       "events": [

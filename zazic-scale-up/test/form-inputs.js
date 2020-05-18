@@ -21,5 +21,12 @@ module.exports = {
     allNo: [
       ['no', 'no', 'no', 'no', 'no']
     ]
+  },
+
+  enroll: {
+    person: [
+      [],
+      ['Person A', 'Location A', '12345', '23', '2000-01-01', '+63123456789', '+63123456780', 'english', 'Nurse A']
+    ]
   }
 };
