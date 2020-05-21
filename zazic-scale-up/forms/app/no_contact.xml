@@ -31,7 +31,7 @@
             <additional_notes_text/>
             <additional_notes/>
           </n>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </r>
@@ -88,15 +88,15 @@
       <select1 ref="/r/n/client_ok">
         <label>Is VMMC Client okay?</label>
         <item>
-          <label>Yes, No follow up needed</label>
+          <label>Yes, no follow-up needed</label>
           <value>yes</value>
         </item>
         <item>
-          <label>No, Client needs care</label>
+          <label>No, client needs care</label>
           <value>no</value>
         </item>
         <item>
-          <label>Unknown</label>
+          <label>Unknown, client not reached</label>
           <value>unknown</value>
         </item>
       </select1>
