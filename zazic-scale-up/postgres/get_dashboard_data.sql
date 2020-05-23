@@ -19,7 +19,8 @@ RETURNS TABLE(
     ae_moderate_count int,
     ae_severe_count int,
     ae_other_count int,
-    day0 text, day1 text, day2 text, day3 text, day4 text, day5 text, day6 text, day7 text, day8 text, day9 text, day10 text, day11 text, day12 text, day13 text, day14 text
+    day0 text, day1 text, day2 text, day3 text, day4 text, day5 text, day6 text, day7 text, day8 text, day9 text, day10 text, day11 text, day12 text, day13 text, day14 text,
+    system_sent_texts_count int
 ) AS
 $BODY$
     SELECT
@@ -41,7 +42,8 @@ $BODY$
         COALESCE(ae_counts.moderate_count, 0)                          AS ae_moderate_count,
         COALESCE(ae_counts.severe_count, 0)                            AS ae_severe_count,
         COALESCE(ae_counts.severity_other_count, 0)                    AS ae_other_count,
-        schedule.day0, schedule.day1, schedule.day2, schedule.day3, schedule.day4, schedule.day5, schedule.day6, schedule.day7, schedule.day8, schedule.day9, schedule.day10, schedule.day11, schedule.day12, schedule.day13, schedule.day14
+        schedule.day0, schedule.day1, schedule.day2, schedule.day3, schedule.day4, schedule.day5, schedule.day6, schedule.day7, schedule.day8, schedule.day9, schedule.day10, schedule.day11, schedule.day12, schedule.day13, schedule.day14,
+        COALESCE(system_sent_msg.system_sent_texts_count, 0)           AS system_sent_texts_count
     FROM formview_enrollment client
         LEFT JOIN (
             SELECT
@@ -64,6 +66,14 @@ $BODY$
             WHERE nurse_msg.type = 'free_text'
             GROUP BY nurse_msg.patient_id
         ) nurse_msg ON client.patient_id = nurse_msg.patient_id
+        LEFT JOIN(
+            SELECT
+                system_sent_msg.patient_id        AS patient_id,
+                COUNT(uuid)::int            AS system_sent_texts_count
+            FROM useview_scheduled_msgs system_sent_msg
+            WHERE system_sent_msg.type = 'scheduled' AND system_sent_msg.state IN ('sent', 'delivered')
+            GROUP BY system_sent_msg.patient_id
+        ) system_sent_msg ON client.patient_id = system_sent_msg.patient_id
         LEFT JOIN (
             SELECT * from CROSSTAB($$
                 SELECT foo.patient_id, foo.delta::text, foo.sms_received

@@ -28,44 +28,44 @@ CREATE MATERIALIZED VIEW useview_scheduled_msgs AS (
     ),
     auto_response as (
         SELECT
-            a.task -> 'messages' -> 0 -> 'uuid'             as uuid,
-            a.task -> 'due'                                 as due,
-            a.task -> 'type'                                as schedule,
-            a.task -> 'messages' -> 0 -> 'to'               as recipient,
-            a.task -> 'messages' -> 0 -> 'message'          as message,
-            a.task -> 'state_history' -> -1 -> 'state'      as state,
-            a.task -> 'state_history' -> -1 -> 'timestamp'  as timestamp,
-            a.doc_uuid                                      as doc_uuid,
-            a.patient_id                                    as patient_id,
-            'auto_response'::text                           as type
+            a.task -> 'messages' -> 0 ->> 'uuid'             as uuid,
+            a.task ->> 'due'                                 as due,
+            a.task ->> 'type'                                as schedule,
+            a.task -> 'messages' -> 0 ->> 'to'               as recipient,
+            a.task -> 'messages' -> 0 ->> 'message'          as message,
+            a.task -> 'state_history' -> -1 ->> 'state'      as state,
+            a.task -> 'state_history' -> -1 ->> 'timestamp'  as timestamp,
+            a.doc_uuid                                       as doc_uuid,
+            a.patient_id                                     as patient_id,
+            'auto_response'::text                            as type
         FROM task a
     ),
     scheduled_msg AS (
         SELECT
-            a.task -> 'messages' -> 0 -> 'uuid'             as uuid,
-            a.task -> 'due'                                 as due,
-            a.task -> 'type'                                as schedule,
-            a.task -> 'messages' -> 0 -> 'to'               as recipient,
-            a.task -> 'messages' -> 0 -> 'message'          as message,
-            a.task -> 'state_history' -> -1 -> 'state'      as state,
-            a.task -> 'state_history' -> -1 -> 'timestamp'  as timestamp,
-            a.doc_uuid                                      as doc_uuid,
-            a.patient_id                                    as patient_id,
-            'scheduled'::text                               as type
+            a.task -> 'messages' -> 0 ->> 'uuid'             as uuid,
+            a.task ->> 'due'                                 as due,
+            a.task ->> 'type'                                as schedule,
+            a.task -> 'messages' -> 0 ->> 'to'               as recipient,
+            a.task -> 'messages' -> 0 ->> 'message'          as message,
+            a.task -> 'state_history' -> -1 ->> 'state'      as state,
+            a.task -> 'state_history' -> -1 ->> 'timestamp'  as timestamp,
+            a.doc_uuid                                       as doc_uuid,
+            a.patient_id                                     as patient_id,
+            'scheduled'::text                                as type
         FROM scheduled_task a
     ),
     free_text_msg AS (
         SELECT
-            a.task -> 'messages' -> 0 -> 'uuid'             as uuid,
-            a.task -> 'due'                                 as due,
-            a.task -> 'type'                                as schedule,
-            a.task -> 'messages' -> 0 -> 'to'               as recipient,
-            a.task -> 'messages' -> 0 -> 'message'          as message,
-            a.task -> 'state_history' -> -1 -> 'state'      as state,
-            a.task -> 'state_history' -> -1 -> 'timestamp'  as timestamp,
-            a.doc_uuid                                      as doc_uuid,
-            c.doc ->> 'patient_id'                          as patient_id,
-            'free_text'::text                               as type
+            a.task -> 'messages' -> 0 ->> 'uuid'             as uuid,
+            a.task ->> 'due'                                 as due,
+            a.task ->> 'type'                                as schedule,
+            a.task -> 'messages' -> 0 ->> 'to'               as recipient,
+            a.task -> 'messages' -> 0 ->> 'message'          as message,
+            a.task -> 'state_history' -> -1 ->> 'state'      as state,
+            a.task -> 'state_history' -> -1 ->> 'timestamp'  as timestamp,
+            a.doc_uuid                                       as doc_uuid,
+            c.doc ->> 'patient_id'                           as patient_id,
+            'free_text'::text                                as type
         FROM free_text_task a
         LEFT JOIN raw_contacts c ON c.doc ->> '_id' =  a.task -> 'messages' -> 0 -> 'contact' ->> '_id'
         WHERE c.doc ->> 'patient_id' IN (SELECT patient_id from formview_enrollment)
