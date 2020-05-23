@@ -95,7 +95,8 @@ $BODY$
             SUM(CASE ae_severity WHEN 'other' THEN 1 ELSE 0 END)::int       AS severity_other_count
             FROM formview_client_review
             GROUP BY patient_id
-        ) ae_counts ON ae_counts.patient_id = client.uuid;
+        ) ae_counts ON ae_counts.patient_id = client.uuid
+        WHERE client.vmmc_no <> '';
 $BODY$
 LANGUAGE 'sql' STABLE;
 ALTER FUNCTION get_dashboard_data(from_date timestamp without time zone, to_date timestamp without time zone) OWNER TO full_access;
