@@ -19,34 +19,6 @@ const pilot_users = [
 
 module.exports = [
     {
-        name: 'scheduled-msgs',
-        icon: 'network',
-        title: 'task.scheduled-msgs.title',
-        appliesTo: 'contacts',
-        appliesToType: ['person'],
-        appliesIf: (contact) => {
-            return !pilot_users.includes(contact.contact._id) && !contact.contact.is_nurse;
-        },
-        resolvedIf: (contact, report, event, dueDate) => {
-            return Utils.isFormSubmittedInWindow(
-                contact.reports,
-                'scheduled_msgs',
-                Utils.addDate(dueDate, -event.start).getTime(),
-                Utils.addDate(dueDate, event.end + 1).getTime()
-            );
-        },
-        actions: [{
-            form: 'scheduled_msgs',
-            label: 'Send 14-day scheduled SMSs'
-        }],
-        events: [{
-            days: 0,
-            start: 1,
-            end: 365
-        }]
-    },
-
-    {
         name: 'client-review-request',
         icon: 'network',
         title: 'task.client-review-request.title',
