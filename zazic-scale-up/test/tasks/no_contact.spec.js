@@ -10,7 +10,7 @@ const harness = new Harness({
     harnessDataPath: './harness.defaults.json',
 });
 
-describe.only('No contact task', () => {
+describe('No contact task', () => {
     before(async () => { return await harness.start(); });
     after(async () => { return await harness.stop(); });
     beforeEach(async () => {
