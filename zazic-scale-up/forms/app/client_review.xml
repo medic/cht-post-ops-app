@@ -50,7 +50,7 @@
             <nurse/>
             <additional_comments/>
           </n>
-          <meta tag="hidden">
+          <meta>
             <instanceID/>
           </meta>
         </r>

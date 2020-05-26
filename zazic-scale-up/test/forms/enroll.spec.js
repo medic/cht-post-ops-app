@@ -40,10 +40,8 @@ describe('Enrollment', () => {
                 }
             },
             type: 'person',
-            parent_id: 'district_id',
-            contact_name: 'Site 1',
-            n_parent_id: '',
             name: 'Person A',
+            enrollment_facility: 'seke_north',
             enrollment_location: 'Location A',
             vmmc_no: '12345',
             age_years: '23',

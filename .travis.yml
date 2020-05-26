@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+    - 10
+env:
+    - PROJECT=zazic-scale-up
+before_install: cd $PROJECT
+script: npm run travis

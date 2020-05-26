@@ -13,7 +13,7 @@ const fields = [
     { appliesToType: 'person', appliesIf: isNurse, label: 'contact.profile.nurse', value: '', width: 12 },
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.phone', value: thisContact.phone, width: 4, filter: 'phone' },
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.alternate_phone', value: thisContact.alternate_phone, width: 4, filter: 'phone' },
-    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.age', value: thisContact.date_of_birth, width: 4, filter: 'age' },
+    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.age', value: thisContact.age_years, width: 4},
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.days_since_enrollment', value: daysSinceEnrollment, width: 6 },
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.enrollment_date', value: contact.reported_date, width: 6, filter: 'date' },
     { appliesToType: 'person', label: 'contact.parent', value: thisLineage, filter: 'lineage' },

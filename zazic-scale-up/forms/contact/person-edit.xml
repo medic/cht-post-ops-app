@@ -9,6 +9,7 @@
             <parent>PARENT</parent>
             <type>person</type>
             <name/>
+            <enrollment_facility/>
             <enrollment_location/>
             <vmmc_no/>
             <age_years/>
@@ -18,7 +19,7 @@
             <language_preference/>
             <enrollment_nurse/>
           </person>
-          <meta tag="hidden">
+          <meta>
             <instanceID/>
           </meta>
         </data>
@@ -26,6 +27,7 @@
       <bind nodeset="/data/person/parent" type="string"/>
       <bind nodeset="/data/person/type" type="string"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/data/person/name" required="true()" type="string"/>
+      <bind nodeset="/data/person/enrollment_facility" required="true()" type="select1"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/data/person/enrollment_location" required="true()" type="string"/>
       <bind constraint="regex(., '^[0-9]{5,9}$')" jr:constraintMsg="Must be 5 – 9 numeric digits" nodeset="/data/person/vmmc_no" required="true()" type="string"/>
       <bind constraint="(.) &gt;= 18 and (.) &lt;= 75" jr:constraintMsg="Only 18 - 75 yrs old men can enroll." nodeset="/data/person/age_years" required="true()" type="decimal"/>
@@ -50,6 +52,49 @@
       <input ref="/data/person/name">
         <label>VMMC Client Name</label>
       </input>
+      <select1 ref="/data/person/enrollment_facility">
+        <label>VMMC Enrollment Facility</label>
+        <item>
+          <label>Chitungwiza-Seke North clinic</label>
+          <value>seke_north</value>
+        </item>
+        <item>
+          <label>Chitungwiza-Seke South clinic</label>
+          <value>seke_south</value>
+        </item>
+        <item>
+          <label>City Med hospital</label>
+          <value>city_med</value>
+        </item>
+        <item>
+          <label>Zengeza Clinic</label>
+          <value>zengeza</value>
+        </item>
+        <item>
+          <label>Chitungwiza Central Hospital</label>
+          <value>chitungwiza_central</value>
+        </item>
+        <item>
+          <label>Chegutu- Norton hospital</label>
+          <value>chegutu_norton</value>
+        </item>
+        <item>
+          <label>Chegutu District Hospital</label>
+          <value>chegutu_district</value>
+        </item>
+        <item>
+          <label>Monera clinic(Norton Outreach)</label>
+          <value>monera</value>
+        </item>
+        <item>
+          <label>Marondera District Hospital</label>
+          <value>marondera</value>
+        </item>
+        <item>
+          <label>Mahusekwa Hospital</label>
+          <value>mahusekwa</value>
+        </item>
+      </select1>
       <input ref="/data/person/enrollment_location">
         <label>Specify Enrollment Location</label>
       </input>
