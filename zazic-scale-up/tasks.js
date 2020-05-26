@@ -34,5 +34,46 @@ module.exports = [
             start: 1,
             end: 365
         }]
+    },
+    {
+        name: 'no-contact',
+        icon: 'off',
+        title: 'task.no-contact.title',
+        appliesTo: 'reports',
+        appliesToType: ['enroll'],
+        appliesIf: (contact, report) => report.form === 'enroll',
+        resolvedIf: (contact, report, event, dueDate) => {
+            const no_contact_submitted = Utils.isFormSubmittedInWindow(
+                contact.reports,
+                'no_contact',
+                Utils.addDate(dueDate, -event.start).getTime(),
+                Utils.addDate(dueDate, event.end + 1).getTime()
+            );
+
+            const report_0_submitted = Utils.isFormSubmittedInWindow(
+                contact.reports,
+                '0',
+                Utils.addDate(dueDate, -8).getTime(),
+                Utils.addDate(dueDate, 1).getTime()
+            );
+
+            const report_1_submitted = Utils.isFormSubmittedInWindow(
+                contact.reports,
+                '1',
+                Utils.addDate(dueDate, -8).getTime(),
+                Utils.addDate(dueDate, 1).getTime()
+            );
+
+            return no_contact_submitted || report_0_submitted || report_1_submitted;
+        },
+        actions: [{
+            form: 'no_contact',
+            label: 'Client follow up for no contact'
+        }],
+        events: [{
+            days: 8,
+            start: 0,
+            end: 1
+        }]
     }
 ];

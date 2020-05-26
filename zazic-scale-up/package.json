@@ -9,7 +9,7 @@
     "eslint": "eslint **.js",
     "test": "npm run eslint && npm run test-unit",
     "test-contact-summary": "medic-contact-summary-test",
-    "test-unit": "mocha --reporter progress test/*/*.spec.js --timeout 10000",
+    "test-unit": "medic-conf convert-app-forms compile-app-settings && mocha --reporter progress test/*/*.spec.js --timeout 10000",
     "travis": "npm install && npm test",
     "deploy-app-forms": "medic-conf --url=$url convert-app-forms upload-app-forms -- enroll client_review no_contact referral_for_care",
     "deploy-contact-forms": "medic-conf --url=$url convert-contact-forms upload-contact-forms -- person-edit",
