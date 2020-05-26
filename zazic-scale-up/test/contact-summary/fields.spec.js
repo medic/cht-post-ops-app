@@ -51,7 +51,7 @@ describe('Tests for fields for Non-Nurse', () => {
             [
                 { label: 'person.field.phone', value: '+1234567892', width: 4, filter: 'phone' },
                 { label: 'person.field.alternate_phone', value: '+1234567893', width: 4, filter: 'phone' },
-                { label: 'contact.age', value: '1970-01-02', width: 4, filter: 'age' },
+                { label: 'contact.age', value: 23, width: 4 },
                 { label: 'contact.days_since_enrollment', value: 0, width: 6 },
                 { label: 'contact.enrollment_date', value: '2000-01-01', width: 6, filter: 'date' },
                 {
