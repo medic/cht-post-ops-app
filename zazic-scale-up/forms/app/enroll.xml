@@ -51,7 +51,7 @@
             <language_preference/>
             <enrollment_nurse/>
           </person>
-          <meta tag="hidden">
+          <meta>
             <instanceID/>
           </meta>
         </enroll>
@@ -125,7 +125,7 @@
         </group>
       </group>
       <input ref="/enroll/person/n_parent_id">
-        <label>parent id: <output value=" /enroll/person/parent_id "/>, name: <output value=" /enroll/person/contact_name "/></label></input>
+        <label>Parent id: <output value=" /enroll/person/parent_id "/>, Name: <output value=" /enroll/person/contact_name "/></label></input>
       <input ref="/enroll/person/name">
         <label>VMMC Client Name</label>
       </input>
