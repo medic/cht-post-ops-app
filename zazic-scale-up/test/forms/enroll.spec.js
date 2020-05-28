@@ -13,7 +13,7 @@ const harness = new Harness({
 });
 
 let clock;// = sinon.useFakeTimers(localMidnightDate);
-describe.only('Enrollment', () => {
+describe('Enrollment', () => {
     before(async () => { return await harness.start(); });
     after(async () => { return await harness.stop(); });
     beforeEach(async () => {
