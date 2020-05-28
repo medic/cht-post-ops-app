@@ -70,14 +70,14 @@
       <bind calculate="../../../inputs/contact/_id" nodeset="/enroll/person/parent/_id" type="string"/>
       <bind calculate="../../../../inputs/contact/parent/_id" nodeset="/enroll/person/parent/parent/_id" type="string"/>
       <bind calculate="&quot;person&quot;" jr:constraintMsg="person" nodeset="/enroll/person/type" type="string"/>
-      <bind nodeset="/enroll/person/name" required="true()" type="string"/>
+      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/enroll/person/name" required="true()" type="string"/>
       <bind nodeset="/enroll/person/enrollment_facility" required="true()" type="select1"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/enroll/person/enrollment_location" required="true()" type="string"/>
       <bind constraint="regex(., '^[0-9]{5,9}$')" jr:constraintMsg="Must be 5 – 9 numeric digits" nodeset="/enroll/person/vmmc_no" required="true()" type="string"/>
       <bind constraint="(.) &gt;= 18 and (.) &lt;= 75" jr:constraintMsg="Only 18 - 75 yrs old men can enroll." nodeset="/enroll/person/age_years" required="true()" type="decimal"/>
-      <bind constraint="decimal-date-time(.) &lt;= floor(decimal-date-time(today()))" jr:constraintMsg="Date cannot be in the future" nodeset="/enroll/person/enrollment_date" required="true()" type="date"/>
-      <bind constraint="regex(., '^\+?\d{3,15}$')" nodeset="/enroll/person/phone" required="true()" type="string"/>
-      <bind constraint="regex(., '^\+?\d{3,15}$')" nodeset="/enroll/person/alternative_phone" required="false()" type="string"/>
+      <bind constraint="decimal-date-time(.) = floor(decimal-date-time(today()))" jr:constraintMsg="Only today's date is allowed." nodeset="/enroll/person/enrollment_date" required="true()" type="date"/>
+      <bind constraint="regex(., '^\+263[0-9]{9}$')" jr:constraintMsg="Please enter phone number in the format +263xxxxxxxxx" nodeset="/enroll/person/phone" required="true()" type="tel"/>
+      <bind constraint="regex(., '^\+263[0-9]{9}$')" jr:constraintMsg="Please enter phone number in the format +263xxxxxxxxx" nodeset="/enroll/person/alternative_phone" required="false()" type="tel"/>
       <bind nodeset="/enroll/person/language_preference" type="select1"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/enroll/person/enrollment_nurse" required="true()" type="string"/>
       <bind calculate="concat('uuid:', uuid())" nodeset="/enroll/meta/instanceID" readonly="true()" type="string"/>
