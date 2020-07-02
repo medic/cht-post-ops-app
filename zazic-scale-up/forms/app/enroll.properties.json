@@ -3,6 +3,6 @@
   "context": {
     "person": false,
     "place": true,
-    "expression": ""
+    "expression": "['clinic', 'health_center', 'district_hospital'].indexOf(contact.type) !== -1"
   }
 }

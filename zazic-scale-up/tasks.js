@@ -1,7 +1,7 @@
 module.exports = [
     {
         name: 'client-review-request',
-        icon: 'network',
+        icon: 'risk',
         title: 'task.client-review-request.title',
         appliesTo: 'reports',
         appliesToType: ['no_contact', 'referral_for_care'],

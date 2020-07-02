@@ -41,14 +41,16 @@
             <trace_client>
               <client_traced/>
               <client_not_traced_reason/>
+              <tracing_method/>
               <client_ok/>
               <n_thanks/>
+              <q_ae_positive/>
               <ae_positive/>
               <ae_severity/>
               <ae_type/>
             </trace_client>
-            <nurse/>
             <additional_comments/>
+            <nurse/>
           </n>
           <meta>
             <instanceID/>
@@ -79,13 +81,15 @@
       <bind nodeset="/r/n/trace_client" relevant=" /r/n/client_came ='no'"/>
       <bind nodeset="/r/n/trace_client/client_traced" required="true()" type="select1"/>
       <bind nodeset="/r/n/trace_client/client_not_traced_reason" relevant=" /r/n/trace_client/client_traced  = 'no'" required="true()" type="string"/>
+      <bind nodeset="/r/n/trace_client/tracing_method" relevant=" /r/n/trace_client/client_traced  = 'yes'" required="true()" type="select1"/>
       <bind nodeset="/r/n/trace_client/client_ok" relevant=" /r/n/trace_client/client_traced  = 'yes'" required="true()" type="select1"/>
       <bind nodeset="/r/n/trace_client/n_thanks" readonly="true()" relevant=" /r/n/trace_client/client_traced  = 'yes'" type="string"/>
+      <bind calculate="if( /r/n/trace_client/tracing_method  = &quot;phone&quot;, &quot;Did nurse suspect an AE?&quot;, &quot;Did nurse identify an AE?&quot;)" nodeset="/r/n/trace_client/q_ae_positive" type="string"/>
       <bind nodeset="/r/n/trace_client/ae_positive" relevant=" /r/n/trace_client/client_ok  = 'no'" required="true()" type="select1"/>
       <bind nodeset="/r/n/trace_client/ae_severity" relevant="../ae_positive = 'yes'" required="true()" type="select1"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)" jr:constraintMsg="Please type in proper characters e.g AN-A" nodeset="/r/n/trace_client/ae_type" relevant="../ae_positive = 'yes'" required="true()" type="string"/>
-      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/r/n/nurse" required="true()" type="string"/>
       <bind nodeset="/r/n/additional_comments" required="false()" type="string"/>
+      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/r/n/nurse" required="true()" type="string"/>
       <bind calculate="concat('uuid:', uuid())" nodeset="/r/meta/instanceID" readonly="true()" type="string"/>
     </model>
   </h:head>
@@ -110,10 +114,10 @@
           <label>What is the patient's name?</label>
           <hint>Select a person from list</hint>
         </input>
-        <input ref="/r/inputs/contact/name">
+        <input appearance="hidden" ref="/r/inputs/contact/name">
           <label>Patient Name</label>
         </input>
-        <input ref="/r/inputs/contact/phone">
+        <input appearance="hidden" ref="/r/inputs/contact/phone">
           <label>Phone Number</label>
         </input>
       </group>
@@ -166,7 +170,7 @@
           </item>
         </select1>
         <input ref="/r/n/return_client/ae_type">
-          <label>AE type and timing</label>
+          <label>AE Code</label>
         </input>
       </group>
       <group ref="/r/n/trace_client">
@@ -183,8 +187,19 @@
           </item>
         </select1>
         <input ref="/r/n/trace_client/client_not_traced_reason">
-          <label>No tracing, explain why not.</label>
+          <label>If no tracing, explain why not.</label>
         </input>
+        <select1 ref="/r/n/trace_client/tracing_method">
+          <label>How did you trace the client</label>
+          <item>
+            <label>By phone</label>
+            <value>phone</value>
+          </item>
+          <item>
+            <label>In person</label>
+            <value>in_person</value>
+          </item>
+        </select1>
         <select1 ref="/r/n/trace_client/client_ok">
           <label>Is VMMC Client okay?</label>
           <item>
@@ -200,7 +215,7 @@
           <label>Thanks for tracing the client</label>
         </input>
         <select1 ref="/r/n/trace_client/ae_positive">
-          <label>Did nurse identify an AE?</label>
+          <label><output value=" /r/n/trace_client/q_ae_positive "/></label>
           <item>
             <label>Yes</label>
             <value>yes</value>
@@ -226,14 +241,14 @@
           </item>
         </select1>
         <input ref="/r/n/trace_client/ae_type">
-          <label>AE type and timing</label>
+          <label>AE Code</label>
         </input>
       </group>
-      <input ref="/r/n/nurse">
-        <label>Name of health provider/Nurse</label>
-      </input>
       <input ref="/r/n/additional_comments">
         <label>Any Additional Comments</label>
+      </input>
+      <input ref="/r/n/nurse">
+        <label>Name of health provider/Nurse</label>
       </input>
     </group>
   </h:body>

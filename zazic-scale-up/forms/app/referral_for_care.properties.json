@@ -1,5 +1,5 @@
 {
-  "icon": "treatment",
+  "icon": "risk",
   "context": {
     "person": true,
     "place": false,
