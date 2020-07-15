@@ -33,7 +33,7 @@
   "district_admins_access_unallocated_messages": true,
   "public_access": false,
   "default_country_code": "263",
-  "gateway_number": "+263782492877",
+  "gateway_number": "+263782709352",
   "kujua-reporting": [
     {
       "code": "",
@@ -202,6 +202,7 @@
       "district_admin"
     ],
     "can_log_out_on_android": [
+      "national_admin",
       "district_admin"
     ]
   },
