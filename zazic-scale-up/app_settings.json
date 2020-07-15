@@ -299,7 +299,7 @@
         {
           "message": [
             {
-              "content": "Welcome {{contact.name}} to text-based follow-up. You can reach us via SMS at routine clinic hours. Tinokutambira {{contact.name}} pa nhaurirano dzepanhare mushure mekuchecheudza. Munokwanisa kutumira SMS nguva dzinovhurwa kiriniki mazuva ose.",
+              "content": "Welcome {{patient_name}} to text-based follow-up. You can reach us via SMS at routine clinic hours. Tinokutambira {{patient_name}} pa nhaurirano dzepanhare mushure mekuchecheudza. Munokwanisa kutumira SMS nguva dzinovhurwa kiriniki mazuva ose.",
               "locale": "en"
             }
           ],
