@@ -345,17 +345,7 @@
         }
       ],
       "validations": {},
-      "messages": [
-        {
-          "message": [
-            {
-              "content": "What among the following are you experiencing? Bleeding,\nSwelling,\nPus, \nRedness or \nPain. Type the response and send.",
-              "locale": "en"
-            }
-          ],
-          "recipient": "phone"
-        }
-      ]
+      "messages": []
     },
     {
       "form": "4",
