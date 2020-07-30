@@ -25,7 +25,7 @@ RETURNS TABLE(
 $BODY$
     SELECT
         client.uuid                                                    AS uuid,
-        client.patient_id                                              AS patient_id,
+        client.uuid                                                    AS patient_id,
         client.name                                                    AS name,
         client.reported                                                AS reported,
         client.vmmc_no                                                 AS vmmc_no,
@@ -65,7 +65,7 @@ $BODY$
             FROM useview_scheduled_msgs nurse_msg
             WHERE nurse_msg.type = 'free_text'
             GROUP BY nurse_msg.patient_id
-        ) nurse_msg ON client.patient_id = nurse_msg.patient_id
+        ) nurse_msg ON client.uuid = nurse_msg.patient_id
         LEFT JOIN(
             SELECT
                 system_sent_msg.patient_id        AS patient_id,
@@ -73,13 +73,13 @@ $BODY$
             FROM useview_scheduled_msgs system_sent_msg
             WHERE system_sent_msg.type = 'scheduled' AND system_sent_msg.state IN ('sent', 'delivered')
             GROUP BY system_sent_msg.patient_id
-        ) system_sent_msg ON client.patient_id = system_sent_msg.patient_id
+        ) system_sent_msg ON client.uuid = system_sent_msg.patient_id
         LEFT JOIN (
             SELECT * from CROSSTAB($$
                 SELECT foo.patient_id, foo.delta::text, foo.sms_received
                 FROM (
                     SELECT
-                        client.patient_id    AS patient_id,
+                        client.uuid          AS patient_id,
                         schedule.delta       AS delta,
                         CASE
                             WHEN client_msg.form = '1' THEN 'POTENTIAL AE'
@@ -94,7 +94,7 @@ $BODY$
                         ORDER BY 1, schedule.delta) foo
                     $$) t(patient_id text, day0 text, day1 text, day2 text, day3 text, day4 text, day5 text, day6 text, day7 text, day8 text, day9 text, day10 text, day11 text, day12 text, day13 text, day14 text)
 
-        ) schedule ON client.patient_id = schedule.patient_id
+        ) schedule ON client.uuid = schedule.patient_id
         LEFT JOIN contactview_metadata site ON site.uuid = client.parent_uuid
         LEFT JOIN (
             SELECT patient_id,

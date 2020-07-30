@@ -68,7 +68,7 @@ CREATE MATERIALIZED VIEW useview_scheduled_msgs AS (
             'free_text'::text                                as type
         FROM free_text_task a
         LEFT JOIN raw_contacts c ON c.doc ->> '_id' =  a.task -> 'messages' -> 0 -> 'contact' ->> '_id'
-        WHERE c.doc ->> 'patient_id' IN (SELECT patient_id from formview_enrollment)
+        WHERE c.doc ->> 'patient_id' IN (SELECT uuid from formview_enrollment)
     )
     SELECT * FROM auto_response
     UNION

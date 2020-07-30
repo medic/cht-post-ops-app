@@ -1,4 +1,4 @@
- -- GENERATED 2020-05-22T20:31:13.197314589
+ -- GENERATED 2020-07-30T21:56:52.417717144
 
 
 /*
@@ -130,6 +130,7 @@ end;
 $$
 LANGUAGE plpgsql;
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_enrollment');
 DROP VIEW formview_enrollment;
 CREATE OR REPLACE VIEW formview_enrollment AS 
     SELECT
@@ -137,14 +138,14 @@ CREATE OR REPLACE VIEW formview_enrollment AS
         doc ->> 'reported_date'                      AS reported_date,
         to_timestamp((NULLIF(doc ->> 'reported_date'::text, ''::text)::bigint / 1000)::double precision)
                                                      AS reported,
-        doc ->> 'patient_id'                         AS patient_id,
+        to_char(to_timestamp((NULLIF(doc ->> 'reported_date'::text, ''::text)::bigint / 1000)::double precision), 'YYYY-MM-DD"T"HH24:MI:SS"Z"')
+                                                     AS enrollment_date,
         doc #>> '{parent, _id}'                      AS parent_uuid,
         doc ->> 'name'                               AS name,
         doc ->> 'enrollment_facility'                AS enrollment_facility,
         doc ->> 'enrollment_location'                AS enrollment_location,
         doc ->> 'vmmc_no'                            AS vmmc_no,
         doc ->> 'age_years'                          AS age_years,
-        doc ->> 'enrollment_date'                    AS enrollment_date,
         doc ->> 'phone'                              AS phone,
         doc ->> 'alternative_phone'                  AS alternative_phone,
         doc ->> 'language_preference'                AS language_preference,
@@ -154,8 +155,10 @@ CREATE OR REPLACE VIEW formview_enrollment AS
         AND COALESCE(form.doc ->> 'is_nurse') IS NULL
         AND doc #>> '{parent,_id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_enrollment OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_enrollment');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_scheduled_msgs');
 DROP VIEW formview_scheduled_msgs;
 CREATE OR REPLACE VIEW formview_scheduled_msgs AS 
     SELECT
@@ -165,18 +168,19 @@ CREATE OR REPLACE VIEW formview_scheduled_msgs AS
                                                      AS reported,
         doc #>> '{contact,_id}'                      AS reported_by_id,
         doc #>> '{contact,parent,_id}'               AS reported_by_parent_id,
-        doc #>> '{fields,patient_id}'                AS patient_id,
+        doc #>> '{fields,patient_uuid}'              AS patient_id,
         doc #>> '{fields,patient_name}'              AS patient_name,
         doc #>> '{fields,language_preference}'       AS language_preference,
         doc #>  '{tasks}'                            AS tasks,
         doc #>  '{scheduled_tasks}'                  AS scheduled_tasks
     FROM couchdb form
     WHERE
-        form.doc ->> 'form'::text = 'scheduled_msgs'::text
-        AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
+        form.doc ->> 'form'::text IN ('scheduled_msgs'::text, 'enroll'::text);
 ALTER VIEW formview_scheduled_msgs OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_scheduled_msgs');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_client_msg');
 DROP VIEW formview_client_msg;
 CREATE OR REPLACE VIEW formview_client_msg AS 
     SELECT
@@ -195,8 +199,10 @@ CREATE OR REPLACE VIEW formview_client_msg AS
         AND form.doc -> 'sms_message' IS NOT NULL
         AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_client_msg OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_client_msg');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_0');
 DROP VIEW formview_0;
 CREATE OR REPLACE VIEW formview_0 AS 
     SELECT
@@ -212,8 +218,10 @@ CREATE OR REPLACE VIEW formview_0 AS
         form.doc ->> 'form'::text = '0'::text
         AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_0 OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_0');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_1');
 DROP VIEW formview_1;
 CREATE OR REPLACE VIEW formview_1 AS 
     SELECT
@@ -229,8 +237,10 @@ CREATE OR REPLACE VIEW formview_1 AS
         form.doc ->> 'form'::text = '1'::text
         AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_1 OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_1');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_no_contact');
 DROP VIEW formview_no_contact;
 CREATE OR REPLACE VIEW formview_no_contact AS 
     SELECT
@@ -241,7 +251,7 @@ CREATE OR REPLACE VIEW formview_no_contact AS
         doc #>> '{contact,_id}'                      AS reported_by_id,
         doc #>> '{contact,parent,_id}'               AS reported_by_parent_id,
         doc #>> '{fields,inputs,source}'             AS source,
-        doc #>> '{fields,patient_id}'                AS patient_id,
+        doc #>> '{fields,patient_uuid}'              AS patient_id,
         doc #>> '{fields,patient_name}'              AS patient_name,
         doc #>> '{fields,phone}'                     AS phone,
         doc #>> '{fields,n,client_ok}'               AS client_ok,
@@ -251,8 +261,10 @@ CREATE OR REPLACE VIEW formview_no_contact AS
         form.doc ->> 'form'::text = 'no_contact'::text
         AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_no_contact OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_no_contact');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_referral_for_care');
 DROP VIEW formview_referral_for_care;
 CREATE OR REPLACE VIEW formview_referral_for_care AS 
     SELECT
@@ -263,7 +275,7 @@ CREATE OR REPLACE VIEW formview_referral_for_care AS
         doc #>> '{contact,_id}'                      AS reported_by_id,
         doc #>> '{contact,parent,_id}'               AS reported_by_parent_id,
         doc #>> '{fields,inputs,source}'             AS source,
-        doc #>> '{fields,patient_id}'                AS patient_id,
+        doc #>> '{fields,patient_uuid}'              AS patient_id,
         doc #>> '{fields,patient_name}'              AS patient_name,
         doc #>> '{fields,phone}'                     AS phone,
         doc #>> '{fields,n,symptoms_list}'           AS symptoms_list,
@@ -274,8 +286,10 @@ CREATE OR REPLACE VIEW formview_referral_for_care AS
         form.doc ->> 'form'::text = 'referral_for_care'::text
         AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_referral_for_care OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_referral_for_care');
 
 
+SELECT deps_save_and_drop_dependencies('public', 'formview_client_review');
 DROP VIEW formview_client_review;
 CREATE OR REPLACE VIEW formview_client_review AS 
     SELECT
@@ -286,7 +300,7 @@ CREATE OR REPLACE VIEW formview_client_review AS
         doc #>> '{contact,_id}'                                       AS reported_by_id,
         doc #>> '{contact,parent,_id}'                                AS reported_by_parent_id,
         doc #>> '{fields,inputs,source}'                              AS source,
-        doc #>> '{fields,patient_id}'                                 AS patient_id,
+        doc #>> '{fields,patient_uuid}'                               AS patient_id,
         doc #>> '{fields,patient_name}'                               AS patient_name,
         doc #>> '{fields,phone}'                                      AS phone,
         doc #>> '{fields,is_referral_for_care}'                       AS is_referral_for_care,
@@ -310,6 +324,7 @@ CREATE OR REPLACE VIEW formview_client_review AS
         form.doc ->> 'form'::text = 'client_review'::text
         AND doc #>> '{contact, parent, _id}' NOT IN ('b16d3190-843d-415b-b8f1-6e37863cbb3d', '6780a6cc-df51-444b-8772-e9965dd96f15', '8e4e16ee-7b2a-49c4-beb0-e5eefc6ca0a0');  -- Chitungwiza District, Pilot, Test Nurse 1's District
 ALTER VIEW formview_client_review OWNER TO full_access;
+SELECT deps_restore_dependencies('public', 'formview_client_review');
 
 
 SELECT deps_save_and_drop_dependencies('public', 'useview_scheduled_msgs');
@@ -342,47 +357,47 @@ CREATE MATERIALIZED VIEW useview_scheduled_msgs AS (
     ),
     auto_response as (
         SELECT
-            a.task -> 'messages' -> 0 -> 'uuid'             as uuid,
-            a.task -> 'due'                                 as due,
-            a.task -> 'type'                                as schedule,
-            a.task -> 'messages' -> 0 -> 'to'               as recipient,
-            a.task -> 'messages' -> 0 -> 'message'          as message,
-            a.task -> 'state_history' -> -1 -> 'state'      as state,
-            a.task -> 'state_history' -> -1 -> 'timestamp'  as timestamp,
-            a.doc_uuid                                      as doc_uuid,
-            a.patient_id                                    as patient_id,
-            'auto_response'::text                           as type
+            a.task -> 'messages' -> 0 ->> 'uuid'             as uuid,
+            a.task ->> 'due'                                 as due,
+            a.task ->> 'type'                                as schedule,
+            a.task -> 'messages' -> 0 ->> 'to'               as recipient,
+            a.task -> 'messages' -> 0 ->> 'message'          as message,
+            a.task -> 'state_history' -> -1 ->> 'state'      as state,
+            a.task -> 'state_history' -> -1 ->> 'timestamp'  as timestamp,
+            a.doc_uuid                                       as doc_uuid,
+            a.patient_id                                     as patient_id,
+            'auto_response'::text                            as type
         FROM task a
     ),
     scheduled_msg AS (
         SELECT
-            a.task -> 'messages' -> 0 -> 'uuid'             as uuid,
-            a.task -> 'due'                                 as due,
-            a.task -> 'type'                                as schedule,
-            a.task -> 'messages' -> 0 -> 'to'               as recipient,
-            a.task -> 'messages' -> 0 -> 'message'          as message,
-            a.task -> 'state_history' -> -1 -> 'state'      as state,
-            a.task -> 'state_history' -> -1 -> 'timestamp'  as timestamp,
-            a.doc_uuid                                      as doc_uuid,
-            a.patient_id                                    as patient_id,
-            'scheduled'::text                               as type
+            a.task -> 'messages' -> 0 ->> 'uuid'             as uuid,
+            a.task ->> 'due'                                 as due,
+            a.task ->> 'type'                                as schedule,
+            a.task -> 'messages' -> 0 ->> 'to'               as recipient,
+            a.task -> 'messages' -> 0 ->> 'message'          as message,
+            a.task -> 'state_history' -> -1 ->> 'state'      as state,
+            a.task -> 'state_history' -> -1 ->> 'timestamp'  as timestamp,
+            a.doc_uuid                                       as doc_uuid,
+            a.patient_id                                     as patient_id,
+            'scheduled'::text                                as type
         FROM scheduled_task a
     ),
     free_text_msg AS (
         SELECT
-            a.task -> 'messages' -> 0 -> 'uuid'             as uuid,
-            a.task -> 'due'                                 as due,
-            a.task -> 'type'                                as schedule,
-            a.task -> 'messages' -> 0 -> 'to'               as recipient,
-            a.task -> 'messages' -> 0 -> 'message'          as message,
-            a.task -> 'state_history' -> -1 -> 'state'      as state,
-            a.task -> 'state_history' -> -1 -> 'timestamp'  as timestamp,
-            a.doc_uuid                                      as doc_uuid,
-            c.doc ->> 'patient_id'                          as patient_id,
-            'free_text'::text                               as type
+            a.task -> 'messages' -> 0 ->> 'uuid'             as uuid,
+            a.task ->> 'due'                                 as due,
+            a.task ->> 'type'                                as schedule,
+            a.task -> 'messages' -> 0 ->> 'to'               as recipient,
+            a.task -> 'messages' -> 0 ->> 'message'          as message,
+            a.task -> 'state_history' -> -1 ->> 'state'      as state,
+            a.task -> 'state_history' -> -1 ->> 'timestamp'  as timestamp,
+            a.doc_uuid                                       as doc_uuid,
+            c.doc ->> 'patient_id'                           as patient_id,
+            'free_text'::text                                as type
         FROM free_text_task a
         LEFT JOIN raw_contacts c ON c.doc ->> '_id' =  a.task -> 'messages' -> 0 -> 'contact' ->> '_id'
-        WHERE c.doc ->> 'patient_id' IN (SELECT patient_id from formview_enrollment)
+        WHERE c.doc ->> 'patient_id' IN (SELECT uuid from formview_enrollment)
     )
     SELECT * FROM auto_response
     UNION
@@ -417,12 +432,13 @@ RETURNS TABLE(
     ae_moderate_count int,
     ae_severe_count int,
     ae_other_count int,
-    day0 text, day1 text, day2 text, day3 text, day4 text, day5 text, day6 text, day7 text, day8 text, day9 text, day10 text, day11 text, day12 text, day13 text, day14 text
+    day0 text, day1 text, day2 text, day3 text, day4 text, day5 text, day6 text, day7 text, day8 text, day9 text, day10 text, day11 text, day12 text, day13 text, day14 text,
+    system_sent_texts_count int
 ) AS
 $BODY$
     SELECT
         client.uuid                                                    AS uuid,
-        client.patient_id                                              AS patient_id,
+        client.uuid                                                    AS patient_id,
         client.name                                                    AS name,
         client.reported                                                AS reported,
         client.vmmc_no                                                 AS vmmc_no,
@@ -439,7 +455,8 @@ $BODY$
         COALESCE(ae_counts.moderate_count, 0)                          AS ae_moderate_count,
         COALESCE(ae_counts.severe_count, 0)                            AS ae_severe_count,
         COALESCE(ae_counts.severity_other_count, 0)                    AS ae_other_count,
-        schedule.day0, schedule.day1, schedule.day2, schedule.day3, schedule.day4, schedule.day5, schedule.day6, schedule.day7, schedule.day8, schedule.day9, schedule.day10, schedule.day11, schedule.day12, schedule.day13, schedule.day14
+        schedule.day0, schedule.day1, schedule.day2, schedule.day3, schedule.day4, schedule.day5, schedule.day6, schedule.day7, schedule.day8, schedule.day9, schedule.day10, schedule.day11, schedule.day12, schedule.day13, schedule.day14,
+        COALESCE(system_sent_msg.system_sent_texts_count, 0)           AS system_sent_texts_count
     FROM formview_enrollment client
         LEFT JOIN (
             SELECT
@@ -461,13 +478,21 @@ $BODY$
             FROM useview_scheduled_msgs nurse_msg
             WHERE nurse_msg.type = 'free_text'
             GROUP BY nurse_msg.patient_id
-        ) nurse_msg ON client.patient_id = nurse_msg.patient_id
+        ) nurse_msg ON client.uuid = nurse_msg.patient_id
+        LEFT JOIN(
+            SELECT
+                system_sent_msg.patient_id        AS patient_id,
+                COUNT(uuid)::int            AS system_sent_texts_count
+            FROM useview_scheduled_msgs system_sent_msg
+            WHERE system_sent_msg.type = 'scheduled' AND system_sent_msg.state IN ('sent', 'delivered')
+            GROUP BY system_sent_msg.patient_id
+        ) system_sent_msg ON client.uuid = system_sent_msg.patient_id
         LEFT JOIN (
             SELECT * from CROSSTAB($$
                 SELECT foo.patient_id, foo.delta::text, foo.sms_received
                 FROM (
                     SELECT
-                        client.patient_id    AS patient_id,
+                        client.uuid          AS patient_id,
                         schedule.delta       AS delta,
                         CASE
                             WHEN client_msg.form = '1' THEN 'POTENTIAL AE'
@@ -482,7 +507,7 @@ $BODY$
                         ORDER BY 1, schedule.delta) foo
                     $$) t(patient_id text, day0 text, day1 text, day2 text, day3 text, day4 text, day5 text, day6 text, day7 text, day8 text, day9 text, day10 text, day11 text, day12 text, day13 text, day14 text)
 
-        ) schedule ON client.patient_id = schedule.patient_id
+        ) schedule ON client.uuid = schedule.patient_id
         LEFT JOIN contactview_metadata site ON site.uuid = client.parent_uuid
         LEFT JOIN (
             SELECT patient_id,
