@@ -17,7 +17,7 @@ const fields = [
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.alternate_phone', value: thisContact.alternate_phone, width: 4, filter: 'phone' },
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.age', value: thisContact.age_years, width: 4},
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.days_since_enrollment', value: daysSinceEnrollment, width: 6 },
-    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.enrollment_date', value: contact.reported_date, width: 6, filter: 'date' },
+    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.enrollment_date', value: contact.enrollment_date, width: 6, filter: 'date' },
     { appliesToType: 'person', label: 'contact.parent', value: thisLineage, filter: 'lineage' },
     { appliesToType: ['clinic', 'health_center', 'district_hospital'], label: 'Contact', value: thisContact.contact && thisContact.contact.name, width: 4 },
     { appliesToType: ['clinic', 'health_center', 'district_hospital'], label: 'contact.phone_number', value: thisContact.contact && thisContact.contact.phone, width: 4 },

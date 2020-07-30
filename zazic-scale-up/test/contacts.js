@@ -36,6 +36,7 @@ module.exports = {
         alternate_phone: '+1234567893',
         sex: 'female',
         reported_date: '2000-01-01',
+        enrollment_date: '2000-01-01',
         _id: 'patient_uuid',
         patient_id: 'patient_id',
         _rev: '1-b'
