@@ -16,6 +16,7 @@
             </meta>
             <source>user</source>
             <source_id/>
+            <is_task/>
             <contact>
               <_id/>
               <name/>
@@ -57,6 +58,7 @@
       <bind nodeset="/enroll/inputs" relevant="./source = 'user'"/>
       <bind nodeset="/enroll/inputs/source" type="string"/>
       <bind nodeset="/enroll/inputs/source_id" type="string"/>
+      <bind nodeset="/enroll/inputs/is_task" type="string"/>
       <bind nodeset="/enroll/inputs/contact/_id" required="true()" type="db:person"/>
       <bind nodeset="/enroll/inputs/contact/name" type="string"/>
       <bind nodeset="/enroll/inputs/contact/phone" type="string"/>
@@ -89,6 +91,9 @@
       </input>
       <input appearance="hidden" ref="/enroll/inputs/source_id">
         <label>Source ID</label>
+      </input>
+      <input appearance="hidden" ref="/enroll/inputs/is_task">
+        <label>Is Task</label>
       </input>
       <group ref="/enroll/inputs/contact">
         <label>Contact</label>
