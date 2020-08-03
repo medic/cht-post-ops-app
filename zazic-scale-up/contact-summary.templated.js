@@ -1,9 +1,7 @@
 const thisContact = contact;
 const thisLineage = lineage;
 
-console.log('contact', contact);
 const isNurse = () => { return contact.contact_type === 'nurse' || !!contact.is_nurse; };
-console.log('isNurse', isNurse());
 const isNotNurse = () => { return !isNurse(); };
 let daysSinceEnrollment;
 if (contact.type === 'person' && !isNurse()) {
