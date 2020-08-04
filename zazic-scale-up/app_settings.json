@@ -269,18 +269,6 @@
         {
           "name": "on_create",
           "trigger": "assign_schedule",
-          "params": "Automated Reply English",
-          "bool_expr": "doc.fields.language_preference == 'english'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
-          "params": "Automated Reply Shona",
-          "bool_expr": "doc.fields.language_preference == 'shona'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
           "params": "Enrolled Client Reminders English",
           "bool_expr": "doc.fields.language_preference == 'english'"
         },
@@ -347,16 +335,7 @@
         }
       ],
       "validations": {},
-      "messages": [
-        {
-          "translation_key": "eng.messages.2wt.potential.ae.response",
-          "recipient": "phone"
-        },
-        {
-          "translation_key": "shona.messages.2wt.potential.ae.response",
-          "recipient": "phone"
-        }
-      ]
+      "messages": []
     },
     {
       "form": "4",
@@ -397,45 +376,41 @@
   ],
   "patient_reports": [
     {
-      "form": "followup",
-      "validations": {},
-      "messages": []
+      "form": "enroll",
+      "messages": [
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.fields.language_preference == 'english'",
+          "translation_key": "eng.messages.2wt.notification",
+          "recipient": "phone"
+        },
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.fields.language_preference == 'shona'",
+          "translation_key": "shona.messages.2wt.notification",
+          "recipient": "phone"
+        }
+      ]
     },
     {
-      "form": "day14review",
-      "validations": {},
-      "messages": []
+      "form": "1",
+      "messages": [
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.patient.language_preference == 'english'",
+          "translation_key": "eng.messages.2wt.potential.ae.response",
+          "recipient": "phone"
+        },
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.patient.language_preference == 'shona'",
+          "translation_key": "shona.messages.2wt.potential.ae.response",
+          "recipient": "phone"
+        }
+      ]
     }
   ],
   "schedules": [
-    {
-      "name": "Automated Reply English",
-      "summary": "",
-      "description": "",
-      "start_from": "reported_date",
-      "messages": [
-        {
-          "translation_key": "eng.messages.2wt.notification",
-          "group": 0,
-          "offset": "5 seconds",
-          "recipient": "phone"
-        }
-      ]
-    },
-    {
-      "name": "Automated Reply Shona",
-      "summary": "",
-      "description": "",
-      "start_from": "reported_date",
-      "messages": [
-        {
-          "translation_key": "shona.messages.2wt.notification",
-          "group": 0,
-          "offset": "5 seconds",
-          "recipient": "phone"
-        }
-      ]
-    },
     {
       "name": "Enrolled Client Reminders English",
       "summary": "",
