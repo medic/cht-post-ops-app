@@ -335,16 +335,7 @@
         }
       ],
       "validations": {},
-      "messages": [
-        {
-          "translation_key": "eng.messages.2wt.potential.ae.response",
-          "recipient": "phone"
-        },
-        {
-          "translation_key": "shona.messages.2wt.potential.ae.response",
-          "recipient": "phone"
-        }
-      ]
+      "messages": []
     },
     {
       "form": "4",
@@ -397,6 +388,23 @@
           "event_type": "report_accepted",
           "bool_expr": "doc.fields.language_preference == 'shona'",
           "translation_key": "shona.messages.2wt.notification",
+          "recipient": "phone"
+        }
+      ]
+    },
+    {
+      "form": "1",
+      "messages": [
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.patient.language_preference == 'english'",
+          "translation_key": "eng.messages.2wt.potential.ae.response",
+          "recipient": "phone"
+        },
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.patient.language_preference == 'shona'",
+          "translation_key": "shona.messages.2wt.potential.ae.response",
           "recipient": "phone"
         }
       ]
