@@ -417,7 +417,7 @@
         {
           "translation_key": "eng.messages.2wt.notification",
           "group": 0,
-          "offset": "5 seconds",
+          "offset": "15 seconds",
           "recipient": "phone"
         }
       ]
@@ -431,7 +431,7 @@
         {
           "translation_key": "shona.messages.2wt.notification",
           "group": 0,
-          "offset": "5 seconds",
+          "offset": "15 seconds",
           "recipient": "phone"
         }
       ]
