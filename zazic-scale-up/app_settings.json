@@ -412,34 +412,6 @@
   ],
   "schedules": [
     {
-      "name": "Automated Reply English",
-      "summary": "",
-      "description": "",
-      "start_from": "reported_date",
-      "messages": [
-        {
-          "translation_key": "eng.messages.2wt.notification",
-          "group": 0,
-          "offset": "15 seconds",
-          "recipient": "phone"
-        }
-      ]
-    },
-    {
-      "name": "Automated Reply Shona",
-      "summary": "",
-      "description": "",
-      "start_from": "reported_date",
-      "messages": [
-        {
-          "translation_key": "shona.messages.2wt.notification",
-          "group": 0,
-          "offset": "15 seconds",
-          "recipient": "phone"
-        }
-      ]
-    },
-    {
       "name": "Enrolled Client Reminders English",
       "summary": "",
       "description": "",
