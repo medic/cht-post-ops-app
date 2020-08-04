@@ -19,34 +19,26 @@ module.exports = {
 
   clientReview: {
     allNo: [
-      ['no', 'no', 'no', 'no', 'no']
+      ['no', 'none', 'do not have enough info', '', 'ann']
     ]
   },
 
   enroll: {
     person: [
       [],
-      ['Person A', 'seke_north', 'Location A', '12345', '23', '2000-01-01', '+263732123456', '+263732456780', 'english', 'Nurse A']
+      ['Person A', 'seke_north', 'Location A', '12345', '23', '+263732123456', '+263732456780', 'english']
     ],
-    invalidNames: [
+    invalidName: [
       [],
-      ['Person A 832!', 'seke_north', 'Location A', '12345', '23', '2000-01-01', '+263732123456', '+263732456780', 'english', 'Nurse A 83@!']
-    ],
-    futureEnrollmentDate: [
-      [],
-      ['Person A', 'seke_north', 'Location A', '12345', '23', '2000-01-07', '+263732123456', '+263732456780', 'english', 'Nurse A']
-    ],
-    pastEnrollmentDate: [
-      [],
-      ['Person A', 'seke_north', 'Location A', '12345', '23', '1999-12-20', '+263732123456', '+263732456780', 'english', 'Nurse A']
+      ['Person A 832!', 'seke_north', 'Location A', '12345', '23', '+263732123456', '+263732456780', 'english']
     ],
     invalidPhone: [
       [],
-      ['Person A', 'seke_north', 'Location A', '12345', '23', '2000-01-01', '+2637321234', '+254732456780', 'english', 'Nurse A']
+      ['Person A', 'seke_north', 'Location A', '12345', '23', '+2637321234', '+254732456780', 'english']
     ],
     invalidVMMCNo: [
       [],
-      ['Person A', 'seke_north', 'Location A', '12-345', '23', '2000-01-01', '+263732123456', '+263732456780', 'english', 'Nurse A']
+      ['Person A', 'seke_north', 'Location A', '12-345', '23', '+263732123456', '+263732456780', 'english']
     ]
   }
 };

@@ -45,49 +45,32 @@ describe('Enrollment', () => {
             enrollment_location: 'Location A',
             vmmc_no: '12345',
             age_years: '23',
-            enrollment_date: '2000-01-01',
             phone: '+263732123456',
             alternative_phone: '+263732456780',
             language_preference: 'english',
-            enrollment_nurse: 'Nurse A',
             reported_date: localMidnightDate.getTime()
         })
     });
 
     it('should fail due to invalid name', async () => {
-        const filledForm = await harness.fillForm('enroll', ...enroll.invalidNames);
-        expect(filledForm.errors).to.have.lengthOf(2);
+        const filledForm = await harness.fillForm('enroll', ...enroll.invalidName);
+        expect(filledForm.errors).to.have.lengthOf(1);
         const errorMsg = 'Please type in name characters e.g letters and space.';
-        expect(filledForm.errors[0].msg).to.equal(errorMsg);
-        expect(filledForm.errors[1].msg).to.equal(errorMsg);
-    });
-
-    it('should fail due to an enrollment date in the future', async () => {
-        const filledForm = await harness.fillForm('enroll', ...enroll.futureEnrollmentDate);
-        expect(filledForm.errors).to.have.lengthOf(1);
-        const errorMsg = "Only today's date is allowed.";
-        expect(filledForm.errors[0].msg).to.equal(errorMsg);
-    });
-
-    it('should fail due to an enrollment date in the past', async () => {
-        const filledForm = await harness.fillForm('enroll', ...enroll.pastEnrollmentDate);
-        expect(filledForm.errors).to.have.lengthOf(1);
-        const errorMsg = "Only today's date is allowed.";
         expect(filledForm.errors[0].msg).to.equal(errorMsg);
     });
 
     it('should fail due to invalid phone', async () => {
         const filledForm = await harness.fillForm('enroll', ...enroll.invalidPhone);
-        expect(filledForm.errors).to.have.lengthOf(2);
-        const errorMsg = 'Please enter phone number in the format +263xxxxxxxxx';
-        expect(filledForm.errors[0].msg).to.equal(errorMsg);
-        expect(filledForm.errors[1].msg).to.equal(errorMsg);
+        expect(filledForm.errors).to.have.lengthOf(4); // should be 2
+        // see https://github.com/medic/medic-conf-test-harness/issues/67 for more
+        const errorMsg = 'Please enter a valid mobile number';
+        expect(filledForm.errors.map(err => err.msg)).to.include.members([errorMsg]);
     });
 
     it('should fail due to invalid vmmc no', async () => {
         const filledForm = await harness.fillForm('enroll', ...enroll.invalidVMMCNo);
         expect(filledForm.errors).to.have.lengthOf(1);
-        const errorMsg = 'Must be 5 – 9 numeric digits';
+        const errorMsg = 'Please enter between 5 - 9 digits';
         expect(filledForm.errors[0].msg).to.equal(errorMsg);
     });
 });

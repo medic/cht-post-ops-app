@@ -40,7 +40,7 @@
       <bind nodeset="/r/inputs" relevant="./source = 'user'"/>
       <bind nodeset="/r/inputs/source" type="string"/>
       <bind nodeset="/r/inputs/source_id" type="string"/>
-      <bind nodeset="/r/inputs/contact/_id" type="db:person"/>
+      <bind nodeset="/r/inputs/contact/_id" required="true()" type="db:person"/>
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
       <bind calculate="../inputs/contact/name" nodeset="/r/patient_name" type="string"/>
@@ -68,10 +68,10 @@
           <label>What is the patient's name?</label>
           <hint>Select a person from list</hint>
         </input>
-        <input ref="/r/inputs/contact/name">
+        <input appearance="hidden" ref="/r/inputs/contact/name">
           <label>Patient Name</label>
         </input>
-        <input ref="/r/inputs/contact/phone">
+        <input appearance="hidden" ref="/r/inputs/contact/phone">
           <label>Phone Number</label>
         </input>
       </group>
@@ -79,7 +79,7 @@
     <group appearance="field-list" ref="/r/n">
       <label></label>
       <input ref="/r/n/n_header">
-        <label>&lt;h4 style="color: #337ab7;"&gt;If there is no sms text response from the client on day 8, Super Nurse makes contact via phone to the client and/or the next kin to find out if they are okay, this form reports on the outcomes of the actions of the super nurse and can lead to either&lt;br/&gt;
+        <label>&lt;h4 style="color: #337ab7;"&gt;If there is no sms text response from the client on day 8, nurse makes contact via phone to the client and/or the next kin to find out if they are okay, this form reports on the outcomes of the actions of the nurse and can lead to either&lt;br/&gt;
 1) a client has been reached and is ok
 2) a client is has been reached and needs review
 3) client has not been reached

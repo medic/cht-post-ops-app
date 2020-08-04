@@ -1,7 +1,7 @@
 module.exports = [
     {
         name: 'client-review-request',
-        icon: 'network',
+        icon: 'man-risk',
         title: 'task.client-review-request.title',
         appliesTo: 'reports',
         appliesToType: ['no_contact', 'referral_for_care'],
@@ -53,14 +53,14 @@ module.exports = [
             const report_0_submitted = Utils.isFormSubmittedInWindow(
                 contact.reports,
                 '0',
-                Utils.addDate(dueDate, -8).getTime(),
+                report.reported_date,
                 Utils.addDate(dueDate, 1).getTime()
             );
 
             const report_1_submitted = Utils.isFormSubmittedInWindow(
                 contact.reports,
                 '1',
-                Utils.addDate(dueDate, -8).getTime(),
+                report.reported_date,
                 Utils.addDate(dueDate, 1).getTime()
             );
 
@@ -68,12 +68,15 @@ module.exports = [
         },
         actions: [{
             form: 'no_contact',
-            label: 'Client follow up for no contact'
+            label: 'No Contact',
+            modifyContent: function (content) {
+                content.is_task = true;
+            }
         }],
         events: [{
             days: 8,
             start: 0,
-            end: 1
+            end: 365
         }]
     }
 ];
