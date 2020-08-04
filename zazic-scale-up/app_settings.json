@@ -269,18 +269,6 @@
         {
           "name": "on_create",
           "trigger": "assign_schedule",
-          "params": "Automated Reply English",
-          "bool_expr": "doc.fields.language_preference == 'english'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
-          "params": "Automated Reply Shona",
-          "bool_expr": "doc.fields.language_preference == 'shona'"
-        },
-        {
-          "name": "on_create",
-          "trigger": "assign_schedule",
           "params": "Enrolled Client Reminders English",
           "bool_expr": "doc.fields.language_preference == 'english'"
         },
@@ -397,14 +385,21 @@
   ],
   "patient_reports": [
     {
-      "form": "followup",
-      "validations": {},
-      "messages": []
-    },
-    {
-      "form": "day14review",
-      "validations": {},
-      "messages": []
+      "form": "enroll",
+      "messages": [
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.fields.language_preference == 'english'",
+          "translation_key": "eng.messages.2wt.notification",
+          "recipient": "phone"
+        },
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.fields.language_preference == 'shona'",
+          "translation_key": "shona.messages.2wt.notification",
+          "recipient": "phone"
+        }
+      ]
     }
   ],
   "schedules": [
