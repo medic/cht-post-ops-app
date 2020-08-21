@@ -803,6 +803,14 @@
       ]
     }
   ],
+  "replications": [
+    {
+      "fromSuffix": "user-[^\\-]+-meta",
+      "toSuffix": "users-meta",
+      "text_expression": "",
+      "cron": "0 2 * * *"
+    }
+  ],
   "notifications": {
     "off_form": "OFF",
     "on_form": "ON",
