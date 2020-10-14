@@ -9,7 +9,7 @@ script:
   - npm ci
   - npx medic-conf --no-check convert-app-forms convert-contact-forms compile-app-settings
   - npm run eslint
-  - npm run unittest
+  - npm run test-unit
 
   - cd ../itech-aurum
   - npm ci
