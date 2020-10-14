@@ -1,9 +1,18 @@
 language: node_js
 node_js:
-    - 10
-env:
-    - PROJECT=zazic-scale-up
-before_install:
-    - sudo python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic
-    - cd $PROJECT
-script: npm run travis
+  - 12
+  - 10
+script:
+  - sudo python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic
+
+  - cd zazic-scale-up
+  - npm ci
+  - npx medic-conf --no-check convert-app-forms convert-contact-forms compile-app-settings
+  - npm run eslint
+  - npm run unittest
+
+  - cd ../itech-aurum
+  - npm ci
+  - npx medic-conf --no-check convert-app-forms convert-contact-forms compile-app-settings
+  - npm run eslint
+  - npm run unittest
