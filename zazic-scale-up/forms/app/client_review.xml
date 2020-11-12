@@ -53,7 +53,7 @@
             <additional_comments/>
             <nurse/>
           </n>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </r>
@@ -74,7 +74,7 @@
       <bind calculate="../inputs/is_no_contact" nodeset="/r/is_no_contact" type="string"/>
       <bind nodeset="/r/n/client_came" required="true()" type="select1"/>
       <bind nodeset="/r/n/return_client" relevant=" /r/n/client_came  = 'yes'"/>
-      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/r/n/return_client/clinic_name" required="true()" type="select1"/>
+      <bind nodeset="/r/n/return_client/clinic_name" required="true()" type="select1"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please enter a valid clinic name" nodeset="/r/n/return_client/clinic_name_other" relevant=" /r/n/return_client/clinic_name  = 'other'" required="true()" type="string"/>
       <bind constraint=". &lt;= today() and ((decimal-date-time(today()) - decimal-date-time(.)) &lt;= 28)" jr:constraintMsg="Date is not in the future: and not more than 4 weeks ago" nodeset="/r/n/return_client/visit_date" required="true()" type="date"/>
       <bind nodeset="/r/n/return_client/ae_positive" required="true()" type="select1"/>
