@@ -82,16 +82,19 @@
     "can_view_data_records": [
       "national_admin",
       "district_admin",
+      "read_only",
       "analytics",
       "gateway"
     ],
     "can_view_unallocated_data_records": [
       "national_admin",
       "district_admin",
+      "read_only",
       "gateway"
     ],
     "can_view_users": [
-      "national_admin"
+      "national_admin",
+      "read_only"
     ],
     "can_edit": [
       "national_admin",
@@ -143,19 +146,23 @@
     ],
     "can_view_messages": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "read_only"
     ],
     "can_view_messages_tab": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "read_only"
     ],
     "can_view_reports": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "read_only"
     ],
     "can_view_reports_tab": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "read_only"
     ],
     "can_view_analytics_tab": [
       "national_admin",
@@ -163,11 +170,13 @@
     ],
     "can_view_contacts": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "read_only"
     ],
     "can_view_contacts_tab": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "read_only"
     ],
     "can_edit_profile": [
       "national_admin",
@@ -221,6 +230,9 @@
     "district_admin": {
       "name": "usertype.district-manager",
       "offline": true
+    },
+    "read_only": {
+      "name": "usertype.read-only"
     }
   },
   "setup_complete": true,
