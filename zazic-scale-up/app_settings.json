@@ -135,11 +135,13 @@
     ],
     "can_view_tasks": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "offline_limited"
     ],
     "can_view_tasks_tab": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "offline_limited"
     ],
     "can_configure": [
       "national_admin"
@@ -147,22 +149,26 @@
     "can_view_messages": [
       "national_admin",
       "district_admin",
-      "read_only"
+      "read_only",
+      "offline_limited"
     ],
     "can_view_messages_tab": [
       "national_admin",
       "district_admin",
-      "read_only"
+      "read_only",
+      "offline_limited"
     ],
     "can_view_reports": [
       "national_admin",
       "district_admin",
-      "read_only"
+      "read_only",
+      "offline_limited"
     ],
     "can_view_reports_tab": [
       "national_admin",
       "district_admin",
-      "read_only"
+      "read_only",
+      "offline_limited"
     ],
     "can_view_analytics_tab": [
       "national_admin",
@@ -171,12 +177,14 @@
     "can_view_contacts": [
       "national_admin",
       "district_admin",
-      "read_only"
+      "read_only",
+      "offline_limited"
     ],
     "can_view_contacts_tab": [
       "national_admin",
       "district_admin",
-      "read_only"
+      "read_only",
+      "offline_limited"
     ],
     "can_edit_profile": [
       "national_admin",
@@ -211,7 +219,8 @@
     ],
     "can_log_out_on_android": [
       "national_admin",
-      "district_admin"
+      "district_admin",
+      "offline_limited"
     ]
   },
   "roles": {
@@ -233,6 +242,10 @@
     },
     "read_only": {
       "name": "usertype.read-only"
+    },    
+    "offline_limited": {
+      "name": "usertype.offline-limited",
+      "offline": true
     }
   },
   "setup_complete": true,
