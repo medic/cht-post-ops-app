@@ -67,7 +67,7 @@
       <bind nodeset="/r/note/severity" relevant="selected( /r/note/ae , 'yes')" required="true()" type="select1"/>
       <bind nodeset="/r/note/info" type="string"/>
       <bind nodeset="/r/note/client_return" type="select1"/>
-      <bind nodeset="/r/note/explanation" relevant="selected( /r/note/client_return , 'no')" type="string"/>
+      <bind nodeset="/r/note/explanation" relevant="selected( /r/note/client_return , 'no') and selected( /r/note/ae , 'yes')" type="string"/>
       <bind calculate="concat('uuid:', uuid())" nodeset="/r/meta/instanceID" readonly="true()" type="string"/>
     </model>
   </h:head>
@@ -89,9 +89,9 @@
       </group>
     </group>
     <group ref="/r/note">
-      <label>Study Nurse will use this form to record every potential AE reported, even if multiple per client, including: 1) A client sends a YES SMS to note a potential AE; 2) A client sends a question about a symptom via SMS; and 3) A client requests a follow-up call.</label>
+      <label></label>
       <group appearance="field-list" ref="/r/note/g_post_mc">
-        <label></label>
+        <label>Study Nurse will use this form to record every potential AE reported, even if multiple per client, including: 1) A client sends a YES SMS to note a potential AE; 2) A client sends a question about a symptom via SMS; and 3) A client requests a follow-up call.</label>
         <select1 appearance="horizontal" ref="/r/note/g_post_mc/days_post_mc">
           <label>Day post MC that an AE was reported by client.</label>
           <item>
@@ -199,12 +199,12 @@
       <select1 ref="/r/note/followup_request">
         <label>Did the client request interactive text or phone call follow up?</label>
         <item>
-          <label>Phone call</label>
-          <value>phone</value>
-        </item>
-        <item>
           <label>Text</label>
           <value>text</value>
+        </item>
+        <item>
+          <label>Phone call</label>
+          <value>phone</value>
         </item>
         <item>
           <label>No response OR client did not request follow up</label>
