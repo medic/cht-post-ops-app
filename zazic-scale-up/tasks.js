@@ -41,6 +41,9 @@ module.exports = [
         title: 'task.no-contact.title',
         appliesTo: 'reports',
         appliesToType: ['enroll'],
+        contactLabel: function (contact) {
+            return  contact.contact.name + ' (' + contact.contact.enrollment_location + ')';
+        }, 
         appliesIf: (contact, report) => report.form === 'enroll',
         resolvedIf: (contact, report, event, dueDate) => {
             const no_contact_submitted = Utils.isFormSubmittedInWindow(
