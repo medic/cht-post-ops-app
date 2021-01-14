@@ -1,6 +1,5 @@
 {
   "clinic": "clinic.png",
-  "risk": "risk.png",
   "clipboard": "clipboard.png",
   "treatment": "treatment.png",
   "network": "on.png",
@@ -23,6 +22,7 @@
   "pregnancy-1": "icon-people-woman-pregnant@2x.png",
   "pregnancy-4": "icon-people-woman-pregnant@2x.png",
   "risk": "icon-healthcare-warning@2x.png",
+  "risk-message": "icon-messages-risk@2x.png",
   "chw": "icon-people-CHW-female@2x.png",
   "medic-clinic": "icon-places-clinic.svg",
   "medic-health-center": "medic-health-center.svg",
