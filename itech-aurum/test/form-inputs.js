@@ -15,6 +15,8 @@ module.exports = {
       [],
       ['day7'],
       ['2000-01-07'],
+      ['ekurhuleni', 'winnie_mandela'],
+      ['team'],
       ['no'],
       ['Test'],
       ['test']
@@ -24,6 +26,9 @@ module.exports = {
       ['day14'],
       ['yes'],
       ['2000-01-14'],
+      ['ekurhuleni', 'winnie_mandela'],
+      ['team'],
+      ['no'],
       ['no'],
       ['Test'],
       ['test']
