@@ -32,6 +32,12 @@
           <phone/>
           <language_preference/>
           <randomization/>
+          <ctx/>
+          <editing/>
+          <forbid>
+            <n_edit/>
+            <no_edit>0</no_edit>
+          </forbid>
           <person db-doc="true">
             <parent>
               <_id/>
@@ -81,13 +87,18 @@
       <bind calculate="../person/phone" nodeset="/enroll/phone" type="string"/>
       <bind calculate="../person/language_preference" nodeset="/enroll/language_preference" type="string"/>
       <bind calculate="../person/randomization" nodeset="/enroll/randomization" type="string"/>
+      <bind calculate="instance('contact-summary')/context/isContact" nodeset="/enroll/ctx" type="string"/>
+      <bind calculate="if( /enroll/ctx  = 'yes', 'no', 'yes')" nodeset="/enroll/editing" type="string"/>
+      <bind nodeset="/enroll/forbid" relevant="../editing = 'yes'"/>
+      <bind nodeset="/enroll/forbid/n_edit" readonly="true()" type="string"/>
+      <bind constraint=". = 1" nodeset="/enroll/forbid/no_edit" type="int"/>
       <bind calculate="../../../inputs/contact/_id" nodeset="/enroll/person/parent/_id" type="string"/>
       <bind calculate="../../../../inputs/contact/parent/_id" nodeset="/enroll/person/parent/parent/_id" type="string"/>
       <bind calculate="&quot;person&quot;" nodeset="/enroll/person/type" type="string"/>
       <bind calculate="&quot;patient&quot;" nodeset="/enroll/person/role" type="string"/>
       <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please enter valid VMMC client name" nodeset="/enroll/person/name" required="true()" type="string"/>
-      <bind constraint="regex(., '^[A-Z]{2}[0-9]{4}$')" jr:constraintMsg="Please enter valid VMMC client number" nodeset="/enroll/person/vmmc_no" required="true()" type="string"/>
-      <bind constraint="regex(., '^[0-9]+$')" jr:constraintMsg="Please enter valid 2wT study number" nodeset="/enroll/person/study_no" required="true()" type="string"/>
+      <bind constraint="regex(., '^[A-Za-z0-9]{1,7}$')" jr:constraintMsg="Please enter valid VMMC client number" nodeset="/enroll/person/vmmc_no" required="true()" type="string"/>
+      <bind constraint="regex(., '^[0-9]{4}$')" jr:constraintMsg="Please enter valid 2wT study number" nodeset="/enroll/person/study_no" required="true()" type="string"/>
       <bind nodeset="/enroll/person/n_study" readonly="true()" type="string"/>
       <bind jr:requiredMsg="Please confirm consent" nodeset="/enroll/person/consent" required="true()" type="select1"/>
       <bind nodeset="/enroll/person/randomization" required="true()" type="select1"/>
@@ -136,6 +147,15 @@
           </input>
         </group>
       </group>
+    </group>
+    <group appearance="field-list" ref="/enroll/forbid">
+      <label></label>
+      <input ref="/enroll/forbid/n_edit">
+        <label>&lt;span style="color:red;"&gt;You can not edit this form. Please cancel.&lt;/span&gt;</label>
+      </input>
+      <input appearance="hidden" ref="/enroll/forbid/no_edit">
+        <label></label>
+      </input>
     </group>
     <group appearance="field-list" ref="/enroll/person">
       <label></label>
