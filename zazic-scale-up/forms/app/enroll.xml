@@ -128,6 +128,7 @@
       </input>
       <select1 ref="/enroll/person/enrollment_facility">
         <label>VMMC Enrollment Facility</label>
+        <label>VMMC Enrollment Facility</label>
         <item>
           <label>1. Chitungwiza-Seke North clinic</label>
           <value>seke_north</value>
@@ -137,15 +138,15 @@
           <value>seke_south</value>
         </item>
         <item>
-          <label>3. Chitungwiza-City Med hospital</label>
+          <label>3. City Med hospital</label>
           <value>city_med</value>
         </item>
         <item>
-          <label>4. Chitungwiza-Zengeza Clinic</label>
+          <label>4. Zengeza Clinic</label>
           <value>zengeza</value>
         </item>
         <item>
-          <label>5. Chitungwiza-Chitungwiza Central Hospital</label>
+          <label>5. Chitungwiza Central Hospital</label>
           <value>chitungwiza_central</value>
         </item>
         <item>
@@ -153,24 +154,68 @@
           <value>chegutu_norton</value>
         </item>
         <item>
-          <label>7. Chegutu- District Hospital</label>
+          <label>7. Chegutu District Hospital</label>
           <value>chegutu_district</value>
         </item>
         <item>
-          <label>8. Chegutu- Monera clinic (Norton Outreach)</label>
+          <label>8. Monera clinic(Norton Outreach)</label>
           <value>monera</value>
         </item>
         <item>
-          <label>9. Marondera- Marondera District Hospital</label>
+          <label>9. Marondera District Hospital</label>
           <value>marondera</value>
         </item>
         <item>
-          <label>10. Marondera- Mahusekwa Hospital</label>
+          <label>10. Mahusekwa Hospital</label>
           <value>mahusekwa</value>
         </item>
         <item>
-          <label>11. Other</label>
-          <value>other</value>
+          <label>11. Goromonzi-Makumbe Mission Hospital</label>
+          <value>makumbe</value>
+        </item>
+        <item>
+          <label>12. Goromonzi-Ruwa Rehab Hospital</label>
+          <value>ruwa</value>
+        </item>
+        <item>
+          <label>13. Sanyati-Kadoma Hospital</label>
+          <value>kadoma</value>
+        </item>
+        <item>
+          <label>14. Sanyati-Kadoma Hospital</label>
+          <value>kadoma</value>
+        </item>
+        <item>
+          <label>15. Sanyati-Kadoma Hospital</label>
+          <value>kadoma</value>
+        </item>
+        <item>
+          <label>16. Zaka-Ndanga District Hospital</label>
+          <value>ndanga</value>
+        </item>
+        <item>
+          <label>17. Zaka-Musiso Mission Hospital</label>
+          <value>musiso</value>
+        </item>
+        <item>
+          <label>18. Mberengwa-Musiso Mission Hospital</label>
+          <value>musiso</value>
+        </item>
+        <item>
+          <label>19. Mberengwa-Mnene Mission Hospital</label>
+          <value>musiso</value>
+        </item>
+        <item>
+          <label>20. Mberengwa-Musume Mission Hospital</label>
+          <value>musiso</value>
+        </item>
+        <item>
+          <label>20. Mberengwa-Mberengwa District Hospital</label>
+          <value>musiso</value>
+        </item>
+        <item>
+          <label>20. Mberengwa-Mberengwa District Hospital</label>
+          <value>musiso</value>
         </item>
       </select1>
       <input ref="/enroll/person/enrollment_facility_other">
