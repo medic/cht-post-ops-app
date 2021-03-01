@@ -448,13 +448,13 @@
         "auth": {
           "type": "header",
           "name": "Authorization",
-          "value_key": "textit.in"
+          "value_key": "medic-cred"
         },
         "path": "/api/v2/flow_starts.json"
       },
       "mapping": {
         "flow": {
-          "expr": "'a4c1f171-24f9-427b-aafe-4dbf1f85857b'"
+          "expr": "'590a21ba-54e3-4b24-8fd9-0b489ee42f23'"
         },
         "urns": {
           "expr": "[ 'tel:' + doc.fields.phone ]",
@@ -485,13 +485,13 @@
         "auth": {
           "type": "header",
           "name": "Authorization",
-          "value_key": "textit.in"
+          "value_key": "medic-cred"
         },
         "path": "/api/v2/flow_starts.json"
       },
       "mapping": {
         "flow": {
-          "expr": "'1cd8f9d5-e16c-4e7c-a5a6-6220d71a8a29'"
+          "expr": "'a11186b3-c5af-4c54-9cff-2aa339cdd7c3'"
         },
         "urns": {
           "expr": "[ 'tel:' + doc.tasks[0].messages[0].to ]",
@@ -506,13 +506,13 @@
         "auth": {
           "type": "header",
           "name": "Authorization",
-          "value_key": "textit.in"
+          "value_key": "medic-cred"
         },
         "path": "/api/v2/flow_starts.json"
       },
       "mapping": {
         "flow": {
-          "expr": "'58c34f10-a856-486f-8994-883bd7fdd28c'"
+          "expr": "'28c49b87-4d54-4730-858d-ba695f02ba76'"
         },
         "urns": {
           "expr": "[ 'tel:' + doc.fields.phone ]",
@@ -527,13 +527,13 @@
         "auth": {
           "type": "header",
           "name": "Authorization",
-          "value_key": "textit.in"
+          "value_key": "medic-cred"
         },
         "path": "/api/v2/flow_starts.json"
       },
       "mapping": {
         "flow": {
-          "expr": "'2920d430-589f-4973-96d9-2a58f8eaea95'"
+          "expr": "'00bc3d8b-2aa2-4256-a7a2-85f33c0bea60'"
         },
         "urns": {
           "expr": "[ 'tel:' + doc.fields.phone ]",
