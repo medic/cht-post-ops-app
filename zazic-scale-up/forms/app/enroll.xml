@@ -138,15 +138,15 @@
           <value>seke_south</value>
         </item>
         <item>
-          <label>3. City Med hospital</label>
+          <label>3. Chitungwiza-City Med hospital</label>
           <value>city_med</value>
         </item>
         <item>
-          <label>4. Zengeza Clinic</label>
+          <label>4. Chitungwiza-Zengeza Clinic</label>
           <value>zengeza</value>
         </item>
         <item>
-          <label>5. Chitungwiza Central Hospital</label>
+          <label>5. Chitungwiza-Chitungwiza Central Hospital</label>
           <value>chitungwiza_central</value>
         </item>
         <item>
@@ -154,19 +154,19 @@
           <value>chegutu_norton</value>
         </item>
         <item>
-          <label>7. Chegutu District Hospital</label>
+          <label>7. Chegutu- District Hospital</label>
           <value>chegutu_district</value>
         </item>
         <item>
-          <label>8. Monera clinic(Norton Outreach)</label>
+          <label>8. Chegutu- Monera clinic (Norton Outreach)</label>
           <value>monera</value>
         </item>
         <item>
-          <label>9. Marondera District Hospital</label>
+          <label>9. Marondera- Marondera District Hospital</label>
           <value>marondera</value>
         </item>
         <item>
-          <label>10. Mahusekwa Hospital</label>
+          <label>10. Marondera- Mahusekwa Hospital</label>
           <value>mahusekwa</value>
         </item>
         <item>
