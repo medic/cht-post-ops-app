@@ -30,7 +30,7 @@
             <symptoms_other/>
             <additional_notes/>
           </n>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </r>

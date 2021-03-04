@@ -11,7 +11,7 @@
             <name/>
             <is_nurse>TRUE</is_nurse>
           </nurse>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </data>

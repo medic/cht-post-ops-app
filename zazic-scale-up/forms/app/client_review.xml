@@ -170,7 +170,7 @@
             <value>chegutu_district</value>
           </item>
           <item>
-            <label>8. Chegutu- Monera clinic (Norton Outreach)</label>
+            <label>8. Chegutu-Monera clinic(Norton Outreach)</label>
             <value>monera</value>
           </item>
           <item>
@@ -182,7 +182,43 @@
             <value>mahusekwa</value>
           </item>
           <item>
-            <label>11. Other</label>
+            <label>11. Goromonzi-Makumbe Mission Hospital</label>
+            <value>makumbe</value>
+          </item>
+          <item>
+            <label>12. Goromonzi-Ruwa Rehab Hospital</label>
+            <value>ruwa</value>
+          </item>
+          <item>
+            <label>13. Sanyati-Kadoma Hospital</label>
+            <value>kadoma</value>
+          </item>
+          <item>
+            <label>14. Zaka-Ndanga District Hospital</label>
+            <value>ndanga</value>
+          </item>
+          <item>
+            <label>15. Zaka-Musiso Mission Hospital</label>
+            <value>musiso</value>
+          </item>
+          <item>
+            <label>16. Mberengwa-Mnene Mission Hospital</label>
+            <value>mnene</value>
+          </item>
+          <item>
+            <label>17. Mberengwa-Musume Mission Hospital</label>
+            <value>musume</value>
+          </item>
+          <item>
+            <label>18. Mberengwa-Mberengwa District Hospital</label>
+            <value>mberengwa</value>
+          </item>
+          <item>
+            <label>19. Masase Mission Hospital</label>
+            <value>masase</value>
+          </item>
+          <item>
+            <label>20. Other</label>
             <value>other</value>
           </item>
         </select1>
