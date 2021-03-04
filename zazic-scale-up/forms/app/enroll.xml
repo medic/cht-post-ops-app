@@ -126,7 +126,7 @@
       <input ref="/enroll/person/name">
         <label>VMMC Client Name</label>
       </input>
-      <select1 ref="/enroll/person/enrollment_facility">
+      <select1 appearance="minimal" ref="/enroll/person/enrollment_facility">
         <label>VMMC Enrollment Facility</label>
         <item>
           <label>1. Chitungwiza-Seke North clinic</label>
