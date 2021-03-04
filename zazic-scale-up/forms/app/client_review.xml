@@ -139,7 +139,7 @@
       </select1>
       <group ref="/r/n/return_client">
         <label></label>
-        <select1 ref="/r/n/return_client/clinic_name">
+        <select1 appearance="minimal" ref="/r/n/return_client/clinic_name">
           <label>Which clinic?</label>
           <item>
             <label>1. Chitungwiza-Seke North clinic</label>
