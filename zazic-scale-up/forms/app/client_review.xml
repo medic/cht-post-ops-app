@@ -141,7 +141,6 @@
         <label></label>
         <select1 ref="/r/n/return_client/clinic_name">
           <label>Which clinic?</label>
-          <label>VMMC Enrollment Facility</label>
           <item>
             <label>1. Chitungwiza-Seke North clinic</label>
             <value>seke_north</value>
@@ -215,7 +214,7 @@
             <value>mberengwa</value>
           </item>
           <item>
-            <label>19. Mberengwa-Masase Mission Hospital</label>
+            <label>19. Masase Mission Hospital</label>
             <value>masase</value>
           </item>
           <item>

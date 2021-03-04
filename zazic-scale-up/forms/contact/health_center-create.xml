@@ -6,7 +6,7 @@
       <instance>
         <data delimiter="#" id="contact:health_center:create" prefix="J1!contact:health_center:create!" version="2018-10-11  12-08">
           <i/>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </data>

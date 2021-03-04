@@ -19,7 +19,7 @@
             <language_preference/>
             <enrollment_nurse/>
           </person>
-          <meta>
+          <meta tag="hidden">
             <instanceID/>
           </meta>
         </data>
@@ -127,7 +127,7 @@
           <value>mberengwa</value>
         </item>
         <item>
-          <label>19. Mberengwa-Masase Mission Hospital</label>
+          <label>19. Masase Mission Hospital</label>
           <value>masase</value>
         </item>
       </select1>
