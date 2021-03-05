@@ -181,31 +181,35 @@
           <value>kadoma</value>
         </item>
         <item>
-          <label>14. Zaka-Ndanga District Hospital</label>
+          <label>14. Sanyati-Kadoma City</label>
+          <value>kadoma_city</value>
+        </item>
+        <item>
+          <label>15. Zaka-Ndanga District Hospital</label>
           <value>ndanga</value>
         </item>
         <item>
-          <label>15. Zaka-Musiso Mission Hospital</label>
+          <label>16. Zaka-Musiso Mission Hospital</label>
           <value>musiso</value>
         </item>
         <item>
-          <label>16. Mberengwa-Mnene Mission Hospital</label>
+          <label>17. Mberengwa-Mnene Mission Hospital</label>
           <value>mnene</value>
         </item>
         <item>
-          <label>17. Mberengwa-Musume Mission Hospital</label>
+          <label>18. Mberengwa-Musume Mission Hospital</label>
           <value>musume</value>
         </item>
         <item>
-          <label>18. Mberengwa-Mberengwa District Hospital</label>
+          <label>19. Mberengwa-Mberengwa District Hospital</label>
           <value>mberengwa</value>
         </item>
         <item>
-          <label>19. Masase Mission Hospital</label>
+          <label>20. Mberengwa-Masase Mission Hospital</label>
           <value>masase</value>
         </item>
         <item>
-          <label>20. Other</label>
+          <label>21. Other</label>
           <value>other</value>
         </item>
       </select1>
