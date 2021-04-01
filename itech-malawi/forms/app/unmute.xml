@@ -25,8 +25,10 @@
           <patient_name/>
           <phone/>
           <patient_id tag="hidden"/>
-          <confirm/>
-          <reason/>
+          <n>
+            <message_to_resume/>
+            <comment/>
+          </n>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -42,8 +44,8 @@
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
-      <bind nodeset="/r/confirm" type="select" required="true()"/>
-      <bind nodeset="/r/reason" type="string" relevant="selected(../confirm, 'yes')"/>
+      <bind nodeset="/r/n/message_to_resume" type="select" required="true()"/>
+      <bind nodeset="/r/n/comment" type="string"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -64,15 +66,22 @@
         </input>
       </group>
     </group>
-    <select ref="/r/confirm">
-      <label>Check below if you are sure that you want to resume sending automatic messages to <output value=" /r/patient_name "/>.</label>
-      <item>
-        <label>Yes</label>
-        <value>yes</value>
-      </item>
-    </select>
-    <input ref="/r/reason">
-      <label>Please explain why you want to unmute this contact.</label>
-    </input>
+    <group ref="/r/n">
+      <label>Complete this form to stop sending of messages to clients.</label>
+      <select ref="/r/n/message_to_resume">
+        <label>Which messages does <output value=" /r/patient_name "/> wish to continue receiving? Select all that apply</label>
+        <item>
+          <label>Motivational messages</label>
+          <value>motivational_messages</value>
+        </item>
+        <item>
+          <label>Visit Reminders</label>
+          <value>visit_reminder</value>
+        </item>
+      </select>
+      <input ref="/r/n/comment">
+        <label>Comments</label>
+      </input>
+    </group>
   </h:body>
 </h:html>

@@ -25,8 +25,11 @@
           <patient_name/>
           <phone/>
           <patient_id tag="hidden"/>
-          <confirm/>
-          <reason/>
+          <message>
+            <message_to_stop/>
+          </message>
+          <reasons/>
+          <explain/>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -42,8 +45,9 @@
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
-      <bind nodeset="/r/confirm" type="select" required="true()"/>
-      <bind nodeset="/r/reason" type="string" relevant="selected(../confirm, 'yes')"/>
+      <bind nodeset="/r/message/message_to_stop" type="select" required="true()"/>
+      <bind nodeset="/r/reasons" type="select" required="true()"/>
+      <bind nodeset="/r/explain" type="string"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -64,15 +68,57 @@
         </input>
       </group>
     </group>
-    <select ref="/r/confirm">
-      <label>Check below if you are sure that you want to stop sending automatic messages to <output value=" /r/patient_name "/>.</label>
+    <group ref="/r/message">
+      <label>Complete this form to stop sending message to client</label>
+      <select ref="/r/message/message_to_stop">
+        <label>Which messages does <output value=" /r/patient_name "/> wish to stop receiving?</label>
+        <item>
+          <label>Motivation Messages</label>
+          <value>motivation_messages</value>
+        </item>
+        <item>
+          <label>Visit Reminders</label>
+          <value>visit_reminders</value>
+        </item>
+      </select>
+    </group>
+    <select ref="/r/reasons">
+      <label>Why does <output value=" /r/patient_name "/> wish to stop receiving the messages? Select all that apply</label>
       <item>
-        <label>Yes</label>
-        <value>yes</value>
+        <label>Patient says the messages are too many</label>
+        <value>too_many_messages</value>
+      </item>
+      <item>
+        <label>Patient does not wish to continue participating in the study</label>
+        <value>discontinue_study</value>
+      </item>
+      <item>
+        <label>Patient has raised confidentiality concerns</label>
+        <value>confidentiality_concerns</value>
+      </item>
+      <item>
+        <label>Patient no longer has access to a mobile device</label>
+        <value>no_mobile_device</value>
+      </item>
+      <item>
+        <label>Patient has moved to another location/district</label>
+        <value>relocations</value>
+      </item>
+      <item>
+        <label>Patient died</label>
+        <value>death</value>
+      </item>
+      <item>
+        <label>Cannot find or contact patient</label>
+        <value>no_contact</value>
+      </item>
+      <item>
+        <label>Other</label>
+        <value>other</value>
       </item>
     </select>
-    <input ref="/r/reason">
-      <label>Please explain why you want to mute this contact.</label>
+    <input ref="/r/explain">
+      <label>Please Explain</label>
     </input>
   </h:body>
 </h:html>
