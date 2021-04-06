@@ -346,84 +346,6 @@
       "items": []
     }
   },
-  "forms": {
-    "0": {
-      "meta": {
-        "label": {
-          "en": "No AE Experienced"
-        },
-        "code": "0"
-      },
-      "fields": {
-        "patient_name": {
-          "labels": {
-            "tiny": {
-              "en": "patient_name"
-            },
-            "description": {
-              "en": "Patient name"
-            },
-            "short": {
-              "en": "Patient name"
-            }
-          },
-          "position": 0,
-          "type": "string",
-          "required": false
-        }
-      },
-      "use_sentinel": true
-    },
-    "1": {
-      "meta": {
-        "label": {
-          "en": "Suspected AE Reported"
-        },
-        "code": "1",
-        "icon": "risk"
-      },
-      "fields": {
-        "patient_name": {
-          "labels": {
-            "tiny": {
-              "en": "patient_name"
-            },
-            "description": {
-              "en": "Patient name"
-            },
-            "short": {
-              "en": "Patient name"
-            }
-          },
-          "position": 0,
-          "type": "string",
-          "required": false
-        }
-      }
-    },
-    "N": {
-      "meta": {
-        "label": {
-          "en": "Does NOT recommend MC",
-          "icon": "not-recommend"
-        },
-        "code": "N"
-      },
-      "fields": {},
-      "use_sentinel": true
-    },
-    "Y": {
-      "meta": {
-        "label": {
-          "en": "Recommends MC"
-        },
-        "code": "Y",
-        "icon": "recommend"
-      },
-      "fields": {},
-      "use_sentinel": true
-    }
-  },
   "transitions": {
     "default_responses": false,
     "update_clinics": true,
@@ -441,115 +363,126 @@
     "self_report": true
   },
   "outbound": {
-    "textit-scheduled-msg": {
-      "relevant_to": "doc.type === 'data_record' && doc.form === 'enroll'",
+    "report triggers patient-state-change workflow": {
+      "relevant_to": "doc.type === 'data_record' && doc.fields && doc.fields.rapidpro",
       "destination": {
-        "base_url": "https://textit.in",
+        "base_url": "https://rapidpro.app.medicmobile.org",
         "auth": {
           "type": "header",
           "name": "Authorization",
-          "value_key": "medic-cred"
+          "value_key": "rapidpro.app"
         },
         "path": "/api/v2/flow_starts.json"
       },
       "mapping": {
         "flow": {
-          "expr": "'590a21ba-54e3-4b24-8fd9-0b489ee42f23'"
+          "expr": "'6eca00f4-a371-49dc-9ce5-33750a88a3aa'"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.fields.phone ]",
+          "expr": "['tel:' + doc.fields.phone]"
+        },
+        "extra.patient_id": {
+          "expr": "doc.fields.patient_uuid",
           "optional": false
+        },
+        "extra.optout": {
+          "expr": "doc.rapidpro.optout",
+          "optional": true
         },
         "extra.language": {
-          "expr": "doc.fields.language_preference",
-          "optional": false
+          "expr": "doc.rapidpro.language",
+          "optional": true
         },
-        "extra.date": {
-          "expr": "doc.reported_date/1000",
-          "optional": false
+        "extra.reminders": {
+          "expr": "doc.rapidpro.reminders",
+          "optional": true
         },
-        "extra.name": {
-          "expr": "doc.fields.patient_name",
-          "optional": false
+        "extra.adherence": {
+          "expr": "doc.rapidpro.adherence",
+          "optional": true
         },
-        "extra.group": {
-          "expr": "doc.fields.randomization",
-          "optional": false
+        "extra.visit_date": {
+          "expr": "doc.rapidpro.visit_date",
+          "optional": true
         }
       }
     },
-    "textit-gateway": {
-      "relevant_to": "doc.type === 'data_record' && doc.tasks && doc.tasks[0] && doc.tasks[0].state && doc.tasks[0].state === 'pending'",
+    "patient triggers patient-state-change workflow": {
+      "relevant_to": "doc.type === 'person' && doc.rapidpro",
       "destination": {
-        "base_url": "https://textit.in",
+        "base_url": "https://rapidpro.app.medicmobile.org",
         "auth": {
           "type": "header",
           "name": "Authorization",
-          "value_key": "medic-cred"
+          "value_key": "rapidpro.app"
         },
         "path": "/api/v2/flow_starts.json"
       },
       "mapping": {
         "flow": {
-          "expr": "'a11186b3-c5af-4c54-9cff-2aa339cdd7c3'"
+          "expr": "'6eca00f4-a371-49dc-9ce5-33750a88a3aa'"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.tasks[0].messages[0].to ]",
+          "expr": "['tel:' + doc.fields.phone]"
+        },
+        "extra.patient_id": {
+          "expr": "doc._id",
           "optional": false
-        }
-      }
-    },
-    "textit-muting": {
-      "relevant_to": "doc.type === 'data_record' && doc.form === 'mute'",
-      "destination": {
-        "base_url": "https://textit.in",
-        "auth": {
-          "type": "header",
-          "name": "Authorization",
-          "value_key": "medic-cred"
         },
-        "path": "/api/v2/flow_starts.json"
-      },
-      "mapping": {
-        "flow": {
-          "expr": "'28c49b87-4d54-4730-858d-ba695f02ba76'"
+        "extra.optout": {
+          "expr": "doc.rapidpro.optout",
+          "optional": true
         },
-        "urns": {
-          "expr": "[ 'tel:' + doc.fields.phone ]",
-          "optional": false
-        }
-      }
-    },
-    "textit-unmuting": {
-      "relevant_to": "doc.type === 'data_record' && doc.form === 'unmute'",
-      "destination": {
-        "base_url": "https://textit.in",
-        "auth": {
-          "type": "header",
-          "name": "Authorization",
-          "value_key": "medic-cred"
+        "extra.language": {
+          "expr": "doc.rapidpro.language",
+          "optional": true
         },
-        "path": "/api/v2/flow_starts.json"
-      },
-      "mapping": {
-        "flow": {
-          "expr": "'00bc3d8b-2aa2-4256-a7a2-85f33c0bea60'"
+        "extra.reminders": {
+          "expr": "doc.rapidpro.reminders",
+          "optional": true
         },
-        "urns": {
-          "expr": "[ 'tel:' + doc.fields.phone ]",
-          "optional": false
+        "extra.adherence": {
+          "expr": "doc.rapidpro.adherence",
+          "optional": true
+        },
+        "extra.visit_date": {
+          "expr": "doc.rapidpro.visit_date",
+          "optional": true
         }
       }
     }
   },
-  "self_report": [
-    {
-      "form": "0",
-      "messages": []
-    },
-    {
-      "form": "1",
-      "messages": []
+  "forms": {
+    "2WT-SMS-REPORT": {
+      "meta": {
+        "code": "2WT-SMS-REPORT",
+        "translation_key": "form.2wt_sms_report.title"
+      },
+      "fields": {
+        "patient_uuid": {
+          "labels": {
+            "short": {
+              "translation_key": "form.2wt_sms_report.patient_id.short"
+            },
+            "tiny": "form.2wt_sms_report.patient_id.tiny"
+          },
+          "position": 0,
+          "type": "string",
+          "required": true
+        },
+        "payload": {
+          "labels": {
+            "short": {
+              "translation_key": "form.2wt_sms_report.payload.short"
+            },
+            "tiny": "form.2wt_sms_report.payload.tiny"
+          },
+          "position": 1,
+          "type": "casting",
+          "required": false
+        }
+      },
+      "public_form": true
     }
   ],
   "_version": "3.9.0",
