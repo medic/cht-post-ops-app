@@ -182,6 +182,56 @@ module.exports = [
       start: 0,
       end: 365
     }]
-  }
+  },
 
+  {
+    name: 'next-day-reminder_day14-no-contact',
+    icon: 'off',
+    title: 'task.next-day-reminder_day14-no-contact',
+    appliesTo: 'reports',
+    appliesToType: ['day14_no_contact'],
+    appliesIf: (contact, report) => {
+      return Utils.getMostRecentReport(contact.reports, 'day14_no_contact') === report && Utils.getField(report, 'n.client_ok') === 'remind_me';
+    },
+    actions: [{
+      form: 'day14_no_contact',
+      label: 'No Contact until day 14',
+      modifyContent: function (content) {
+        content.is_task = true;
+      }
+    }],
+    events: [{
+      days: 1,
+      start: 0,
+      end: 14
+    }],
+    resolvedIf: (contact, report) => {
+      return Utils.getMostRecentReport(contact.reports, 'day14_no_contact') === report && Utils.getField(report, 'n.client_ok') === 'yes';
+    }
+  },
+  {
+    name: 'next-day-reminder_day14-patient-transferred',
+    icon: 'off',
+    title: 'task.next-day-reminder_patient-transferred',
+    appliesTo: 'reports',
+    appliesToType: ['patient_transferred'],
+    appliesIf: (contact, report) => {
+      return Utils.getMostRecentReport(contact.reports, 'patient_transferred') === report && Utils.getField(report, 'n.client_ok') === 'remind_me';
+    },
+    actions: [{
+      form: 'patient_transferred',
+      label: 'Patient transferred',
+      modifyContent: function (content) {
+        content.is_task = true;
+      }
+    }],
+    events: [{
+      days: 1,
+      start: 0,
+      end: 14
+    }],
+    resolvedIf: (contact, report) => {
+      return Utils.getMostRecentReport(contact.reports, 'patient_transferred') === report && Utils.getField(report, 'n.client_ok') === 'yes';
+    }
+  }
 ];

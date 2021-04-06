@@ -35,35 +35,6 @@ module.exports = {
     ]
   },
 
-  potential_ae: {
-    day5_pain_called: [
-      [],
-      ['5'],
-      ['pain'],
-      ['phone'],
-      ['phone'],
-      ['yes'],
-      ['moderate'],
-      ['test'],
-      ['yes']
-
-    ],
-
-    day5_pain_not_called: [
-      [],
-      ['5'],
-      ['pain'],
-      ['phone'],
-      ['phone'],
-      ['yes'],
-      ['moderate'],
-      ['test'],
-      ['no'],
-      ['test']
-
-    ]
-  },
-
   referral_confirmation: {
     returned: [
       [],
@@ -73,9 +44,9 @@ module.exports = {
   },
 
   no_contact: {
-    ok: [
-      ['yes'],
-      ['test']
+    remind: [
+      ['remind_me']
     ]
   }
+  
 }

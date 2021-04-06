@@ -1,1 +1,1 @@
-### ITECH Aurum Project config
+### ITECH Malawi Project config

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
-    <h:title>Follow up for no contact: Day 14</h:title>
+    <h:title>Patient Transferred</h:title>
     <model>
       <instance>
-        <r id="day14_no_contact" prefix="J1!day14_no_contact!" delimiter="#" version="2020-03-06 00:00:00">
+        <r id="patient_transferred" prefix="J1!patient_transferred!" delimiter="#" version="17/3/2021 12:00:00 AM">
           <inputs>
             <meta>
               <location>
@@ -77,7 +77,7 @@
     <group appearance="field-list" ref="/r/n">
       <label></label>
       <input ref="/r/n/n_header">
-        <label>&lt;h4 style="color: #337ab7;"&gt;&lt;p&gt;Patient missed their appointment visit. Notify the back to care team. Complete this form after you have notified the back to care team.&lt;/p&gt;&lt;/h4&gt;</label>
+        <label>&lt;h4 style="color: #337ab7;"&gt;&lt;p&gt;Complete form if patient transferred clinic. Please note that the patient will no longer receive study messages when you submit this form.&lt;/p&gt;&lt;/h4&gt;</label>
       </input>
       <select1 ref="/r/n/client_ok">
         <label>Have you notified the back to care team?</label>
