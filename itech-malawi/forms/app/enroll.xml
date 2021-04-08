@@ -31,7 +31,6 @@
           <place_id tag="hidden"/>
           <phone/>
           <language_preference/>
-          <randomization/>
           <ctx/>
           <editing/>
           <forbid>
@@ -47,25 +46,22 @@
             </parent>
             <type/>
             <role/>
+            <rapidpro>
+              <optout/>
+              <language/>
+              <reminder/>
+              <adherence/>
+              <visit_date/>
+            </rapidpro>
+            <first_name/>
+            <surname/>
             <name/>
-            <vmmc_no/>
-            <study_no/>
-            <n_study/>
+            <mpc_no/>
+            <arv_no/>
             <consent/>
-            <randomization/>
             <phone/>
-            <confirm/>
+            <alt_phone/>
             <language_preference/>
-            <mobile_company/>
-            <mobile_other/>
-            <transport_cost/>
-            <clinic_trip>
-              <hours/>
-              <minutes/>
-            </clinic_trip>
-            <food_cost/>
-            <wage_period/>
-            <wage_amount/>
           </person>
           <meta tag="hidden">
             <instanceID/>
@@ -81,12 +77,11 @@
       <bind nodeset="/enroll/inputs/contact/name" type="string"/>
       <bind nodeset="/enroll/inputs/contact/phone" type="string"/>
       <bind nodeset="/enroll/inputs/contact/parent/_id" type="string"/>
-      <bind nodeset="/enroll/patient_name" type="string" calculate="../person/name"/>
+      <bind nodeset="/enroll/patient_name" type="string" calculate="concat(../person/first_name, ' ', ../person/surname)"/>
       <bind nodeset="/enroll/patient_uuid" type="string" calculate="person"/>
       <bind nodeset="/enroll/place_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/enroll/phone" type="string" calculate="../person/phone"/>
       <bind nodeset="/enroll/language_preference" type="string" calculate="../person/language_preference"/>
-      <bind nodeset="/enroll/randomization" type="string" calculate="../person/randomization"/>
       <bind nodeset="/enroll/ctx" type="string" calculate="instance('contact-summary')/context/isContact"/>
       <bind nodeset="/enroll/editing" type="string" calculate="if( /enroll/ctx  = 'yes', 'no', 'yes')"/>
       <bind nodeset="/enroll/forbid" relevant="../editing = 'yes'"/>
@@ -96,23 +91,20 @@
       <bind nodeset="/enroll/person/parent/parent/_id" type="string" calculate="../../../../inputs/contact/parent/_id"/>
       <bind nodeset="/enroll/person/type" type="string" calculate="&quot;person&quot;"/>
       <bind nodeset="/enroll/person/role" type="string" calculate="&quot;patient&quot;"/>
-      <bind nodeset="/enroll/person/name" type="string" jr:constraintMsg="Please enter valid VMMC client name" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
-      <bind nodeset="/enroll/person/vmmc_no" type="string" jr:constraintMsg="Please enter valid VMMC client number" constraint="regex(., '^[A-Za-z0-9]{1,7}$')" required="true()"/>
-      <bind nodeset="/enroll/person/study_no" type="string" jr:constraintMsg="Please enter valid 2wT study number" constraint="regex(., '^[0-9]{4}$')" required="true()"/>
-      <bind nodeset="/enroll/person/n_study" readonly="true()" type="string"/>
-      <bind nodeset="/enroll/person/consent" type="select1" jr:requiredMsg="Please confirm consent" required="true()"/>
-      <bind nodeset="/enroll/person/randomization" type="select1" required="true()"/>
-      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+27[0-9]{9}$') or selected( /enroll/person/confirm , 'yes')" required="true()"/>
-      <bind nodeset="/enroll/person/confirm" type="select"/>
+      <bind nodeset="/enroll/person/rapidpro/optout" type="string" calculate="false()"/>
+      <bind nodeset="/enroll/person/rapidpro/language" type="string" calculate="../language_preference"/>
+      <bind nodeset="/enroll/person/rapidpro/reminder" type="string" calculate="true()"/>
+      <bind nodeset="/enroll/person/rapidpro/adherence" type="string" calculate="true()"/>
+      <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="now()"/>
+      <bind nodeset="/enroll/person/first_name" type="string" required="true()"/>
+      <bind nodeset="/enroll/person/surname" type="string" required="true()"/>
+      <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
+      <bind nodeset="/enroll/person/mpc_no" type="string" required="true()" constraint="regex(., '^[A-Za-z0-9]{1,7}$')"/>
+      <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
+      <bind nodeset="/enroll/person/consent" type="select1" required="true()" jr:requiredMsg="Please confirm consent"/>
+      <bind nodeset="/enroll/person/phone" type="string" required="true()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+26[0-9]{9}$')"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" required="false()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+26[0-9]{9}$')"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
-      <bind nodeset="/enroll/person/mobile_company" type="select1" required="true()"/>
-      <bind nodeset="/enroll/person/mobile_other" type="string" relevant="selected(../mobile_company, 'other')" required="false()"/>
-      <bind nodeset="/enroll/person/transport_cost" type="int" jr:constraintMsg="Must be greater than or equal to 0" constraint=". &gt;= 0" required="true()"/>
-      <bind nodeset="/enroll/person/clinic_trip/hours" type="int" constraint=". &gt;= 0" jr:constraintMsg="Must be greater than or equal to 0"/>
-      <bind nodeset="/enroll/person/clinic_trip/minutes" type="int" constraint=". &gt;= 0 and . &lt; 60" jr:constraintMsg="Must be between 0 and 59"/>
-      <bind nodeset="/enroll/person/food_cost" type="int" jr:constraintMsg="Please enter a valid amount" constraint=". &gt;= 0" required="true()"/>
-      <bind nodeset="/enroll/person/wage_period" type="select1" jr:requiredMsg="Please select a wage period" required="true()"/>
-      <bind nodeset="/enroll/person/wage_amount" type="int" jr:constraintMsg="Please enter a valid amount" relevant=" /enroll/person/wage_period  = 'daily' or  /enroll/person/wage_period  = 'monthly'" constraint=". &gt;= 0" required="true()"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -165,22 +157,28 @@
           <label></label>
         </group>
       </group>
-      <input ref="/enroll/person/name">
-        <label>Client Name</label>
+      <group appearance="hidden" ref="/enroll/person/rapidpro">
+        <input ref="/enroll/person/rapidpro/optout"/>
+        <input ref="/enroll/person/rapidpro/language"/>
+        <input ref="/enroll/person/rapidpro/reminder"/>
+        <input ref="/enroll/person/rapidpro/adherence"/>
+        <input ref="/enroll/person/rapidpro/visit_date"/>
+      </group>
+      <input ref="/enroll/person/first_name">
+        <label>First name</label>
       </input>
-      <input appearance="number" ref="/enroll/person/vmmc_no">
-        <label>VMMC Client No.</label>
-        <hint>e.g. WM0000</hint>
+      <input ref="/enroll/person/surname">
+        <label>Surname</label>
       </input>
-      <input appearance="number" ref="/enroll/person/study_no">
-        <label>2WT Study Number</label>
-        <hint>e.g. 0001</hint>
+      <input appearance="number" ref="/enroll/person/mpc_no">
+        <label>MPC Patient ID</label>
+        <hint>The Patient ID should be in P1700.. format</hint>
       </input>
-      <input ref="/enroll/person/n_study">
-        <label>Study coordinator to administer the following questions</label>
+      <input ref="/enroll/person/arv_no">
+        <label>ARV number</label>
       </input>
       <select1 ref="/enroll/person/consent">
-        <label>Confirmation of consent</label>
+        <label>Does the patient consent to participate in the study?</label>
         <item>
           <label>Yes</label>
           <value>yes</value>
@@ -190,28 +188,14 @@
           <value>no</value>
         </item>
       </select1>
-      <select1 ref="/enroll/person/randomization">
-        <label>Result of randomization</label>
-        <item>
-          <label>Texting</label>
-          <value>texting</value>
-        </item>
-        <item>
-          <label>Routine care</label>
-          <value>routine</value>
-        </item>
-      </select1>
       <input appearance="number" ref="/enroll/person/phone">
-        <label>Mobile phone number</label>
-        <hint>Should start with the country code +27xxxxxxxxx</hint>
+        <label>Client's Mobile phone number</label>
+        <hint>Should start with the country code +265 followed by Nine digits</hint>
       </input>
-      <select ref="/enroll/person/confirm">
-        <label></label>
-        <item>
-          <label>If you need to test by entering a non-RSA number, check this and you will be able to enter any phone number (no check)</label>
-          <value>yes</value>
-        </item>
-      </select>
+      <input appearance="number" ref="/enroll/person/alt_phone">
+        <label>Alternative/Next of Kin's Mobile Number</label>
+        <hint>Should start with the country code +265 followed by Nine digits</hint>
+      </input>
       <select1 ref="/enroll/person/language_preference">
         <label>What is this client's language of preference for the texts?</label>
         <item>
@@ -219,78 +203,10 @@
           <value>english</value>
         </item>
         <item>
-          <label>isiZulu</label>
-          <value>isizulu</value>
-        </item>
-        <item>
-          <label>Setswana</label>
-          <value>setswana</value>
+          <label>Chichewa</label>
+          <value>chichewa</value>
         </item>
       </select1>
-      <select1 ref="/enroll/person/mobile_company">
-        <label>What is your cell phone company?</label>
-        <item>
-          <label>MTN</label>
-          <value>mtn</value>
-        </item>
-        <item>
-          <label>Vodacom</label>
-          <value>vodacom</value>
-        </item>
-        <item>
-          <label>Cell C</label>
-          <value>cellc</value>
-        </item>
-        <item>
-          <label>Telcom</label>
-          <value>telcom</value>
-        </item>
-        <item>
-          <label>Other</label>
-          <value>other</value>
-        </item>
-      </select1>
-      <input ref="/enroll/person/mobile_other">
-        <label>Please enter your cell phone company</label>
-      </input>
-      <input ref="/enroll/person/transport_cost">
-        <label>How much did you pay in transportation to come to the clinic?</label>
-        <hint>This should be in Rands i.e. ZAR</hint>
-      </input>
-      <group appearance="field-list" ref="/enroll/person/clinic_trip">
-        <label>How long did it take you to get to the clinic?</label>
-        <input ref="/enroll/person/clinic_trip/hours">
-          <label>Hours</label>
-        </input>
-        <input ref="/enroll/person/clinic_trip/minutes">
-          <label>Minutes</label>
-        </input>
-      </group>
-      <input ref="/enroll/person/food_cost">
-        <label>How much did you spend on food and drink as a part of this visit (in ZAR)?</label>
-      </input>
-      <select1 ref="/enroll/person/wage_period">
-        <label>Wage period</label>
-        <item>
-          <label>Daily</label>
-          <value>daily</value>
-        </item>
-        <item>
-          <label>Weekly</label>
-          <value>weekly</value>
-        </item>
-        <item>
-          <label>Monthly</label>
-          <value>monthly</value>
-        </item>
-        <item>
-          <label>None</label>
-          <value>none</value>
-        </item>
-      </select1>
-      <input ref="/enroll/person/wage_amount">
-        <label>Wage amount (ZAR)</label>
-      </input>
     </group>
   </h:body>
 </h:html>

@@ -8,7 +8,6 @@ const context = {
     isContact: 'yes'
 };
 
-
 const fields = [
     { appliesToType: ['person'], label: 'person.field.phone', value: thisContact.phone, width: 6, filter: 'phone' },
     { appliesToType: ['person', 'nurse'], label: 'contact.parent', value: thisLineage, filter: 'lineage' },
@@ -21,18 +20,17 @@ const fields = [
 
 const cards = [
     {
-        label: 'contact.profile.vmmc',
+        label: 'contact.profile.arv',
         appliesToType: ['person'],
         appliesIf: isPatient,
         fields: function () {
             const fields = [];
 
             fields.push(
-                { label: 'contact.profile.vmmc.enrollment_date', value: thisContact.reported_date, filter: 'date', width: 6 },
-                { label: 'contact.profile.vmmc.group', value: 'contact.profile.vmmc.group.' + thisContact.randomization, width: 6, translate: true },
-                { label: 'contact.profile.vmmc.vmmc_no', value: thisContact.vmmc_no, width: 6 },
-                { label: 'contact.profile.vmmc.study_no', value: thisContact.study_no, width: 6 },
-                { label: 'contact.profile.vmmc.language', value: 'contact.profile.vmmc.language.' + thisContact.language_preference, width: 6, translate: true }
+                { label: 'contact.profile.enrollment_date', value: thisContact.reported_date, filter: 'date', width: 6 },
+                { label: 'contact.profile.mpc_no', value: thisContact.mpc_no, width: 6 },
+                { label: 'contact.profile.arv_no', value: thisContact.arv_no, width: 6 },
+                { label: 'contact.profile.language', value: 'contact.profile.language.' + thisContact.language_preference, width: 6, translate: true }
             );
 
             if (thisContact.randomization === 'texting') {
@@ -53,12 +51,12 @@ const cards = [
                 }, false);
 
                 fields.push(
-                    { label: 'contact.profile.vmmc.day2', value: day2SMSReceived ? 'Yes' : 'No', width: 6 },
-                    { label: 'contact.profile.vmmc.day7', value: day7SMSReceived ? 'Yes' : 'No', width: 6 }
+                    { label: 'contact.profile.day2', value: day2SMSReceived ? 'Yes' : 'No', width: 6 },
+                    { label: 'contact.profile.day7', value: day7SMSReceived ? 'Yes' : 'No', width: 6 }
                 );
 
                 if (latestResponse.form === '1') {
-                    fields.push({ label: 'contact.profile.vmmc.pae', value: latestResponse.reported_date, icon: 'risk', filter: 'relativeDate', width: 6 });
+                    fields.push({ label: 'contact.profile.pae', value: latestResponse.reported_date, icon: 'risk', filter: 'relativeDate', width: 6 });
                 }
             }
 
