@@ -30,7 +30,6 @@
           <patient_uuid tag="hidden" db-doc-ref=" /enroll/person "/>
           <place_id tag="hidden"/>
           <phone/>
-          <language_preference/>
           <ctx/>
           <editing/>
           <forbid>
@@ -62,6 +61,7 @@
             <phone/>
             <alt_phone/>
             <language_preference/>
+            <language_code/>
           </person>
           <meta tag="hidden">
             <instanceID/>
@@ -81,7 +81,6 @@
       <bind nodeset="/enroll/patient_uuid" type="string" calculate="person"/>
       <bind nodeset="/enroll/place_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/enroll/phone" type="string" calculate="../person/phone"/>
-      <bind nodeset="/enroll/language_preference" type="string" calculate="../person/language_preference"/>
       <bind nodeset="/enroll/ctx" type="string" calculate="instance('contact-summary')/context/isContact"/>
       <bind nodeset="/enroll/editing" type="string" calculate="if( /enroll/ctx  = 'yes', 'no', 'yes')"/>
       <bind nodeset="/enroll/forbid" relevant="../editing = 'yes'"/>
@@ -102,9 +101,10 @@
       <bind nodeset="/enroll/person/mpc_no" type="string" constraint="regex(., '^[A-Za-z0-9]{1,7}$')" required="true()"/>
       <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
       <bind nodeset="/enroll/person/consent" type="select1" jr:requiredMsg="Please confirm consent" required="true()"/>
-      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" required="true()" constraint="regex(., '^\+265[0-9]{9}$')"/>
-      <bind nodeset="/enroll/person/alt_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" required="false()" constraint="regex(., '^\+265[0-9]{9}$')"/>
+      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="true()"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="false()"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
+      <bind nodeset="/enroll/person/language_code" type="string" calculate="if(selected( /enroll/person/language_preference , 'english'), 'eng', 'nya')"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -158,11 +158,21 @@
         </group>
       </group>
       <group appearance="hidden" ref="/enroll/person/rapidpro">
-        <input ref="/enroll/person/rapidpro/optout"/>
-        <input ref="/enroll/person/rapidpro/language"/>
-        <input ref="/enroll/person/rapidpro/reminders"/>
-        <input ref="/enroll/person/rapidpro/adherence"/>
-        <input ref="/enroll/person/rapidpro/visit_date"/>
+        <input ref="/enroll/person/rapidpro/optout">
+          <label>Optout</label>
+        </input>
+        <input ref="/enroll/person/rapidpro/language">
+          <label>Language</label>
+        </input>
+        <input ref="/enroll/person/rapidpro/reminders">
+          <label>Reminders</label>
+        </input>
+        <input ref="/enroll/person/rapidpro/adherence">
+          <label>Adherence</label>
+        </input>
+        <input ref="/enroll/person/rapidpro/visit_date">
+          <label>Visit Date</label>
+        </input>
       </group>
       <input ref="/enroll/person/first_name">
         <label>First name</label>
