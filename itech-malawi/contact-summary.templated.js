@@ -1,7 +1,5 @@
-const { DateTime } = require('luxon');
 const thisContact = contact;
 const thisLineage = lineage;
-const allReports = reports;
 
 const isPatient = () => (thisContact.role === 'patient' || !thisContact.role);
 const context = {
@@ -20,45 +18,18 @@ const fields = [
 
 const cards = [
     {
-        label: 'contact.profile.arv',
+        label: 'Contact Profile',
         appliesToType: ['person'],
         appliesIf: isPatient,
         fields: function () {
             const fields = [];
 
             fields.push(
-                { label: 'contact.profile.enrollment_date', value: thisContact.reported_date, filter: 'date', width: 6 },
-                { label: 'contact.profile.mpc_no', value: thisContact.mpc_no, width: 6 },
-                { label: 'contact.profile.arv_no', value: thisContact.arv_no, width: 6 },
-                { label: 'contact.profile.language', value: 'contact.profile.language.' + thisContact.language_preference, width: 6, translate: true }
+                { label: 'Enrollment_date', value: thisContact.reported_date, filter: 'date', width: 6 },
+                { label: 'MPC N0', value: thisContact.mpc_no, width: 6 },
+                { label: 'ARV N0', value: thisContact.arv_no, width: 6 },
+                { label: 'Preferred Language', value: thisContact.language_preference, width: 6, translate: true }
             );
-
-            if (thisContact.randomization === 'texting') {
-                const day2SMSReceived = allReports.some(
-                    report => ['0', '1'].includes(report.form) &&
-                        report.reported_date >= DateTime.fromMillis(thisContact.reported_date).plus({ day: 2 }).startOf('day') &&
-                        report.reported_date <= DateTime.fromMillis(thisContact.reported_date).plus({ day: 2 }).endOf('day')
-                );
-
-                const day7SMSReceived = allReports.some(
-                    report => ['0', '1'].includes(report.form) &&
-                        report.reported_date >= DateTime.fromMillis(thisContact.reported_date).plus({ day: 7 }).startOf('day') &&
-                        report.reported_date <= DateTime.fromMillis(thisContact.reported_date).plus({ day: 7 }).endOf('day')
-                );
-
-                const latestResponse = allReports.filter(report => ['0', '1'].includes(report.form)).reduce(function (prev, current) {
-                    return (prev.reported_date > current.reported_date) ? prev : current;
-                }, false);
-
-                fields.push(
-                    { label: 'contact.profile.day2', value: day2SMSReceived ? 'Yes' : 'No', width: 6 },
-                    { label: 'contact.profile.day7', value: day7SMSReceived ? 'Yes' : 'No', width: 6 }
-                );
-
-                if (latestResponse.form === '1') {
-                    fields.push({ label: 'contact.profile.pae', value: latestResponse.reported_date, icon: 'risk', filter: 'relativeDate', width: 6 });
-                }
-            }
 
             return fields;
         }
