@@ -27,7 +27,7 @@
             </contact>
           </inputs>
           <patient_name/>
-          <patient_uuid db-doc-ref=" /enroll/person " tag="hidden"/>
+          <patient_uuid tag="hidden" db-doc-ref=" /enroll/person "/>
           <place_id tag="hidden"/>
           <phone/>
           <language_preference/>
@@ -49,7 +49,7 @@
             <rapidpro>
               <optout/>
               <language/>
-              <reminder/>
+              <reminders/>
               <adherence/>
               <visit_date/>
             </rapidpro>
@@ -93,17 +93,17 @@
       <bind nodeset="/enroll/person/role" type="string" calculate="&quot;patient&quot;"/>
       <bind nodeset="/enroll/person/rapidpro/optout" type="string" calculate="false()"/>
       <bind nodeset="/enroll/person/rapidpro/language" type="string" calculate="../language_preference"/>
-      <bind nodeset="/enroll/person/rapidpro/reminder" type="string" calculate="true()"/>
+      <bind nodeset="/enroll/person/rapidpro/reminders" type="string" calculate="true()"/>
       <bind nodeset="/enroll/person/rapidpro/adherence" type="string" calculate="true()"/>
       <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="now()"/>
       <bind nodeset="/enroll/person/first_name" type="string" required="true()"/>
       <bind nodeset="/enroll/person/surname" type="string" required="true()"/>
       <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
-      <bind nodeset="/enroll/person/mpc_no" type="string" required="true()" constraint="regex(., '^[A-Za-z0-9]{1,7}$')"/>
+      <bind nodeset="/enroll/person/mpc_no" type="string" constraint="regex(., '^[A-Za-z0-9]{1,7}$')" required="true()"/>
       <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
-      <bind nodeset="/enroll/person/consent" type="select1" required="true()" jr:requiredMsg="Please confirm consent"/>
-      <bind nodeset="/enroll/person/phone" type="string" required="true()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+26[0-9]{9}$')"/>
-      <bind nodeset="/enroll/person/alt_phone" type="string" required="false()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+26[0-9]{9}$')"/>
+      <bind nodeset="/enroll/person/consent" type="select1" jr:requiredMsg="Please confirm consent" required="true()"/>
+      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" required="true()" constraint="regex(., '^\+265[0-9]{9}$')"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" required="false()" constraint="regex(., '^\+265[0-9]{9}$')"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
@@ -160,7 +160,7 @@
       <group appearance="hidden" ref="/enroll/person/rapidpro">
         <input ref="/enroll/person/rapidpro/optout"/>
         <input ref="/enroll/person/rapidpro/language"/>
-        <input ref="/enroll/person/rapidpro/reminder"/>
+        <input ref="/enroll/person/rapidpro/reminders"/>
         <input ref="/enroll/person/rapidpro/adherence"/>
         <input ref="/enroll/person/rapidpro/visit_date"/>
       </group>
