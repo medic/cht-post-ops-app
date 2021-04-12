@@ -187,7 +187,7 @@ module.exports = [
   {
     name: 'next-day-reminder_day14-no-contact',
     icon: 'off',
-    title: 'task.next-day-reminder_day14-no-contact',
+    title: 'Day 14 no contact',
     appliesTo: 'reports',
     appliesToType: ['day14_no_contact'],
     appliesIf: (contact, report) => {
@@ -212,7 +212,7 @@ module.exports = [
   {
     name: 'next-day-reminder_day14-patient-transferred',
     icon: 'off',
-    title: 'task.next-day-reminder_patient-transferred',
+    title: 'Patient Transferred',
     appliesTo: 'reports',
     appliesToType: ['patient_transferred'],
     appliesIf: (contact, report) => {
