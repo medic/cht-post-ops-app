@@ -100,9 +100,9 @@
       <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
       <bind nodeset="/enroll/person/mpc_no" type="string" constraint="regex(., '^[A-Za-z0-9]{1,7}$')" required="true()"/>
       <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
-      <bind nodeset="/enroll/person/consent" type="select1" jr:requiredMsg="Please confirm consent" required="true()"/>
-      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="true()"/>
-      <bind nodeset="/enroll/person/alt_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="false()"/>
+      <bind nodeset="/enroll/person/consent" type="select1" required="true()" jr:requiredMsg="Please confirm consent"/>
+      <bind nodeset="/enroll/person/phone" type="string" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number" required="true()"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number" required="false()"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/enroll/person/language_code" type="string" calculate="if(selected( /enroll/person/language_preference , 'english'), 'eng', 'nya')"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>

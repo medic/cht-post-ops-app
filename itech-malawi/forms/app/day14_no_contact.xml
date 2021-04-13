@@ -47,7 +47,7 @@
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/n/n_header" readonly="true()" type="string"/>
       <bind nodeset="/r/n/client_ok" type="select1" required="true()"/>
-      <bind nodeset="/r/n/additional_notes" type="string" required="false()" relevant="selected(../client_ok, 'others')"/>
+      <bind nodeset="/r/n/additional_notes" type="string" relevant="selected(../client_ok, 'others')" required="false()"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>

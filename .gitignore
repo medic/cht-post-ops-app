@@ -4,3 +4,4 @@ venv/
 .snapshots/
 backups
 /zazic-scale-up/backups
+.DS_Store/
