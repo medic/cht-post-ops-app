@@ -5,112 +5,151 @@
     <model>
       <instance>
         <data id="contact:person:edit" prefix="J1!contact:person:edit!" delimiter="#" version="2017-10-16 00:00:00">
-          <person>
-            <vmmc_no/>
-            <study_no/>
-            <mobile_company/>
-            <mobile_other/>
-            <transport_cost/>
-            <clinic_trip>
-              <hours/>
-              <minutes/>
-            </clinic_trip>
-            <food_cost/>
-            <wage_period/>
-            <wage_amount/>
+          <inputs>
+            <meta>
+              <location>
+                <lat/>
+                <long/>
+                <error/>
+                <message/>
+              </location>
+            </meta>
+            <patient_name/>
+            <patient_uuid db-doc-ref=" /data/person " tag="hidden"/>
+            <place_id tag="hidden"/>
+            <phone/>
+          </inputs>
+          <person db-doc="true">
+            <parent>
+              <_id/>
+              <parent>
+                <_id/>
+              </parent>
+            </parent>
+            <type/>
+            <role/>
+            <rapidpro>
+              <optout/>
+              <language/>
+              <reminders/>
+              <adherence/>
+              <visit_date/>
+            </rapidpro>
+            <first_name/>
+            <surname/>
+            <name/>
+            <mpc_no/>
+            <arv_no/>
+            <consent/>
+            <phone/>
+            <alt_phone/>
+            <language_preference/>
+            <language_code/>
           </person>
           <meta tag="hidden">
             <instanceID/>
           </meta>
         </data>
       </instance>
-      <bind nodeset="/data/person/vmmc_no" type="string" constraint="regex(., '^[A-Za-z0-9]{1,7}$')" required="true()" jr:constraintMsg="Please enter valid VMMC client number"/>
-      <bind nodeset="/data/person/study_no" type="string" constraint="regex(., '^[0-9]{4}$')" required="true()" jr:constraintMsg="Please enter valid 2wT study number"/>
-      <bind nodeset="/data/person/mobile_company" type="select1" required="true()"/>
-      <bind nodeset="/data/person/mobile_other" type="string" relevant="selected(../mobile_company, 'other')"/>
-      <bind nodeset="/data/person/transport_cost" type="decimal" constraint=". &gt;= 0" required="true()" jr:constraintMsg="Must be greater than or equal to 0"/>
-      <bind nodeset="/data/person/clinic_trip/hours" type="int" constraint=". &gt;= 0" jr:constraintMsg="Must be greater than or equal to 0"/>
-      <bind nodeset="/data/person/clinic_trip/minutes" type="int" constraint=". &gt;= 0 and . &lt; 60" jr:constraintMsg="Must be between 0 and 59"/>
-      <bind nodeset="/data/person/food_cost" type="decimal" constraint=". &gt;= 0" required="true()" jr:constraintMsg="Must be greater than or equal to 0"/>
-      <bind nodeset="/data/person/wage_period" type="select1" required="true()"/>
-      <bind nodeset="/data/person/wage_amount" type="decimal" relevant=" /data/person/wage_period  = 'daily' or  /data/person/wage_period  = 'monthly'" jr:constraintMsg="Must be greater than or equal to 0" required="true()" constraint=". &gt;= 0"/>
+      <bind nodeset="/data/inputs" relevant="./source = 'user'"/>
+      <bind nodeset="/data/inputs/patient_name" type="string" calculate="concat(../person/first_name, ' ', ../person/surname)"/>
+      <bind nodeset="/data/inputs/patient_uuid" type="string" calculate="person"/>
+      <bind nodeset="/data/inputs/place_id" type="string" calculate="../inputs/contact/_id"/>
+      <bind nodeset="/data/inputs/phone" type="string" calculate="../person/phone"/>
+      <bind nodeset="/data/person/parent/_id" type="string" calculate="../../../inputs/contact/_id"/>
+      <bind nodeset="/data/person/parent/parent/_id" type="string" calculate="../../../../inputs/contact/parent/_id"/>
+      <bind nodeset="/data/person/type" type="string" calculate="&quot;person&quot;"/>
+      <bind nodeset="/data/person/role" type="string" calculate="&quot;patient&quot;"/>
+      <bind nodeset="/data/person/rapidpro/optout" type="string" calculate="false()"/>
+      <bind nodeset="/data/person/rapidpro/language" type="string" calculate="../language_preference"/>
+      <bind nodeset="/data/person/rapidpro/reminders" type="string" calculate="true()"/>
+      <bind nodeset="/data/person/rapidpro/adherence" type="string" calculate="true()"/>
+      <bind nodeset="/data/person/rapidpro/visit_date" type="string" calculate="now()"/>
+      <bind nodeset="/data/person/first_name" type="string" required="true()"/>
+      <bind nodeset="/data/person/surname" type="string" required="true()"/>
+      <bind nodeset="/data/person/name" type="string" calculate="concat( /data/person/first_name , ' ',  /data/person/surname )"/>
+      <bind nodeset="/data/person/mpc_no" type="string" required="true()" constraint="regex(., '^[A-Za-z0-9]{1,7}$')"/>
+      <bind nodeset="/data/person/arv_no" type="string" required="true()"/>
+      <bind nodeset="/data/person/consent" type="select1" required="true()" jr:constraintMsg="Please confirm consent"/>
+      <bind nodeset="/data/person/phone" type="string" required="true()" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number"/>
+      <bind nodeset="/data/person/alt_phone" type="string" required="false()" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number"/>
+      <bind nodeset="/data/person/language_preference" type="select1" required="true()"/>
+      <bind nodeset="/data/person/language_code" type="string" calculate="if(selected( /data/person/language_preference , 'english'), 'eng', 'nya')"/>
       <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
   <h:body class="pages">
+    <group appearance="field-list" ref="/data/inputs">
+      <label>Patient</label>
+    </group>
     <group appearance="field-list" ref="/data/person">
       <label></label>
-      <input ref="/data/person/vmmc_no">
-        <label>VMMC Client Number</label>
-        <hint>e.g. WM0000</hint>
-      </input>
-      <input ref="/data/person/study_no">
-        <label>2WT Study Number</label>
-        <hint>e.g. 0001</hint>
-      </input>
-      <select1 ref="/data/person/mobile_company">
-        <label>What is your cell phone company?</label>
-        <item>
-          <label>MTN</label>
-          <value>mtn</value>
-        </item>
-        <item>
-          <label>Vodacom</label>
-          <value>vodacom</value>
-        </item>
-        <item>
-          <label>Cell C</label>
-          <value>cellc</value>
-        </item>
-        <item>
-          <label>Telcom</label>
-          <value>telcom</value>
-        </item>
-        <item>
-          <label>Other</label>
-          <value>other</value>
-        </item>
-      </select1>
-      <input ref="/data/person/mobile_other">
-        <label>Please enter your cell phone company</label>
-      </input>
-      <input ref="/data/person/transport_cost">
-        <label>How much did you pay in transportation to come to the clinic?</label>
-      </input>
-      <group appearance="field-list" ref="/data/person/clinic_trip">
-        <label>How long did it take you to get to the clinic</label>
-        <input ref="/data/person/clinic_trip/hours">
-          <label>Hours</label>
+      <group appearance="hidden" ref="/data/person/parent">
+        <label></label>
+        <group appearance="field-list" ref="/data/person/parent/parent">
+          <label></label>
+        </group>
+      </group>
+      <group appearance="hidden" ref="/data/person/rapidpro">
+        <input ref="/data/person/rapidpro/optout">
+          <label>Optout</label>
         </input>
-        <input ref="/data/person/clinic_trip/minutes">
-          <label>Minutes</label>
+        <input ref="/data/person/rapidpro/language">
+          <label>Language</label>
+        </input>
+        <input ref="/data/person/rapidpro/reminders">
+          <label>Reminders</label>
+        </input>
+        <input ref="/data/person/rapidpro/adherence">
+          <label>Adherence</label>
+        </input>
+        <input ref="/data/person/rapidpro/visit_date">
+          <label>Visit Date</label>
         </input>
       </group>
-      <input ref="/data/person/food_cost">
-        <label>How much did you spend in food and drink as a part of this visit ($)</label>
+      <input ref="/data/person/first_name">
+        <label>First name</label>
       </input>
-      <select1 ref="/data/person/wage_period">
-        <label>Wage period</label>
+      <input ref="/data/person/surname">
+        <label>Surname</label>
+      </input>
+      <input appearance="number" ref="/data/person/mpc_no">
+        <label>MPC Patient ID</label>
+        <hint>The Patient ID should be in P1700.. format</hint>
+      </input>
+      <input ref="/data/person/arv_no">
+        <label>ARV number</label>
+      </input>
+      <select1 ref="/data/person/consent">
+        <label>Does the patient consent to participate in the study?</label>
         <item>
-          <label>Daily</label>
-          <value>daily</value>
+          <label>Yes</label>
+          <value>yes</value>
         </item>
         <item>
-          <label>Weekly</label>
-          <value>weekly</value>
-        </item>
-        <item>
-          <label>Monthly</label>
-          <value>monthly</value>
-        </item>
-        <item>
-          <label>None</label>
-          <value>none</value>
+          <label>No</label>
+          <value>no</value>
         </item>
       </select1>
-      <input ref="/data/person/wage_amount">
-        <label>Wage amount</label>
+      <input appearance="number" ref="/data/person/phone">
+        <label>Client's Mobile phone number</label>
+        <hint>Should start with the country code +265 followed by Nine digits</hint>
       </input>
+      <input appearance="number" ref="/data/person/alt_phone">
+        <label>Alternative/Next of Kin's Mobile Number</label>
+        <hint>Should start with the country code +265 followed by Nine digits</hint>
+      </input>
+      <select1 ref="/data/person/language_preference">
+        <label>What is this client's language of preference for the texts?</label>
+        <item>
+          <label>English</label>
+          <value>english</value>
+        </item>
+        <item>
+          <label>Chichewa</label>
+          <value>chichewa</value>
+        </item>
+      </select1>
     </group>
   </h:body>
 </h:html>
