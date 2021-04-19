@@ -44,10 +44,12 @@
       "national_admin"
     ],
     "can_create_people": [
-      "national_admin"
+      "national_admin",
+      "district_admin"
     ],
     "can_create_places": [
-      "national_admin"
+      "national_admin",
+      "district_admin"
     ],
     "can_create_records": [
       "national_admin",
@@ -564,7 +566,9 @@
       "group_key": "contact.type.clinic.plural",
       "create_key": "contact.type.clinic.new",
       "edit_key": "contact.type.place.edit",
+      "create_form": "form:contact:clinic:create",
       "parents": [
+        "district_hospital",
         "health_center"
       ],
       "icon": "medic-clinic",
