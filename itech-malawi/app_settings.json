@@ -379,7 +379,7 @@
           "expr": "doc.language_code"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.phone ]"
+          "expr": "[ 'tel:' + doc.phone, 'telegram:' + doc.telegram_id ]"
         },
         "groups": {
           "expr": "[ 'ecd753d6-129f-4001-a189-f69728f9158b' ]"
