@@ -15,7 +15,7 @@
             <value>Yes</value>
           </text>
           <text id="/data/clinic/is_name_generated:label">
-            <value>Would you like to name the place after the primary contact: <output value=" /data/contact/person_name "/>?</value>
+            <value>Would you like to name the place after the primary contact: <output value=" /data/init/generated_name "/>?</value>
           </text>
           <text id="/data/clinic/name:label">
             <value>Name</value>
@@ -55,24 +55,6 @@
           </text>
           <text id="/data/contact/phone:label">
             <value>Phone Number</value>
-          </text>
-          <text id="/data/contact/rapidpro/adherence:label">
-            <value>Adherence</value>
-          </text>
-          <text id="/data/contact/rapidpro/language:label">
-            <value>Language</value>
-          </text>
-          <text id="/data/contact/rapidpro/optout:label">
-            <value>Optout</value>
-          </text>
-          <text id="/data/contact/rapidpro/reminders:label">
-            <value>Reminders</value>
-          </text>
-          <text id="/data/contact/rapidpro/visit_date:label">
-            <value>Visit Date</value>
-          </text>
-          <text id="/data/contact/rapidpro:label">
-            <value>RapidPro</value>
           </text>
           <text id="/data/contact/surname:label">
             <value>Surname</value>
@@ -167,9 +149,9 @@
             <custom_place_name_label_translator/>
             <custom_place_name_label/>
             <custom_place_name/>
-            <place_type>clinic</place_type>
+            <place_type>Household</place_type>
             <place_type_translation/>
-            <generated_name>clinic</generated_name>
+            <generated_name>Household</generated_name>
             <generated_name_translation/>
           </init>
           <contact>
@@ -211,15 +193,15 @@
       <bind nodeset="/data/init/create_new_person" type="select1" required="true()"/>
       <bind nodeset="/data/init/contact" relevant="selected( /data/init/create_new_person ,'new_person')"/>
       <bind nodeset="/data/init/contact/parent" type="string"/>
-      <bind nodeset="/data/init/select_person" type="db:person" relevant="selected( /data/init/create_new_person ,'old_person')" required="true()"/>
+      <bind nodeset="/data/init/select_person" type="db:person" required="true()" relevant="selected( /data/init/create_new_person ,'old_person')"/>
       <bind nodeset="/data/init/name" type="string"/>
       <bind nodeset="/data/init/contact_name" type="string" calculate="coalesce(../../contact/name, ../name)"/>
       <bind nodeset="/data/init/custom_place_name_label_translator" type="select1" relevant="selected( /data/init/create_new_person ,'none')" calculate="&quot;name&quot;"/>
       <bind nodeset="/data/init/custom_place_name_label" type="string" calculate="jr:choice-name( /data/init/custom_place_name_label_translator ,' /data/init/custom_place_name_label_translator ')"/>
-      <bind nodeset="/data/init/custom_place_name" type="string" relevant="selected( /data/init/create_new_person ,'none') or selected( /data/clinic/is_name_generated , 'false') or selected( /data/clinic/is_name_generated , 'no')" required="true()"/>
+      <bind nodeset="/data/init/custom_place_name" type="string" required="true()" relevant="selected( /data/init/create_new_person ,'none') or selected( /data/clinic/is_name_generated , 'false') or selected( /data/clinic/is_name_generated , 'no')"/>
       <bind nodeset="/data/init/place_type" type="select1"/>
       <bind nodeset="/data/init/place_type_translation" type="string" calculate="jr:choice-name( /data/init/place_type ,' /data/init/place_type ')"/>
-      <bind nodeset="/data/init/generated_name" type="select1"/>
+      <bind nodeset="/data/init/generated_name" type="select1" calculate="coalesce(../../contact/name, ../name,  /data/init/custom_place_name )"/>
       <bind nodeset="/data/init/generated_name_translation" type="string" calculate="jr:choice-name( /data/init/generated_name ,' /data/init/generated_name ')"/>
       <bind nodeset="/data/contact" relevant="selected( /data/init/create_new_person ,'new_person')"/>
       <bind nodeset="/data/contact/parent" type="string"/>
@@ -245,8 +227,8 @@
       <bind nodeset="/data/contact/meta/created_by_place_uuid" type="string" calculate="../../../inputs/user/facility_id"/>
       <bind nodeset="/data/clinic/parent" type="string"/>
       <bind nodeset="/data/clinic/type" type="string"/>
-      <bind nodeset="/data/clinic/is_name_generated" type="select1" relevant="not(selected( /data/init/create_new_person ,'none'))" required="true()"/>
-      <bind nodeset="/data/clinic/name" type="string" required="true()" calculate="if( ( selected( /data/clinic/is_name_generated , 'true') or selected( /data/clinic/is_name_generated , 'yes') ),  /data/init/generated_name_translation , &quot;' Household&quot;)"/>
+      <bind nodeset="/data/clinic/is_name_generated" type="select1" required="true()" relevant="not(selected( /data/init/create_new_person ,'none'))"/>
+      <bind nodeset="/data/clinic/name" type="string" required="true()" calculate="if( ( selected( /data/clinic/is_name_generated , 'true') or selected( /data/clinic/is_name_generated , 'yes') ),  /data/init/generated_name  + &quot;'s &quot; + /data/init/place_type )"/>
       <bind nodeset="/data/clinic/external_id" type="string"/>
       <bind nodeset="/data/clinic/notes" type="string"/>
       <bind nodeset="/data/clinic/contact" type="string" calculate="if(selected( /data/init/create_new_person ,'none'), &quot;&quot;, coalesce( /data/init/select_person ,&quot;NEW&quot;))"/>
@@ -319,8 +301,8 @@
             <value>chichewa</value>
           </item>
         </select1>
-        <group appearance="hidden" ref="/data/contact/rapidpro">
-          <label ref="jr:itext('/data/contact/rapidpro:label')"/>
+        <group appearance="hidden" ref="/data/contact/rapidpro"/>
+        <group appearance="hidden" ref="/data/contact/meta"/>
         </group>
       </group>
       <input appearance="db-object" ref="/data/init/select_person">
@@ -362,8 +344,6 @@
           <value>clinic</value>
         </item>
       </select1>
-    </group>
-      <group appearance="hidden" ref="/data/contact/meta"/>
     </group>
     <group appearance="field-list" ref="/data/clinic">
       <select1 appearance="horizontal-compact" ref="/data/clinic/is_name_generated">
