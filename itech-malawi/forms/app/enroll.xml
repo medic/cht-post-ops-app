@@ -62,6 +62,7 @@
             <alt_phone/>
             <language_preference/>
             <language_code/>
+            <telegram_id/>
           </person>
           <meta tag="hidden">
             <instanceID/>
@@ -98,13 +99,14 @@
       <bind nodeset="/enroll/person/first_name" type="string" required="true()"/>
       <bind nodeset="/enroll/person/surname" type="string" required="true()"/>
       <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
-      <bind nodeset="/enroll/person/mpc_no" type="string" constraint="regex(., '^[A-Za-z0-9]{1,7}$')" required="true()"/>
+      <bind nodeset="/enroll/person/mpc_no" type="string" required="true()" constraint="regex(., '^[A-Za-z0-9]{1,7}$')"/>
       <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
       <bind nodeset="/enroll/person/consent" type="select1" required="true()" jr:requiredMsg="Please confirm consent"/>
-      <bind nodeset="/enroll/person/phone" type="string" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number" required="true()"/>
-      <bind nodeset="/enroll/person/alt_phone" type="string" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number" required="false()"/>
+      <bind nodeset="/enroll/person/phone" type="string" required="true()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" required="false()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/enroll/person/language_code" type="string" calculate="if(selected( /enroll/person/language_preference , 'english'), 'eng', 'nya')"/>
+      <bind nodeset="/enroll/person/telegram_id" type="string" required="false()"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -217,6 +219,10 @@
           <value>chichewa</value>
         </item>
       </select1>
+      <input ref="/enroll/person/telegram_id">
+        <label>Telegram ID</label>
+        <hint>This is for test purpose only</hint>
+      </input>
     </group>
   </h:body>
 </h:html>
