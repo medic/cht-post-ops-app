@@ -96,14 +96,14 @@
       <bind nodeset="/enroll/person/rapidpro/reminders" type="string" calculate="true()"/>
       <bind nodeset="/enroll/person/rapidpro/adherence" type="string" calculate="true()"/>
       <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="now()"/>
-      <bind nodeset="/enroll/person/first_name" type="string" required="true()"/>
-      <bind nodeset="/enroll/person/surname" type="string" required="true()"/>
+      <bind nodeset="/enroll/person/first_name" type="string" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
+      <bind nodeset="/enroll/person/surname" type="string" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
       <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
-      <bind nodeset="/enroll/person/mpc_no" type="string" required="true()" constraint="regex(., '^[A-Za-z0-9]{1,7}$')"/>
+      <bind nodeset="/enroll/person/mpc_no" type="string" constraint="regex(., '^P[0-9]{1,7}$')" required="true()"/>
       <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
-      <bind nodeset="/enroll/person/consent" type="select1" required="true()" jr:requiredMsg="Please confirm consent"/>
-      <bind nodeset="/enroll/person/phone" type="string" required="true()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')"/>
-      <bind nodeset="/enroll/person/alt_phone" type="string" required="false()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')"/>
+      <bind nodeset="/enroll/person/consent" type="select" jr:constraintMsg="Client must give consent to be registered" jr:requiredMsg="Please confirm consent" required="true()"/>
+      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="true()"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="false()"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/enroll/person/language_code" type="string" calculate="if(selected( /enroll/person/language_preference , 'english'), 'eng', 'nya')"/>
       <bind nodeset="/enroll/person/telegram_id" type="string" required="false()"/>
@@ -189,17 +189,13 @@
       <input ref="/enroll/person/arv_no">
         <label>ARV number</label>
       </input>
-      <select1 ref="/enroll/person/consent">
+      <select ref="/enroll/person/consent">
         <label>Does the patient consent to participate in the study?</label>
         <item>
           <label>Yes</label>
           <value>yes</value>
         </item>
-        <item>
-          <label>No</label>
-          <value>no</value>
-        </item>
-      </select1>
+      </select>
       <input appearance="number" ref="/enroll/person/phone">
         <label>Client's Mobile phone number</label>
         <hint>Should start with the country code +265 followed by Nine digits</hint>
