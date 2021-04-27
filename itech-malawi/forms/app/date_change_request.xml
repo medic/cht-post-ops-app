@@ -25,8 +25,10 @@
           </inputs>
           <patient_name/>
           <patient_id tag="hidden"/>
-          <phone/>
+          <patient_phone/>
           <n>
+            <contact_name/>
+            <contact_phone/>
             <new_date/>
           </n>
           <meta tag="hidden">
@@ -43,8 +45,10 @@
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
-      <bind nodeset="/r/patient_id" type="string" required="true()" calculate="../inputs/contact/_id"/>
-      <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
+      <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id" required="true()"/>
+      <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
+      <bind nodeset="/r/n/contact_name" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/contact_phone" readonly="true()" type="string"/>
       <bind nodeset="/r/n/new_date" type="date" required="false()"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
@@ -77,6 +81,12 @@
     </group>
     <group appearance="field-list" ref="/r/n">
       <label></label>
+      <input ref="/r/n/contact_name">
+        <label>&lt;h4&gt;Patient Name: <output value=" /r/patient_name "/>&lt;/h4&gt;</label>
+      </input>
+      <input ref="/r/n/contact_phone">
+        <label>&lt;h4&gt;Patient Phone: <output value=" /r/patient_phone "/>&lt;/h4&gt;</label>
+      </input>
       <input ref="/r/n/new_date">
         <label>Please select date</label>
         <hint>Date should fall within 1-14 days after the current/old appointment visit date.</hint>

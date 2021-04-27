@@ -23,10 +23,13 @@
             </contact>
           </inputs>
           <patient_name/>
-          <patient_id tag="hidden"/>
+          <patient_id/>
           <phone/>
+          <patient_phone/>
           <n>
             <n_header tag="hidden"/>
+            <contact_name/>
+            <contact_phone/>
             <client_ok/>
             <additional_notes/>
           </n>
@@ -43,9 +46,12 @@
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
-      <bind nodeset="/r/patient_id" type="string" required="true()" calculate="../inputs/contact/_id"/>
+      <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id" required="true()"/>
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
+      <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/n/n_header" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/contact_name" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/contact_phone" readonly="true()" type="string"/>
       <bind nodeset="/r/n/client_ok" type="select1" required="true()"/>
       <bind nodeset="/r/n/additional_notes" type="string" relevant="selected(../client_ok, 'others')" required="false()"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
@@ -66,10 +72,10 @@
           <label>What is the patient's name?</label>
           <hint>Select a person from list</hint>
         </input>
-        <input appearance="hidden" ref="/r/inputs/contact/name">
+        <input ref="/r/inputs/contact/name">
           <label>Patient Name</label>
         </input>
-        <input appearance="hidden" ref="/r/inputs/contact/phone">
+        <input ref="/r/inputs/contact/phone">
           <label>Phone Number</label>
         </input>
       </group>
@@ -78,6 +84,12 @@
       <label></label>
       <input ref="/r/n/n_header">
         <label>&lt;h4 style="color: #337ab7;"&gt;&lt;p&gt;Complete form if patient transferred clinic. Please note that the patient will no longer receive study messages when you submit this form.&lt;/p&gt;&lt;/h4&gt;</label>
+      </input>
+      <input ref="/r/n/contact_name">
+        <label>&lt;h4&gt;Patient Name: <output value=" /r/patient_name "/>&lt;/h4&gt;</label>
+      </input>
+      <input ref="/r/n/contact_phone">
+        <label>&lt;h4&gt;Patient Phone Number: <output value=" /r/patient_phone "/>&lt;/h4&gt;</label>
       </input>
       <select1 ref="/r/n/client_ok">
         <label>Have you notified the back to care team?</label>
