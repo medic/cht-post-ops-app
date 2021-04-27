@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
     <h:title>Edit Person</h:title>
     <model>
       <instance>
-        <data delimiter="#" id="contact:person:edit" prefix="J1!contact:person:edit!" version="2020-04-15 00:00:00">
+        <data id="contact:person:edit" prefix="J1!contact:person:edit!" delimiter="#" version="2020-04-15 00:00:00">
           <person>
             <parent>PARENT</parent>
             <type>person</type>
@@ -26,17 +26,17 @@
       </instance>
       <bind nodeset="/data/person/parent" type="string"/>
       <bind nodeset="/data/person/type" type="string"/>
-      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/data/person/name" required="true()" type="string"/>
-      <bind nodeset="/data/person/enrollment_facility" required="true()" type="select1"/>
-      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/data/person/enrollment_location" required="true()" type="string"/>
-      <bind constraint="regex(., '^[0-9]{5,9}$')" jr:constraintMsg="Must be 5 – 9 numeric digits" nodeset="/data/person/vmmc_no" required="true()" type="string"/>
-      <bind constraint="(.) &gt;= 18 and (.) &lt;= 75" jr:constraintMsg="Only 18 - 75 yrs old men can enroll." nodeset="/data/person/age_years" required="true()" type="decimal"/>
-      <bind constraint="decimal-date-time(.) = floor(decimal-date-time(today()))" jr:constraintMsg="Only today's date is allowed" nodeset="/data/person/enrollment_date" required="true()" type="date"/>
-      <bind constraint="regex(., '^\+263[0-9]{9}$')" jr:constraintMsg="Please enter phone number in the format +263xxxxxxxxx" nodeset="/data/person/phone" required="true()" type="string"/>
-      <bind constraint="regex(., '^\+263[0-9]{9}$')" jr:constraintMsg="Please enter phone number in the format +263xxxxxxxxx" nodeset="/data/person/alternative_phone" required="false()" type="string"/>
-      <bind nodeset="/data/person/language_preference" required="true()" type="select1"/>
-      <bind constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space." nodeset="/data/person/enrollment_nurse" required="true()" type="string"/>
-      <bind calculate="concat('uuid:', uuid())" nodeset="/data/meta/instanceID" readonly="true()" type="string"/>
+      <bind nodeset="/data/person/name" type="string" jr:constraintMsg="Please type in name characters e.g letters and space." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
+      <bind nodeset="/data/person/enrollment_facility" type="select1" required="true()"/>
+      <bind nodeset="/data/person/enrollment_location" type="string" jr:constraintMsg="Please type in name characters e.g letters and space." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
+      <bind nodeset="/data/person/vmmc_no" type="string" jr:constraintMsg="Must be 5 – 9 numeric digits" constraint="regex(., '^[0-9]{5,9}$')" required="true()"/>
+      <bind nodeset="/data/person/age_years" type="decimal" jr:constraintMsg="Only 18 - 75 yrs old men can enroll." constraint="(.) &gt;= 18 and (.) &lt;= 75" required="true()"/>
+      <bind nodeset="/data/person/enrollment_date" type="date" jr:constraintMsg="Only today's date is allowed" constraint="decimal-date-time(.) = floor(decimal-date-time(today()))" required="true()"/>
+      <bind nodeset="/data/person/phone" type="string" jr:constraintMsg="Please enter phone number in the format +263xxxxxxxxx" constraint="regex(., '^\+263[0-9]{9}$')" required="true()"/>
+      <bind nodeset="/data/person/alternative_phone" type="string" jr:constraintMsg="Please enter phone number in the format +263xxxxxxxxx" constraint="regex(., '^\+263[0-9]{9}$')" required="false()"/>
+      <bind nodeset="/data/person/language_preference" type="select1" required="true()"/>
+      <bind nodeset="/data/person/enrollment_nurse" type="string" jr:constraintMsg="Please type in name characters e.g letters and space." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
+      <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
   <h:body class="pages">
@@ -55,84 +55,180 @@
       <select1 appearance="minimal" ref="/data/person/enrollment_facility">
         <label>VMMC Enrollment Facility</label>
         <item>
-          <label>1. Chitungwiza-Seke North clinic</label>
+          <label>1. Guruve Hospital</label>
+          <value>guruve_hospital</value>
+        </item>
+        <item>
+          <label>2. Bepura Clinic</label>
+          <value>bepura_clinic</value>
+        </item>
+        <item>
+          <label>3. Mhondoro Ngezi</label>
+          <value>mhondoro_ngezi</value>
+        </item>
+        <item>
+          <label>4. St Michael's Hospital</label>
+          <value>michael_hospital</value>
+        </item>
+        <item>
+          <label>5. Turf Clinic</label>
+          <value>turf_clinic</value>
+        </item>
+        <item>
+          <label>6. Donain Clinic</label>
+          <value>donain_clinic</value>
+        </item>
+        <item>
+          <label>7. Matobo District</label>
+          <value>matobo_district</value>
+        </item>
+        <item>
+          <label>8. Maphisa Hospital</label>
+          <value>maphisa_hospital</value>
+        </item>
+        <item>
+          <label>9. Tshelanyemba Hospital</label>
+          <value>tshelanyemba_hospital</value>
+        </item>
+        <item>
+          <label>10. St Joseph Hospital</label>
+          <value>joseph_hospital</value>
+        </item>
+        <item>
+          <label>11. Matobo Rural Hospital</label>
+          <value>matobo_rural_hospital</value>
+        </item>
+        <item>
+          <label>12. Sanyati Baptist Hospital</label>
+          <value>sanyati_baptist_hospital</value>
+        </item>
+        <item>
+          <label>13. Chakari Clinic</label>
+          <value>chakari_clinic</value>
+        </item>
+        <item>
+          <label>14. Gokwe District Hospital</label>
+          <value>gokwe_district_hospital</value>
+        </item>
+        <item>
+          <label>15. Sai Clinic</label>
+          <value>sai_clinic</value>
+        </item>
+        <item>
+          <label>16. Kana Mission Hospital</label>
+          <value>kana_mission_hospital</value>
+        </item>
+        <item>
+          <label>17. Chidamoyo Mission Hospital</label>
+          <value>chidamoyo_mission_hospital</value>
+        </item>
+        <item>
+          <label>18. Hurungwe Rural Hospital</label>
+          <value>hurungwe_rural_hospital</value>
+        </item>
+        <item>
+          <label>19. Karoi District Hospital</label>
+          <value>karoi_district_hospital</value>
+        </item>
+        <item>
+          <label>20. Chitsungo Mission Hospital</label>
+          <value>chitsungo_mission_hospital</value>
+        </item>
+        <item>
+          <label>21. Mahuwe RHC</label>
+          <value>mahuwe_rhc</value>
+        </item>
+        <item>
+          <label>22. St Luke's Mission Hospital</label>
+          <value>luke_mission_hospital</value>
+        </item>
+        <item>
+          <label>23. Paul's Mission Hospital</label>
+          <value>Paul_mission_hospital</value>
+        </item>
+        <item>
+          <label>24. Chitungwiza-Seke North clinic</label>
           <value>seke_north</value>
         </item>
         <item>
-          <label>2. Chitungwiza-Seke South clinic</label>
+          <label>25. Chitungwiza-Seke South clinic</label>
           <value>seke_south</value>
         </item>
         <item>
-          <label>3. Chitungwiza-City Med hospital</label>
+          <label>26. Chitungwiza-City Med hospital</label>
           <value>city_med</value>
         </item>
         <item>
-          <label>4. Chitungwiza-Zengeza Clinic</label>
+          <label>27. Chitungwiza-Zengeza Clinic</label>
           <value>zengeza</value>
         </item>
         <item>
-          <label>5. Chitungwiza-Chitungwiza Central Hospital</label>
+          <label>28. Chitungwiza-Chitungwiza Central Hospital</label>
           <value>chitungwiza_central</value>
         </item>
         <item>
-          <label>6. Chegutu- Norton hospital</label>
+          <label>29. Chegutu- Norton hospital</label>
           <value>chegutu_norton</value>
         </item>
         <item>
-          <label>7. Chegutu- District Hospital</label>
+          <label>30. Chegutu- District Hospital</label>
           <value>chegutu_district</value>
         </item>
         <item>
-          <label>8. Chegutu-Monera clinic(Norton Outreach)</label>
+          <label>31. Chegutu-Monera clinic(Norton Outreach)</label>
           <value>monera</value>
         </item>
         <item>
-          <label>9. Marondera- Marondera District Hospital</label>
+          <label>32. Marondera- Marondera District Hospital</label>
           <value>marondera</value>
         </item>
         <item>
-          <label>10. Marondera- Mahusekwa Hospital</label>
+          <label>33. Marondera- Mahusekwa Hospital</label>
           <value>mahusekwa</value>
         </item>
         <item>
-          <label>11. Goromonzi-Makumbe Mission Hospital</label>
+          <label>34. Goromonzi-Makumbe Mission Hospital</label>
           <value>makumbe</value>
         </item>
         <item>
-          <label>12. Goromonzi-Ruwa Rehab Hospital</label>
+          <label>35. Goromonzi-Ruwa Rehab Hospital</label>
           <value>ruwa</value>
         </item>
         <item>
-          <label>13. Sanyati-Kadoma Hospital</label>
+          <label>36. Sanyati-Kadoma Hospital</label>
           <value>kadoma</value>
         </item>
         <item>
-          <label>14. Sanyati-Kadoma City</label>
+          <label>37. Sanyati-Kadoma City</label>
           <value>kadoma_city</value>
         </item>
         <item>
-          <label>15. Zaka-Ndanga District Hospital</label>
+          <label>38. Zaka-Ndanga District Hospital</label>
           <value>ndanga</value>
         </item>
         <item>
-          <label>16. Zaka-Musiso Mission Hospital</label>
+          <label>39. Zaka-Musiso Mission Hospital</label>
           <value>musiso</value>
         </item>
         <item>
-          <label>17. Mberengwa-Mnene Mission Hospital</label>
+          <label>40. Mberengwa-Mnene Mission Hospital</label>
           <value>mnene</value>
         </item>
         <item>
-          <label>18. Mberengwa-Musume Mission Hospital</label>
+          <label>41. Mberengwa-Musume Mission Hospital</label>
           <value>musume</value>
         </item>
         <item>
-          <label>19. Mberengwa-Mberengwa District Hospital</label>
+          <label>42. Mberengwa-Mberengwa District Hospital</label>
           <value>mberengwa</value>
         </item>
         <item>
-          <label>20. Mberengwa-Masase Mission Hospital</label>
+          <label>43. Mberengwa-Masase Mission Hospital</label>
           <value>masase</value>
+        </item>
+        <item>
+          <label>44. Other</label>
+          <value>other</value>
         </item>
       </select1>
       <input ref="/data/person/enrollment_location">

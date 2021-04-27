@@ -26,19 +26,19 @@ module.exports = {
   enroll: {
     person: [
       [],
-      ['Person A', 'seke_north', 'Location A', '12345', '23', '+263732123456', '+263732456780', 'english']
+      ['Person A', 'guruve_hospital', 'Location A', '12345', '23', '+263732123456', '+263732456780', 'english']
     ],
     invalidName: [
       [],
-      ['Person A 832!', 'seke_north', 'Location A', '12345', '23', '+263732123456', '+263732456780', 'english']
+      ['Person A 832!', 'guruve_hospital', 'Location A', '12345', '23', '+263732123456', '+263732456780', 'english']
     ],
     invalidPhone: [
       [],
-      ['Person A', 'seke_north', 'Location A', '12345', '23', '+2637321234', '+254732456780', 'english']
+      ['Person A', 'guruve_hospital', 'Location A', '12345', '23', '+2637321234', '+254732456780', 'english']
     ],
     invalidVMMCNo: [
       [],
-      ['Person A', 'seke_north', 'Location A', '12-345', '23', '+263732123456', '+263732456780', 'english']
+      ['Person A', 'guruve_hospital', 'Location A', '12-345', '23', '+263732123456', '+263732456780', 'english']
     ]
   }
 };

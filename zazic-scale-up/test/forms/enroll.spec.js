@@ -41,7 +41,7 @@ describe('Enrollment', () => {
             },
             type: 'person',
             name: 'Person A',
-            enrollment_facility: 'seke_north',
+            enrollment_facility: 'guruve_hospital',
             enrollment_location: 'Location A',
             vmmc_no: '12345',
             age_years: '23',
