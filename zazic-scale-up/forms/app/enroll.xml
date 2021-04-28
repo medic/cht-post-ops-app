@@ -337,6 +337,10 @@
           <label>Shona</label>
           <value>shona</value>
         </item>
+        <item>
+          <label>Ndebele</label>
+          <value>ndebele</value>
+        </item>
       </select1>
     </group>
   </h:body>

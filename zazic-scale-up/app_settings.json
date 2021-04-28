@@ -322,6 +322,18 @@
           "trigger": "assign_schedule",
           "params": "Day 7 No Response Reminder Shona",
           "bool_expr": "doc.fields.language_preference == 'shona'"
+        },
+        {
+          "name": "on_create",
+          "trigger": "assign_schedule",
+          "params": "Enrolled Client Reminders Ndebele",
+          "bool_expr": "doc.fields.language_preference == 'ndebele'"
+        },
+        {
+          "name": "on_create",
+          "trigger": "assign_schedule",
+          "params": "Day 7 No Response Reminder Ndebele",
+          "bool_expr": "doc.fields.language_preference == 'ndebele'"
         }
       ],
       "validations": {
@@ -345,6 +357,12 @@
           "trigger": "clear_schedule",
           "params": "Day 7 No Response Reminder Shona",
           "bool_expr": ""
+        },
+        {
+          "name": "on_create",
+          "trigger": "clear_schedule",
+          "params": "Day 7 No Response Reminder Ndebele",
+          "bool_expr": ""
         }
       ],
       "validations": {},
@@ -364,6 +382,12 @@
           "name": "on_create",
           "trigger": "clear_schedule",
           "params": "Day 7 No Response Reminder Shona",
+          "bool_expr": ""
+        },
+        {
+          "name": "on_create",
+          "trigger": "clear_schedule",
+          "params": "Day 7 No Response Reminder Ndebele",
           "bool_expr": ""
         }
       ],
@@ -422,6 +446,12 @@
           "bool_expr": "doc.fields.language_preference == 'shona'",
           "translation_key": "shona.messages.2wt.notification",
           "recipient": "phone"
+        },
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.fields.language_preference == 'ndebele'",
+          "translation_key": "ndebele.messages.2wt.notification",
+          "recipient": "phone"
         }
       ]
     },
@@ -438,6 +468,12 @@
           "event_type": "report_accepted",
           "bool_expr": "doc.patient.language_preference == 'shona'",
           "translation_key": "shona.messages.2wt.potential.ae.response",
+          "recipient": "phone"
+        },
+        {
+          "event_type": "report_accepted",
+          "bool_expr": "doc.patient.language_preference == 'ndebele'",
+          "translation_key": "ndebele.messages.2wt.potential.ae.response",
           "recipient": "phone"
         }
       ]
@@ -657,6 +693,112 @@
       ]
     },
     {
+      "name": "Enrolled Client Reminders Ndebele",
+      "summary": "",
+      "description": "",
+      "start_from": "reported_date",
+      "messages": [
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 1,
+          "offset": "1 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.2",
+          "group": 2,
+          "offset": "2 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 3,
+          "offset": "3 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 4,
+          "offset": "4 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 5,
+          "offset": "5 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 6,
+          "offset": "6 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.7",
+          "group": 7,
+          "offset": "7 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 8,
+          "offset": "8 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 9,
+          "offset": "9 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 10,
+          "offset": "10 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 11,
+          "offset": "11 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 12,
+          "offset": "12 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.daily",
+          "group": 13,
+          "offset": "13 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        },
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.14",
+          "group": 14,
+          "offset": "14 days",
+          "send_time": "05:00",
+          "recipient": "phone"
+        }
+      ]
+    },
+    {
       "name": "Day 7 No Response Reminder English",
       "summary": "",
       "description": "",
@@ -679,6 +821,21 @@
       "messages": [
         {
           "translation_key": "shona.messages.2wt.reminder.no.contact",
+          "group": 7,
+          "offset": "7 days",
+          "send_time": "09:00",
+          "recipient": "phone"
+        }
+      ]
+    },
+    {
+      "name": "Day 7 No Response Reminder Ndebele",
+      "summary": "",
+      "description": "",
+      "start_from": "reported_date",
+      "messages": [
+        {
+          "translation_key": "ndebele.messages.2wt.reminder.no.contact",
           "group": 7,
           "offset": "7 days",
           "send_time": "09:00",
