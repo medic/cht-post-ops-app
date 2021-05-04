@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
-    <h:title>Mute</h:title>
+    <h:title>Stop Message</h:title>
     <model>
       <instance>
-        <r id="mute" prefix="J1!mute!" delimiter="#" version="2017-09-30 00:00:00">
+        <r id="stop_message" prefix="J1!stop_message!" delimiter="#" version="2017-09-30 00:00:00">
           <inputs>
             <meta>
               <location>
