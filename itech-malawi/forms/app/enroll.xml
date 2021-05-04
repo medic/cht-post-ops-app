@@ -20,16 +20,15 @@
             <contact>
               <_id/>
               <name/>
-              <phone/>
               <parent>
                 <_id/>
               </parent>
             </contact>
           </inputs>
           <patient_name/>
-          <patient_uuid tag="hidden" db-doc-ref=" /enroll/person "/>
+          <patient_uuid db-doc-ref=" /enroll/person " tag="hidden"/>
           <place_id tag="hidden"/>
-          <phone/>
+          <patient_phone/>
           <ctx/>
           <editing/>
           <forbid>
@@ -55,8 +54,9 @@
             <first_name/>
             <surname/>
             <name/>
-            <mpc_no/>
-            <arv_no/>
+            <national_id/>
+            <filing_number>FN</filing_number>
+            <arv_no>MPC-ARV-</arv_no>
             <consent/>
             <phone/>
             <alt_phone/>
@@ -64,6 +64,17 @@
             <language_code/>
             <telegram_id/>
           </person>
+          <summary>
+            <d_first_name/>
+            <d_surname/>
+            <d_national_id/>
+            <d_filing_number/>
+            <d_arv_no/>
+            <d_consent/>
+            <d_phone/>
+            <d_alt_phone/>
+            <d_selected_language/>
+          </summary>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -76,12 +87,11 @@
       <bind nodeset="/enroll/inputs/is_task" type="string"/>
       <bind nodeset="/enroll/inputs/contact/_id" type="db:person" required="true()"/>
       <bind nodeset="/enroll/inputs/contact/name" type="string"/>
-      <bind nodeset="/enroll/inputs/contact/phone" type="string"/>
       <bind nodeset="/enroll/inputs/contact/parent/_id" type="string"/>
       <bind nodeset="/enroll/patient_name" type="string" calculate="concat(../person/first_name, ' ', ../person/surname)"/>
       <bind nodeset="/enroll/patient_uuid" type="string" calculate="person"/>
       <bind nodeset="/enroll/place_id" type="string" calculate="../inputs/contact/_id"/>
-      <bind nodeset="/enroll/phone" type="string" calculate="../person/phone"/>
+      <bind nodeset="/enroll/patient_phone" type="string" calculate="../person/phone"/>
       <bind nodeset="/enroll/ctx" type="string" calculate="instance('contact-summary')/context/isContact"/>
       <bind nodeset="/enroll/editing" type="string" calculate="if( /enroll/ctx  = 'yes', 'no', 'yes')"/>
       <bind nodeset="/enroll/forbid" relevant="../editing = 'yes'"/>
@@ -95,18 +105,28 @@
       <bind nodeset="/enroll/person/rapidpro/language" type="string" calculate="../language_preference"/>
       <bind nodeset="/enroll/person/rapidpro/reminders" type="string" calculate="true()"/>
       <bind nodeset="/enroll/person/rapidpro/adherence" type="string" calculate="true()"/>
-      <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="now()"/>
+      <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="date-time(decimal-date-time(now())+4)"/>
       <bind nodeset="/enroll/person/first_name" type="string" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
       <bind nodeset="/enroll/person/surname" type="string" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
       <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
-      <bind nodeset="/enroll/person/mpc_no" type="string" constraint="regex(., '^P[0-9]{1,7}$')" required="true()"/>
-      <bind nodeset="/enroll/person/arv_no" type="string" required="true()"/>
-      <bind nodeset="/enroll/person/consent" type="select" jr:constraintMsg="Client must give consent to be registered" jr:requiredMsg="Please confirm consent" required="true()"/>
-      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="true()"/>
-      <bind nodeset="/enroll/person/alt_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')" required="false()"/>
+      <bind nodeset="/enroll/person/national_id" type="string" constraint="regex(., '^[a-zA-Z0-9]{6,13}$')" required="true()"/>
+      <bind nodeset="/enroll/person/filing_number" type="string" constraint="regex(., '^FN[0-9]+$')" required="true()"/>
+      <bind nodeset="/enroll/person/arv_no" type="string" constraint="regex(., '^MPC-ARV-[0-9]+$')"/>
+      <bind nodeset="/enroll/person/consent" type="select" jr:constraintMsg="Client must give consent to be registered" required="true()" jr:requiredMsg="Please confirm consent"/>
+      <bind nodeset="/enroll/person/phone" type="string" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number" required="true()"/>
+      <bind nodeset="/enroll/person/alt_phone" type="string" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number" required="false()"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/enroll/person/language_code" type="string" calculate="if(selected( /enroll/person/language_preference , 'english'), 'eng', 'nya')"/>
       <bind nodeset="/enroll/person/telegram_id" type="string" required="false()"/>
+      <bind nodeset="/enroll/summary/d_first_name" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_surname" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_national_id" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_filing_number" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_arv_no" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_consent" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_phone" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_alt_phone" readonly="true()" type="string"/>
+      <bind nodeset="/enroll/summary/d_selected_language" readonly="true()" type="string"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -130,9 +150,6 @@
         </input>
         <input appearance="hidden" ref="/enroll/inputs/contact/name">
           <label>Patient Name</label>
-        </input>
-        <input appearance="hidden" ref="/enroll/inputs/contact/phone">
-          <label>Phone Number</label>
         </input>
         <group ref="/enroll/inputs/contact/parent">
           <label>Parent</label>
@@ -182,12 +199,16 @@
       <input ref="/enroll/person/surname">
         <label>Surname</label>
       </input>
-      <input appearance="number" ref="/enroll/person/mpc_no">
-        <label>MPC Patient ID</label>
-        <hint>The Patient ID should be in P1700.. format</hint>
+      <input appearance="number" ref="/enroll/person/national_id">
+        <label>National ID</label>
+        <hint>National ID should be numbers or letters between 6 and 13 characters long</hint>
+      </input>
+      <input ref="/enroll/person/filing_number">
+        <label>Filing Number</label>
       </input>
       <input ref="/enroll/person/arv_no">
-        <label>ARV number</label>
+        <label>ARV Number</label>
+        <hint>Should be in the format MPC-ARV-02392</hint>
       </input>
       <select ref="/enroll/person/consent">
         <label>Does the patient consent to participate in the study?</label>
@@ -218,6 +239,36 @@
       <input ref="/enroll/person/telegram_id">
         <label>Telegram ID</label>
         <hint>This is for test purpose only</hint>
+      </input>
+    </group>
+    <group appearance="field-list" ref="/enroll/summary">
+      <label>Summary</label>
+      <input ref="/enroll/summary/d_first_name">
+        <label>First Name: <output value=" /enroll/person/first_name "/></label>
+      </input>
+      <input ref="/enroll/summary/d_surname">
+        <label>Surname: <output value=" /enroll/person/surname "/></label>
+      </input>
+      <input ref="/enroll/summary/d_national_id">
+        <label>National ID: <output value=" /enroll/person/national_id "/></label>
+      </input>
+      <input ref="/enroll/summary/d_filing_number">
+        <label>Filing Number: <output value=" /enroll/person/filing_number "/></label>
+      </input>
+      <input ref="/enroll/summary/d_arv_no">
+        <label>ARV Number: <output value=" /enroll/person/arv_no "/></label>
+      </input>
+      <input ref="/enroll/summary/d_consent">
+        <label>Consent: <output value=" /enroll/person/consent "/></label>
+      </input>
+      <input ref="/enroll/summary/d_phone">
+        <label>Phone Number: <output value=" /enroll/person/phone "/></label>
+      </input>
+      <input ref="/enroll/summary/d_alt_phone">
+        <label>Alternative/Next of Kin's Mobile Number: <output value=" /enroll/person/alt_phone "/></label>
+      </input>
+      <input ref="/enroll/summary/d_selected_language">
+        <label>Preferred Language: <output value=" /enroll/person/language_preference "/></label>
       </input>
     </group>
   </h:body>
