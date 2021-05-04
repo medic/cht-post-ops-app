@@ -21,16 +21,29 @@
               <source_id/>
               <name/>
               <phone/>
+              <mpc_no/>
             </contact>
           </inputs>
           <patient_name/>
           <patient_id tag="hidden"/>
           <patient_phone/>
+          <mpc_id/>
+          <current_visit_date/>
           <n>
             <contact_name/>
             <contact_phone/>
+            <mpc_id/>
+            <current_visit_date_g/>
             <new_date/>
+            <days_apart/>
           </n>
+          <summary>
+            <contact_name/>
+            <contact_phone/>
+            <mpc_id/>
+            <prev_visit_date_g/>
+            <next_visit_date_g/>
+          </summary>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -44,12 +57,23 @@
       <bind nodeset="/r/inputs/contact/source_id" type="string"/>
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
+      <bind nodeset="/r/inputs/contact/mpc_no" type="string"/>
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id" required="true()"/>
       <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
+      <bind nodeset="/r/mpc_id" type="string" calculate="../inputs/contact/mpc_no"/>
+      <bind nodeset="/r/current_visit_date" type="string" calculate="coalesce(instance('contact-summary')/context/current_visit_date, .)"/>
       <bind nodeset="/r/n/contact_name" readonly="true()" type="string"/>
       <bind nodeset="/r/n/contact_phone" readonly="true()" type="string"/>
-      <bind nodeset="/r/n/new_date" type="date" required="false()"/>
+      <bind nodeset="/r/n/mpc_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/current_visit_date_g" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/new_date" type="date" required="true()" constraint="../days_apart &gt; 0 and ../days_apart &lt; 15"/>
+      <bind nodeset="/r/n/days_apart" type="string" calculate="round((decimal-date-time( /r/n/new_date ) - decimal-date-time( /r/current_visit_date )) , 0)"/>
+      <bind nodeset="/r/summary/contact_name" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/contact_phone" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/mpc_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/prev_visit_date_g" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/next_visit_date_g" readonly="true()" type="string"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -77,19 +101,46 @@
         <input appearance="hidden" ref="/r/inputs/contact/phone">
           <label>Phone Number</label>
         </input>
+        <input appearance="hidden" ref="/r/inputs/contact/mpc_no">
+          <label>MPC Number</label>
+        </input>
       </group>
     </group>
     <group appearance="field-list" ref="/r/n">
       <label></label>
       <input ref="/r/n/contact_name">
-        <label>&lt;h4&gt;Patient Name: <output value=" /r/patient_name "/>&lt;/h4&gt;</label>
+        <label>Patient Name: <output value=" /r/patient_name "/></label>
       </input>
       <input ref="/r/n/contact_phone">
-        <label>&lt;h4&gt;Patient Phone: <output value=" /r/patient_phone "/>&lt;/h4&gt;</label>
+        <label>Patient Phone: <output value=" /r/patient_phone "/></label>
+      </input>
+      <input ref="/r/n/mpc_id">
+        <label>MPC Number: <output value=" /r/inputs/contact/mpc_no "/></label>
+      </input>
+      <input ref="/r/n/current_visit_date_g">
+        <label>Current Visit Date: <output value=" /r/current_visit_date "/></label>
       </input>
       <input ref="/r/n/new_date">
         <label>Please select date</label>
         <hint>Date should fall within 1-14 days after the current/old appointment visit date.</hint>
+      </input>
+    </group>
+    <group appearance="field-list" ref="/r/summary">
+      <label>Summary</label>
+      <input ref="/r/summary/contact_name">
+        <label>Patient Name: <output value=" /r/patient_name "/></label>
+      </input>
+      <input ref="/r/summary/contact_phone">
+        <label>Patient Phone: <output value=" /r/patient_phone "/></label>
+      </input>
+      <input ref="/r/summary/mpc_id">
+        <label>MPC Number: <output value=" /r/inputs/contact/mpc_no "/></label>
+      </input>
+      <input ref="/r/summary/prev_visit_date_g">
+        <label>Old Visit Date: <output value=" /r/current_visit_date "/></label>
+      </input>
+      <input ref="/r/summary/next_visit_date_g">
+        <label>New Visit Date: <output value=" /r/n/new_date "/></label>
       </input>
     </group>
   </h:body>
