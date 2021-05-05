@@ -1,0 +1,29 @@
+itech-malawi.staging:
+  environment: itech-malawi.staging
+  production_environment: false
+  # required_contexts: ["ci"]
+
+itech-malawi.production:
+  environment: itech-malawi.production
+  production_environment: true
+  # required_contexts: ["ci"]
+
+itech-aurum.staging:
+  environment: itech-aurum.staging
+  production_environment: false
+  # required_contexts: ["ci"]
+
+itech-aurum.production:
+  environment: itech-aurum.production
+  production_environment: true
+  # required_contexts: ["ci"]
+
+zazic-scale-up.staging:
+  environment: zazic-scale-up.staging
+  production_environment: false
+  # required_contexts: ["ci"]
+
+zazic-scale-up.production:
+  environment: zazic-scale-up.production
+  production_environment: true
+  # required_contexts: ["ci"]

@@ -1,0 +1,140 @@
+name: App deployment
+
+on: ['deployment']
+
+jobs:
+  deployment:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: 'Deployment pending'
+      uses: 'deliverybot/deployment-status@master'
+      with:
+        state: 'pending'
+        token: '${{ github.token }}'
+
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+
+    - name: Push itech-malawi to staging
+      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'itech-malawi.staging'
+      with:
+        directory: './itech-malawi'
+        hostname: itech-malawi.dev.medicmobile.org
+        username: ${{ secrets.MALAWI_STAGING_USERNAME }}
+        password: ${{ secrets.MALAWI_STAGING_PASSWORD }}
+
+    - name: Push itech-malawi to production
+      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'itech-malawi.production'
+      with:
+        directory: './itech-malawi'
+        hostname: itech-malawi.app.medicmobile.org
+        username: ${{ secrets.MALAWI_PRODUCTION_USERNAME }}
+        password: ${{ secrets.MALAWI_PRODUCTION_PASSWORD }}
+
+    - name: Push itech-aurum to staging
+      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'itech-aurum.staging'
+      with:
+        directory: './itech-aurum'
+        hostname: itech-aurum.dev.medicmobile.org
+        username: ${{ secrets.AURUM_STAGING_USERNAME }}
+        password: ${{ secrets.AURUM_STAGING_PASSWORD }}
+
+    - name: Push itech-aurum to production
+      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'itech-aurum.production'
+      with:
+        directory: './itech-aurum'
+        hostname: itech-aurum.app.medicmobile.org
+        username: ${{ secrets.AURUM_PRODUCTION_USERNAME }}
+        password: ${{ secrets.AURUM_PRODUCTION_PASSWORD }}
+
+    - name: Push zazic-scale-up to staging
+      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'zazic-scale-up.staging'
+      with:
+        directory: './zazic-scale-up'
+        hostname: zazic-scale-up-zimbabwe.dev.medicmobile.org
+        username: ${{ secrets.ZAZIC_STAGING_USERNAME }}
+        password: ${{ secrets.ZAZIC_STAGING_PASSWORD }}
+
+    - name: Push zazic-scale-up to production
+      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'zazic-scale-up.production'
+      with:
+        directory: './zazic-scale-up'
+        hostname: zazic-scale-up.app.medicmobile.org
+        username: ${{ secrets.ZAZIC_PRODUCTION_USERNAME }}
+        password: ${{ secrets.ZAZIC_PRODUCTION_PASSWORD }}
+
+   - name: 'Slack notify success'
+      if: success() && github.event.deployment.environment == 'itech-malawi.production'
+      uses: rtCamp/action-slack-notify@v2.1.2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: i-tech-malawi
+        SLACK_USERNAME: deliverybot
+        SLACK_ICON_EMOJI: ':rocket:'
+        SLACK_TITLE: 'Production deployment successful :successful:'
+        SLACK_FOOTER: ''
+        SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+        MSG_MINIMAL: commit
+
+    - name: 'Slack notify success'
+       if: success() && github.event.deployment.environment == 'itech-aurum.production'
+       uses: rtCamp/action-slack-notify@v2.1.2
+       env:
+         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+         SLACK_CHANNEL: i-tech_southafrica
+         SLACK_USERNAME: deliverybot
+         SLACK_ICON_EMOJI: ':rocket:'
+         SLACK_TITLE: 'Production deployment successful :successful:'
+         SLACK_FOOTER: ''
+         SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+         MSG_MINIMAL: commit
+
+    - name: 'Slack notify success'
+       if: success() && github.event.deployment.environment == 'zazic-scale-up.production'
+       uses: rtCamp/action-slack-notify@v2.1.2
+       env:
+         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+         SLACK_CHANNEL: i-tech-zimbabwe
+         SLACK_USERNAME: deliverybot
+         SLACK_ICON_EMOJI: ':rocket:'
+         SLACK_TITLE: 'Production deployment successful :successful:'
+         SLACK_FOOTER: ''
+         SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+         MSG_MINIMAL: commit
+
+    - name: 'Slack notify failure'
+      if: failure()
+      uses: rtCamp/action-slack-notify@v2.1.2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: app-services-deployments
+        SLACK_USERNAME: deliverybot
+        SLACK_COLOR: '#B33A3A'
+        SLACK_ICON_EMOJI: ':rocket:'
+        SLACK_TITLE: 'Production deployment failed :warning:'
+        SLACK_FOOTER: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+        SLACK_MESSAGE: ${{ github.repository }}
+        MSG_MINIMAL: commit
+
+    - name: 'Deployment success'
+      if: success()
+      uses: 'deliverybot/deployment-status@master'
+      with:
+        state: 'success'
+        token: '${{ github.token }}'
+
+    - name: 'Deployment failure'
+      if: failure()
+      uses: 'deliverybot/deployment-status@master'
+      with:
+        state: 'failure'
+        token: '${{ github.token }}'
