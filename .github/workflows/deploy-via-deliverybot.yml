@@ -86,30 +86,30 @@ jobs:
         MSG_MINIMAL: commit
 
     - name: 'Slack notify success'
-       if: success() && github.event.deployment.environment == 'itech-aurum.production'
-       uses: rtCamp/action-slack-notify@v2.1.2
-       env:
-         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-         SLACK_CHANNEL: i-tech_southafrica
-         SLACK_USERNAME: deliverybot
-         SLACK_ICON_EMOJI: ':rocket:'
-         SLACK_TITLE: 'Production deployment successful :successful:'
-         SLACK_FOOTER: ''
-         SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
-         MSG_MINIMAL: commit
+      if: success() && github.event.deployment.environment == 'itech-aurum.production'
+      uses: rtCamp/action-slack-notify@v2.1.2
+      env:
+       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+       SLACK_CHANNEL: i-tech_southafrica
+       SLACK_USERNAME: deliverybot
+       SLACK_ICON_EMOJI: ':rocket:'
+       SLACK_TITLE: 'Production deployment successful :successful:'
+       SLACK_FOOTER: ''
+       SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+       MSG_MINIMAL: commit
 
     - name: 'Slack notify success'
-       if: success() && github.event.deployment.environment == 'zazic-scale-up.production'
-       uses: rtCamp/action-slack-notify@v2.1.2
-       env:
-         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-         SLACK_CHANNEL: i-tech-zimbabwe
-         SLACK_USERNAME: deliverybot
-         SLACK_ICON_EMOJI: ':rocket:'
-         SLACK_TITLE: 'Production deployment successful :successful:'
-         SLACK_FOOTER: ''
-         SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
-         MSG_MINIMAL: commit
+      if: success() && github.event.deployment.environment == 'zazic-scale-up.production'
+      uses: rtCamp/action-slack-notify@v2.1.2
+      env:
+       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+       SLACK_CHANNEL: i-tech-zimbabwe
+       SLACK_USERNAME: deliverybot
+       SLACK_ICON_EMOJI: ':rocket:'
+       SLACK_TITLE: 'Production deployment successful :successful:'
+       SLACK_FOOTER: ''
+       SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+       MSG_MINIMAL: commit
 
     - name: 'Slack notify failure'
       if: failure()
