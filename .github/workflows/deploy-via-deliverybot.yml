@@ -19,7 +19,7 @@ jobs:
         node-version: 10.x
 
     - name: Push itech-malawi to staging
-      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
       if: github.event.deployment.environment == 'itech-malawi.staging'
       with:
         directory: './itech-malawi'
@@ -28,7 +28,7 @@ jobs:
         password: ${{ secrets.MALAWI_STAGING_PASSWORD }}
 
     - name: Push itech-malawi to production
-      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
       if: github.event.deployment.environment == 'itech-malawi.production'
       with:
         directory: './itech-malawi'
@@ -37,7 +37,7 @@ jobs:
         password: ${{ secrets.MALAWI_PRODUCTION_PASSWORD }}
 
     - name: Push itech-aurum to staging
-      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
       if: github.event.deployment.environment == 'itech-aurum.staging'
       with:
         directory: './itech-aurum'
@@ -46,7 +46,7 @@ jobs:
         password: ${{ secrets.AURUM_STAGING_PASSWORD }}
 
     - name: Push itech-aurum to production
-      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
       if: github.event.deployment.environment == 'itech-aurum.production'
       with:
         directory: './itech-aurum'
@@ -55,7 +55,7 @@ jobs:
         password: ${{ secrets.AURUM_PRODUCTION_PASSWORD }}
 
     - name: Push zazic-scale-up to staging
-      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
       if: github.event.deployment.environment == 'zazic-scale-up.staging'
       with:
         directory: './zazic-scale-up'
@@ -64,7 +64,7 @@ jobs:
         password: ${{ secrets.ZAZIC_STAGING_PASSWORD }}
 
     - name: Push zazic-scale-up to production
-      uses: 'medic/cht-core/deploy-with-medic-conf@master'
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
       if: github.event.deployment.environment == 'zazic-scale-up.production'
       with:
         directory: './zazic-scale-up'
