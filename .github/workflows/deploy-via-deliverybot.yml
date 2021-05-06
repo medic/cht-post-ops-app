@@ -72,7 +72,7 @@ jobs:
         username: ${{ secrets.ZAZIC_PRODUCTION_USERNAME }}
         password: ${{ secrets.ZAZIC_PRODUCTION_PASSWORD }}
 
-   - name: 'Slack notify success'
+    - name: 'Slack notify success'
       if: success() && github.event.deployment.environment == 'itech-malawi.production'
       uses: rtCamp/action-slack-notify@v2.1.2
       env:
