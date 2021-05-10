@@ -31,7 +31,6 @@ const cards = [
                 { label: 'Enrollment_date', value: thisContact.reported_date, filter: 'date', width: 6 },
                 { label: 'National ID', value: thisContact.national_id, width: 6 },
                 { label: 'Filing Number', value: thisContact.filing_number, width: 6 },
-                { label: 'ARV N0', value: thisContact.arv_no, width: 6 },
                 { label: 'Preferred Language', value: thisContact.language_preference, width: 6, translate: true },
                 { label: 'Next Visit Date', value: thisContact.rapidpro.visit_date, filter: 'date', width: 6 }
             );
