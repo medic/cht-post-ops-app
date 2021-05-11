@@ -607,14 +607,22 @@
   ],
   "muting": {
     "mute_forms": [
-      "mute"
+      "mute",
+      "stop_message",
+      "patient_transferred",
+      "general_form"
     ],
     "unmute_forms": [
       "unmute"
     ],
     "validations": {
       "join_responses": true,
-      "list": []
+      "list": [
+        {
+          "property": "b2c_outcome",
+          "rule": "otherEquals('form', 'general_form') ? equals('Dead') : optional()"
+        }
+      ]
     }
   },
   "tasks": {

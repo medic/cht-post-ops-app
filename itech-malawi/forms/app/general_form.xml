@@ -19,6 +19,8 @@
             <contact>
               <_id/>
               <name/>
+              <national_id/>
+              <filing_number/>
               <phone/>
               <mpc_no/>
             </contact>
@@ -27,18 +29,25 @@
           <patient_phone/>
           <patient_id tag="hidden"/>
           <patient_mpc_id/>
-          <tracing_outcome>
-            <contact_name/>
-            <contact_phone/>
-            <contact_mpc_id/>
-            <b2c_outcome/>
-            <explain/>
-          </tracing_outcome>
+          <b2c_outcome/>
+          <explain/>
+          <event>
+            <selected_outcome/>
+            <date_of_event/>
+            <formatted_doe/>
+          </event>
           <group_summary>
+            <_task_label/>
+            <_submit_warning/>
+            <_form_description/>
+            <_patient_details/>
             <contact_name/>
             <contact_phone/>
-            <contact_mpc_id/>
+            <_national_id/>
+            <_filing_number/>
+            <_b2c_outcome/>
             <outcome/>
+            <_date_of_event/>
           </group_summary>
           <meta tag="hidden">
             <instanceID/>
@@ -51,21 +60,31 @@
       <bind nodeset="/r/inputs/source_id" type="string"/>
       <bind nodeset="/r/inputs/contact/_id" type="db:person" required="true()"/>
       <bind nodeset="/r/inputs/contact/name" type="string"/>
+      <bind nodeset="/r/inputs/contact/national_id" type="string"/>
+      <bind nodeset="/r/inputs/contact/filing_number" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
       <bind nodeset="/r/inputs/contact/mpc_no" type="string"/>
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
       <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/patient_mpc_id" type="string" calculate="../inputs/contact/mpc_no"/>
-      <bind nodeset="/r/tracing_outcome/contact_name" readonly="true()" type="string"/>
-      <bind nodeset="/r/tracing_outcome/contact_phone" readonly="true()" type="string"/>
-      <bind nodeset="/r/tracing_outcome/contact_mpc_id" readonly="true()" type="string"/>
-      <bind nodeset="/r/tracing_outcome/b2c_outcome" type="select1" required="true()"/>
-      <bind nodeset="/r/tracing_outcome/explain" type="string" required="true()" relevant="selected( /r/tracing_outcome/b2c_outcome , 'other')"/>
+      <bind nodeset="/r/b2c_outcome" type="select1" required="true()"/>
+      <bind nodeset="/r/explain" type="string" relevant="selected( /r/b2c_outcome , 'other')" required="true()"/>
+      <bind nodeset="/r/event" relevant="( /r/b2c_outcome  = 'Dead' or  /r/b2c_outcome  = 'T.O Self' or  /r/b2c_outcome  = 'T.O Official' or  /r/b2c_outcome  = 'Stop ARV self' or  /r/b2c_outcome  = 'Stop ARV Official')"/>
+      <bind nodeset="/r/event/selected_outcome" readonly="true()" type="string"/>
+      <bind nodeset="/r/event/date_of_event" type="date"/>
+      <bind nodeset="/r/event/formatted_doe" type="string" calculate="format-date( /r/event/date_of_event , '%d-%m-%y')"/>
+      <bind nodeset="/r/group_summary/_task_label" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_submit_warning" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_form_description" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_patient_details" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/contact_name" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/contact_phone" readonly="true()" type="string"/>
-      <bind nodeset="/r/group_summary/contact_mpc_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_national_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_filing_number" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_b2c_outcome" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/outcome" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_date_of_event" readonly="true()" type="string"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -84,103 +103,127 @@
           <label>What is the patient's name?</label>
           <hint>Select a person from list</hint>
         </input>
+        <input appearance="hidden" ref="/r/inputs/contact/national_id">
+          <label>National ID</label>
+        </input>
+        <input appearance="hidden" ref="/r/inputs/contact/filing_number">
+          <label>Filing Number</label>
+        </input>
       </group>
     </group>
-    <group appearance="field-list" ref="/r/tracing_outcome">
-      <label>Complete this form to capture tracing outcome</label>
-      <input ref="/r/tracing_outcome/contact_name">
-        <label>Patient Name: <output value=" /r/patient_name "/></label>
+    <select1 ref="/r/b2c_outcome">
+      <label>Back To Care Outcome?</label>
+      <item>
+        <label>Error</label>
+        <value>Error</value>
+      </item>
+      <item>
+        <label>File not found</label>
+        <value>File not found</value>
+      </item>
+      <item>
+        <label>Subsequent visit</label>
+        <value>Subsequent visit</value>
+      </item>
+      <item>
+        <label>Not traced</label>
+        <value>Not traced</value>
+      </item>
+      <item>
+        <label>Tracing rejected</label>
+        <value>Tracing rejected</value>
+      </item>
+      <item>
+        <label>No follow up attempt</label>
+        <value>No follow up attempt</value>
+      </item>
+      <item>
+        <label>Dead</label>
+        <value>Dead</value>
+      </item>
+      <item>
+        <label>T.O Self</label>
+        <value>T.O Self</value>
+      </item>
+      <item>
+        <label>T.O Official</label>
+        <value>T.O Official</value>
+      </item>
+      <item>
+        <label>Stop ARV self</label>
+        <value>Stop ARV self</value>
+      </item>
+      <item>
+        <label>Stop ARV Official</label>
+        <value>Stop ARV Official</value>
+      </item>
+      <item>
+        <label>Refused to Answer</label>
+        <value>Refused to Answer</value>
+      </item>
+      <item>
+        <label>Never started ARVs</label>
+        <value>Never started ARVs</value>
+      </item>
+      <item>
+        <label>On ARVs gaps</label>
+        <value>On ARVs gaps</value>
+      </item>
+      <item>
+        <label>On ARVs no gaps</label>
+        <value>On ARVs no gaps</value>
+      </item>
+      <item>
+        <label>Other</label>
+        <value>Other</value>
+      </item>
+    </select1>
+    <input ref="/r/explain">
+      <label>Please Explain</label>
+    </input>
+    <group appearance="field-list" ref="/r/event">
+      <label></label>
+      <input ref="/r/event/selected_outcome">
+        <label>Outcome: <output value=" /r/b2c_outcome "/></label>
       </input>
-      <input ref="/r/tracing_outcome/contact_phone">
-        <label>Patient Phone: <output value=" /r/patient_phone "/></label>
-      </input>
-      <input ref="/r/tracing_outcome/contact_mpc_id">
-        <label>MPC ID: <output value=" /r/patient_mpc_id "/></label>
-      </input>
-      <select1 ref="/r/tracing_outcome/b2c_outcome">
-        <label>Back To Care Outcome?</label>
-        <item>
-          <label>Error</label>
-          <value>error</value>
-        </item>
-        <item>
-          <label>File not found</label>
-          <value>file_not_found</value>
-        </item>
-        <item>
-          <label>Subsequent visit</label>
-          <value>subsequent_visit</value>
-        </item>
-        <item>
-          <label>Not traced</label>
-          <value>not_traced</value>
-        </item>
-        <item>
-          <label>Tracing rejected</label>
-          <value>tracing_rejected</value>
-        </item>
-        <item>
-          <label>No follow up attempt</label>
-          <value>no_follow_up_attempt</value>
-        </item>
-        <item>
-          <label>Dead</label>
-          <value>dead</value>
-        </item>
-        <item>
-          <label>T.O Self</label>
-          <value>t_o_self</value>
-        </item>
-        <item>
-          <label>T.O Official</label>
-          <value>t_o_official</value>
-        </item>
-        <item>
-          <label>Stop ARV self</label>
-          <value>stop_arv_self</value>
-        </item>
-        <item>
-          <label>Stop ARV Official</label>
-          <value>stop_arv_official</value>
-        </item>
-        <item>
-          <label>Refused to Answer</label>
-          <value>refused_to_answer</value>
-        </item>
-        <item>
-          <label>Never started ARVs</label>
-          <value>never_started_arv</value>
-        </item>
-        <item>
-          <label>On ARVs gaps</label>
-          <value>on_arvs_gap</value>
-        </item>
-        <item>
-          <label>On ARVs no gaps</label>
-          <value>on_arvs_no_gap</value>
-        </item>
-        <item>
-          <label>Other</label>
-          <value>other</value>
-        </item>
-      </select1>
-      <input ref="/r/tracing_outcome/explain">
-        <label>Please Explain</label>
+      <input ref="/r/event/date_of_event">
+        <label>Date of Event</label>
       </input>
     </group>
-    <group appearance="field-list" ref="/r/group_summary">
-      <label>Summary</label>
+    <group appearance="field-list summary" ref="/r/group_summary">
+      <label>Summary page</label>
+      <input appearance="h1 blue" ref="/r/group_summary/_task_label">
+        <label>Task Label</label>
+      </input>
+      <input appearance="h1" ref="/r/group_summary/_submit_warning">
+        <label>Be sure to submit to complete this action</label>
+      </input>
+      <input ref="/r/group_summary/_form_description">
+        <label>Form description: Complete this form to capture the tracing outcomes.</label>
+      </input>
+      <input appearance="h1 yellow" ref="/r/group_summary/_patient_details">
+        <label>Patient Details &lt;I class="fa fa-user"&gt;&lt;/i&gt;</label>
+      </input>
       <input ref="/r/group_summary/contact_name">
         <label>Patient Name: <output value=" /r/patient_name "/></label>
       </input>
       <input ref="/r/group_summary/contact_phone">
         <label>Patient Phone: <output value=" /r/patient_phone "/></label>
       </input>
-      <input ref="/r/group_summary/contact_mpc_id">
-        <label>MPC ID: <output value=" /r/patient_mpc_id "/></label>
+      <input ref="/r/group_summary/_national_id">
+        <label>National ID: <output value=" /r/inputs/contact/national_id "/></label>
+      </input>
+      <input ref="/r/group_summary/_filing_number">
+        <label>Filing Number: <output value=" /r/inputs/contact/filing_number "/></label>
+      </input>
+      <input appearance="h1 blue" ref="/r/group_summary/_b2c_outcome">
+        <label>Findings</label>
       </input>
       <input ref="/r/group_summary/outcome">
-        <label>Back To Care Outcome: <output value=" /r/tracing_outcome/b2c_outcome "/></label>
+        <label>Back To Care Outcome: <output value=" /r/b2c_outcome "/></label>
+      </input>
+      <input ref="/r/group_summary/_date_of_event">
+        <label>Date of Event: <output value=" /r/event/formatted_doe "/></label>
       </input>
     </group>
   </h:body>
