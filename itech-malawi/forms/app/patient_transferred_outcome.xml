@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
-    <h:title>Patient Transferred</h:title>
+    <h:title>Patient Transferred Outcome</h:title>
     <model>
       <instance>
-        <r id="patient_transferred" prefix="J1!patient_transferred!" delimiter="#" version="17/3/2021 12:00:00 AM">
+        <r id="patient_transferred_outcome" prefix="J1!patient_transferred_outcome!" delimiter="#" version="17/3/2021 12:00:00 AM">
           <inputs>
             <meta>
               <location>
@@ -16,10 +16,14 @@
             </meta>
             <source>user</source>
             <source_id/>
+            <request_id/>
+            <request_date/>
             <contact>
               <_id/>
               <name/>
               <phone/>
+              <national_id/>
+              <filing_number/>
             </contact>
           </inputs>
           <patient_name/>
@@ -28,8 +32,14 @@
           <patient_phone/>
           <n>
             <n_header tag="hidden"/>
-            <contact_name/>
-            <contact_phone/>
+            <_contact_name/>
+            <_contact_phone/>
+            <_national_id/>
+            <_filing_number/>
+            <request>
+              <_id/>
+              <date_requested/>
+            </request>
             <client_ok/>
             <additional_notes/>
           </n>
@@ -42,16 +52,24 @@
       <bind nodeset="/r/inputs" relevant="./source = 'user'"/>
       <bind nodeset="/r/inputs/source" type="string"/>
       <bind nodeset="/r/inputs/source_id" type="string"/>
+      <bind nodeset="/r/inputs/request_id" type="string"/>
+      <bind nodeset="/r/inputs/request_date" type="string"/>
       <bind nodeset="/r/inputs/contact/_id" type="db:person" required="true()"/>
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
+      <bind nodeset="/r/inputs/contact/national_id" type="string"/>
+      <bind nodeset="/r/inputs/contact/filing_number" type="string"/>
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
-      <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id" required="true()"/>
+      <bind nodeset="/r/patient_id" type="string" required="true()" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/n/n_header" readonly="true()" type="string"/>
-      <bind nodeset="/r/n/contact_name" readonly="true()" type="string"/>
-      <bind nodeset="/r/n/contact_phone" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/_contact_name" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/_contact_phone" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/_national_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/_filing_number" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/request/_id" type="string" calculate=" /r/inputs/request_id "/>
+      <bind nodeset="/r/n/request/date_requested" type="string" calculate=" /r/inputs/request_date "/>
       <bind nodeset="/r/n/client_ok" type="select1" required="true()"/>
       <bind nodeset="/r/n/additional_notes" type="string" relevant="selected(../client_ok, 'others')" required="false()"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
@@ -66,6 +84,12 @@
       <input appearance="hidden" ref="/r/inputs/source_id">
         <label>Source ID</label>
       </input>
+      <input appearance="hidden" ref="/r/inputs/request_id">
+        <label>Request ID</label>
+      </input>
+      <input appearance="hidden" ref="/r/inputs/request_date">
+        <label>Request Date</label>
+      </input>
       <group ref="/r/inputs/contact">
         <label>Contact</label>
         <input appearance="db-object" ref="/r/inputs/contact/_id">
@@ -78,6 +102,12 @@
         <input ref="/r/inputs/contact/phone">
           <label>Phone Number</label>
         </input>
+        <input ref="/r/inputs/contact/national_id">
+          <label>National ID</label>
+        </input>
+        <input ref="/r/inputs/contact/filing_number">
+          <label>Filing Number</label>
+        </input>
       </group>
     </group>
     <group appearance="field-list" ref="/r/n">
@@ -85,12 +115,21 @@
       <input ref="/r/n/n_header">
         <label>&lt;h4 style="color: #337ab7;"&gt;&lt;p&gt;Complete form if patient transferred clinic. Please note that the patient will no longer receive study messages when you submit this form.&lt;/p&gt;&lt;/h4&gt;</label>
       </input>
-      <input ref="/r/n/contact_name">
-        <label>&lt;h4&gt;Patient Name: <output value=" /r/patient_name "/>&lt;/h4&gt;</label>
+      <input appearance="h1 blue" ref="/r/n/_contact_name">
+        <label>Patient Name: <output value=" /r/patient_name "/></label>
       </input>
-      <input ref="/r/n/contact_phone">
-        <label>&lt;h4&gt;Patient Phone Number: <output value=" /r/patient_phone "/>&lt;/h4&gt;</label>
+      <input ref="/r/n/_contact_phone">
+        <label>Patient Phone Number: <output value=" /r/patient_phone "/></label>
       </input>
+      <input ref="/r/n/_national_id">
+        <label>National ID: <output value=" /r/inputs/contact/national_id "/></label>
+      </input>
+      <input ref="/r/n/_filing_number">
+        <label>Filing Number: <output value=" /r/inputs/contact/filing_number "/></label>
+      </input>
+      <group appearance="hidden" ref="/r/n/request">
+        <label></label>
+      </group>
       <select1 ref="/r/n/client_ok">
         <label>Have you notified the back to care team?</label>
         <item>

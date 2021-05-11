@@ -40,7 +40,11 @@ const cards = [
         modifyContext: function (ctx) {
             
             const latestVisitReport = getNewestReport(reports, ['date_change_request']);
-            const currentVisitDate = getField(latestVisitReport, 'n.new_date');
+            let currentVisitDate = getField(latestVisitReport, 'n.new_date');
+            console.log('@currentVisitDate', currentVisitDate);
+            if (!currentVisitDate) {
+                currentVisitDate = thisContact.rapidpro.visit_date;
+            }
             ctx.current_visit_date = currentVisitDate;
           }
     },

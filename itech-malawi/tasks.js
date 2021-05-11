@@ -1,3 +1,11 @@
+const VISIT_DATE_CHANGE_REQUEST = 'visit_date_change_request';
+// const PATIENT_TRANSFER_REQUEST = 'patient_transfer_request';
+// const STOP_MESSAGE_REQUEST = 'stop_message_request';
+
+const VISIT_DATE_CHANGE_OUTCOME = 'visit_date_change_outcome';
+// const PATIENT_TRANSFER_OUTCOME = 'patient_transfer_outcome';
+// const STOP_MESSAGE_OUTCOME = 'stop_message_outcome';
+
 module.exports = [
   {
     name: 'day2-sms',
@@ -82,34 +90,6 @@ module.exports = [
       end: 365
     }]
   },
-
-  {
-    name: 'ae-referral',
-    icon: 'treatment',
-    title: 'task.ae-referral.title',
-    appliesTo: 'reports',
-    appliesToType: ['potential_ae'],
-    appliesIf: (contact, report) => { return Utils.getField(report, 'note.client_return') === 'yes'; },
-    resolvedIf: (contact, report, event, dueDate) => {
-      return Utils.isFormSubmittedInWindow(
-        contact.reports,
-        'referral_confirmation',
-        report.reported_date,
-        Utils.addDate(dueDate, event.end + 1).getTime()
-      );
-    },
-    actions: [{
-      form: 'referral_confirmation',
-      label: 'SMS Referral',
-    }],
-    events: [{
-      id: 'ae-referral',
-      days: 2,
-      start: 2,
-      end: 365
-    }]
-  },
-
   {
     name: 'no-contact-8',
     icon: 'off',
@@ -227,11 +207,64 @@ module.exports = [
     }],
     events: [{
       days: 1,
-      start: 0,
+      start: 5,
       end: 14
     }],
     resolvedIf: (contact, report) => {
       return Utils.getMostRecentReport(contact.reports, 'patient_transferred') === report && Utils.getField(report, 'n.client_ok') === 'yes';
     }
+  },
+  {
+    name: VISIT_DATE_CHANGE_REQUEST,
+    icon: 'calendar',
+    title: 'Visit Date Change Outcome',
+    appliesTo: 'reports',
+    appliesToType: [VISIT_DATE_CHANGE_REQUEST],
+    actions: [{
+      form: 'visit_date_change_outcome',
+      label: 'Visit Date Change Outcome',
+      modifyContent: function (content, contact, report) {
+        content.is_task = true;
+        content.current_visit_date = contact.contact.rapidpro.visit_date;
+        content.request_id = report._id;
+        content.request_date = report.reported_date;
+      }
+    }],
+    resolvedIf: (contact, report) => {
+      // console.log(contact.reports, report);
+      return contact.reports.find(r => {
+        if (r.form !== VISIT_DATE_CHANGE_OUTCOME || r.is_task || !(r.fields && r.fields.n.request)) return false;
+        return  r.fields.n.request._id === report._id;
+      });
+    },
+    events: [{
+      days: 0,
+      start:2,
+      end: 14
+    }]
+  },
+  {
+    name: 'patient-transferred',
+    icon: 'off',
+    title: 'Patient Transfer',
+    appliesTo: 'reports',
+    appliesToType: ['patient_transferred'],
+    actions: [{
+      form: 'patient_transferred',
+      label: 'Patient Transferred',
+      modifyContent: function (content) {
+        content.is_task = true;
+      }
+    }],
+    resolvedIf: (contact, report) => {
+      const mostRecentTransferReport = Utils.getMostRecentReport(contact.reports, 'patient_transferred');
+      // There is been a newer change report making this obsolete
+      return report.form === 'patient_transferred' && mostRecentTransferReport.reported_date > report.reported_date;
+    },
+    events: [{
+      days: 0,
+      start:2,
+      end: 14
+    }]
   }
 ];
