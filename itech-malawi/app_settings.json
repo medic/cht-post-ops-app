@@ -482,37 +482,22 @@
     }
   },
   "forms": {
-    "2WT_SMS_REPORT": {
+    "patient_transfer_request": {
       "meta": {
-        "code": "2WT_SMS_REPORT",
-        "translation_key": "form.2wt_sms_report.form",
-        "form": "form.2wt_sms_report.form"
+        "code": "patient_transfer_request",
+        "translation_key": "Patient Transfer Request",
+        "form": "patient_transfer_request"
       },
       "fields": {
         "patient_id": {
           "labels": {
             "short": {
-              "translation_key": "form.2wt_sms_report.patient_id"
+              "translation_key": "Patient ID"
             },
             "tiny": "form.2wt_sms_report.patient_id.tiny"
           },
           "position": 0,
           "type": "string",
-          "required": true
-        },
-        "form": {
-          "labels": {
-            "short": {
-              "translation_key": "form.2wt_sms_report.form"
-            },
-            "tiny": "form.2wt_sms_report.form.tiny"
-          },
-          "position": 2,
-          "type": "string",
-          "required": true
-        },
-        "contact": {
-          "position": 3,
           "required": true
         },
         "reported_date": {
@@ -529,7 +514,7 @@
         "patient_name": {
           "labels": {
             "short": {
-              "translation_key": "form.2wt_sms_report.patient_name"
+              "translation_key": "Patient Name"
             },
             "tiny": "form.2wt_sms_report.patient_name.tiny"
           },
