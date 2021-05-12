@@ -488,7 +488,7 @@
         "translation_key": "form.2wt_sms_report.title"
       },
       "fields": {
-        "patient_uuid": {
+        "patient_id": {
           "labels": {
             "short": {
               "translation_key": "form.2wt_sms_report.patient_id.short"
@@ -509,9 +509,35 @@
           "position": 1,
           "type": "casting",
           "required": false
+        },
+        "form": {
+          "position": 2,
+          "type":"string",
+          "required": true
+        },
+        "contact": {
+          "position": 3,
+          "required":true
+        },
+        "reported_date": {
+          "type": "date",
+          "required": true,
+          "position": 4
+        },
+        "patient_name": {
+          "type": "string",
+          "position": 5,
+          "required": true
+        },
+        "is_task": {
+          "type": "boolean",
+          "position": 6
+        },
+        "patient_phone": {
+          "type":"string",
+          "position": 7
         }
-      },
-      "public_form": true
+      }
     }
   },
   "_version": "3.9.0",
