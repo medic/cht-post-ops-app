@@ -544,11 +544,11 @@
         }
       }
     },
-    "stop_messgae_request": {
+    "stop_message_request": {
       "meta": {
-        "code": "stop_messgae_request",
+        "code": "stop_message_request",
         "translation_key": "Stop Message Request",
-        "form": "stop_messgae_request"
+        "form": "stop_message_request"
       },
       "fields": {
         "patient_id": {
