@@ -494,7 +494,7 @@
             "short": {
               "translation_key": "Patient ID"
             },
-            "tiny": "form.2wt_sms_report.patient_id.tiny"
+            "tiny": "form.patient_transfer_request.patient_id.tiny"
           },
           "position": 0,
           "type": "string",
@@ -505,7 +505,7 @@
             "short": {
               "translation_key": "Reported Date"
             },
-            "tiny": "form.2wt_sms_report.reported_date.tiny"
+            "tiny": "form.patient_transfer_request.reported_date.tiny"
           },
           "type": "date",
           "required": true,
@@ -516,7 +516,7 @@
             "short": {
               "translation_key": "Patient Name"
             },
-            "tiny": "form.2wt_sms_report.patient_name.tiny"
+            "tiny": "form.patient_transfer_request.patient_name.tiny"
           },
           "type": "string",
           "position": 5,
@@ -527,7 +527,7 @@
             "short": {
               "translation_key": "Is Task"
             },
-            "tiny": "form.2wt_sms_report.is_task.tiny"
+            "tiny": "form.patient_transfer_request.is_task.tiny"
           },
           "type": "boolean",
           "position": 6
@@ -537,7 +537,7 @@
             "short": {
               "translation_key": "Patient Phone Number"
             },
-            "tiny": "form.2wt_sms_report.reported_date"
+            "tiny": "form.patient_transfer_request.reported_date"
           },
           "type": "string",
           "position": 7
@@ -547,7 +547,7 @@
     "STOP_MESSAGE_REQUEST": {
       "meta": {
         "code": "stop_message_request",
-        "translation_key": "Stop Message Request",
+        "translation_key": "form._meta.form",
         "form": "stop_message_request"
       },
       "fields": {
@@ -556,7 +556,7 @@
             "short": {
               "translation_key": "Patient ID"
             },
-            "tiny": "form.2wt_sms_report.patient_id.tiny"
+            "tiny": "form.stop_message_request.patient_id.tiny"
           },
           "position": 0,
           "type": "string",
@@ -567,7 +567,7 @@
             "short": {
               "translation_key": "Reported Date"
             },
-            "tiny": "form.2wt_sms_report.reported_date.tiny"
+            "tiny": "form.stop_message_request.reported_date.tiny"
           },
           "type": "date",
           "required": true,
@@ -578,7 +578,7 @@
             "short": {
               "translation_key": "Patient Name"
             },
-            "tiny": "form.2wt_sms_report.patient_name.tiny"
+            "tiny": "form.stop_message_request.patient_name.tiny"
           },
           "type": "string",
           "position": 5,
@@ -589,7 +589,7 @@
             "short": {
               "translation_key": "Is Task"
             },
-            "tiny": "form.2wt_sms_report.is_task.tiny"
+            "tiny": "form.stop_message_request.is_task.tiny"
           },
           "type": "boolean",
           "position": 6
@@ -599,7 +599,7 @@
             "short": {
               "translation_key": "Patient Phone Number"
             },
-            "tiny": "form.2wt_sms_report.reported_date"
+            "tiny": "form.stop_message_request.reported_date"
           },
           "type": "string",
           "position": 7
@@ -619,7 +619,7 @@
             "short": {
               "translation_key": "Patient ID"
             },
-            "tiny": "form.2wt_sms_report.patient_id.tiny"
+            "tiny": "form.visit_date_change_request.patient_id.tiny"
           },
           "position": 0,
           "type": "string",
@@ -630,7 +630,7 @@
             "short": {
               "translation_key": "Reported Date"
             },
-            "tiny": "form.2wt_sms_report.reported_date.tiny"
+            "tiny": "form.visit_date_change_request.reported_date.tiny"
           },
           "type": "date",
           "required": true,
@@ -641,7 +641,7 @@
             "short": {
               "translation_key": "Patient Name"
             },
-            "tiny": "form.2wt_sms_report.patient_name.tiny"
+            "tiny": "form.visit_date_change_request.patient_name.tiny"
           },
           "type": "string",
           "position": 5,

@@ -1,10 +1,10 @@
-const VISIT_DATE_CHANGE_REQUEST = 'visit_date_change_request';
-// const PATIENT_TRANSFER_REQUEST = 'patient_transfer_request';
-// const STOP_MESSAGE_REQUEST = 'stop_message_request';
+const VISIT_DATE_CHANGE_REQUEST = 'VISIT_DATE_CHANGE_REQUEST';
+const PATIENT_TRANSFER_REQUEST = 'PATIENT_TRANSFER_REQUEST';
+const STOP_MESSAGE_REQUEST = 'STOP_MESSAGE_REQUEST';
 
 const VISIT_DATE_CHANGE_OUTCOME = 'visit_date_change_outcome';
-// const PATIENT_TRANSFER_OUTCOME = 'patient_transfer_outcome';
-// const STOP_MESSAGE_OUTCOME = 'stop_message_outcome';
+const PATIENT_TRANSFER_OUTCOME = 'patient_transfer_outcome';
+const STOP_MESSAGE_OUTCOME = 'stop_message_outcome';
 
 module.exports = [
   {
@@ -244,22 +244,46 @@ module.exports = [
     }]
   },
   {
-    name: 'patient-transferred',
+    name: PATIENT_TRANSFER_REQUEST,
     icon: 'off',
     title: 'Patient Transfer',
     appliesTo: 'reports',
-    appliesToType: ['patient_transferred'],
+    appliesToType: [PATIENT_TRANSFER_REQUEST],
     actions: [{
-      form: 'patient_transferred',
+      form: PATIENT_TRANSFER_OUTCOME,
       label: 'Patient Transferred',
       modifyContent: function (content) {
         content.is_task = true;
       }
     }],
     resolvedIf: (contact, report) => {
-      const mostRecentTransferReport = Utils.getMostRecentReport(contact.reports, 'patient_transferred');
+      const mostRecentTransferReport = Utils.getMostRecentReport(contact.reports, PATIENT_TRANSFER_OUTCOME);
       // There is been a newer change report making this obsolete
-      return report.form === 'patient_transferred' && mostRecentTransferReport.reported_date > report.reported_date;
+      return report.form === PATIENT_TRANSFER_REQUEST && mostRecentTransferReport.reported_date > report.reported_date;
+    },
+    events: [{
+      days: 0,
+      start:2,
+      end: 14
+    }]
+  },
+  {
+    name: STOP_MESSAGE_REQUEST,
+    icon: 'off',
+    title: 'Patient Transfer',
+    appliesTo: 'reports',
+    appliesToType: [STOP_MESSAGE_REQUEST],
+    actions: [{
+      form: STOP_MESSAGE_OUTCOME,
+      label: 'Patient Transferred',
+      modifyContent: function (content) {
+        content.is_task = true;
+      }
+    }],
+    resolvedIf: (contact, report) => {
+      const mostRecentTransferReport = Utils.getMostRecentReport(contact.reports, STOP_MESSAGE_OUTCOME);
+      // There is been a newer change report making this obsolete
+      return report.form === STOP_MESSAGE_REQUEST && mostRecentTransferReport.reported_date > report.reported_date;
     },
     events: [{
       days: 0,
