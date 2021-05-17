@@ -1,4 +1,5 @@
 {
+  "title": "Stop Message Outcome",
   "context": {
     "expression": "!contact.muted && contact.role === 'patient' && user.parent.type === 'health_center'",
     "person": true,

@@ -35,36 +35,6 @@ module.exports = [
       end: 365
     }]
   },
-
-  {
-    name: 'day7-sms',
-    icon: 'treatment',
-    title: 'task.day7-sms.title',
-    appliesTo: 'contacts',
-    appliesToType: ['person'],
-    appliesIf: (contact) => {
-      return contact.contact.randomization && contact.contact.randomization === 'texting';
-    },
-    resolvedIf: (contact, report, event, dueDate) => {
-      return Utils.isFormSubmittedInWindow(
-        contact.reports,
-        'day7_sms',
-        contact.contact.reported_date,
-        Utils.addDate(dueDate, event.end + 1).getTime()
-      );
-    },
-    actions: [{
-      form: 'day7_sms',
-      label: 'Follow up client'
-    }],
-    events: [{
-      id: 'sms-followup-day-7',
-      days: 7,
-      start: 0,
-      end: 365
-    }]
-  },
-
   {
     name: 'followup-day-14',
     icon: 'treatment',
@@ -90,43 +60,6 @@ module.exports = [
       end: 365
     }]
   },
-  {
-    name: 'no-contact-8',
-    icon: 'off',
-    title: 'task.day8-no-contact.title',
-    appliesTo: 'reports',
-    appliesToType: ['enroll'],
-    resolvedIf: (contact, report, event, dueDate) => {
-      const noContactAlreadySubmitted = Utils.isFormSubmittedInWindow(
-        contact.reports,
-        'day8_no_contact',
-        report.reported_date,
-        Utils.addDate(dueDate, event.end + 1).getTime()
-      );
-
-      const someReportSubmitted = ['0', '1'].some((rep) => Utils.isFormSubmittedInWindow(
-        contact.reports,
-        rep,
-        report.reported_date,
-        Utils.addDate(dueDate, 1).getTime())
-      );
-
-      return noContactAlreadySubmitted || someReportSubmitted;
-    },
-    actions: [{
-      form: 'day8_no_contact',
-      label: 'No Contact until day 8',
-      modifyContent: function (content) {
-        content.is_task = true;
-      }
-    }],
-    events: [{
-      days: 8,
-      start: 0,
-      end: 365
-    }]
-  },
-
   {
     name: 'no-contact-14',
     icon: 'off',
@@ -246,12 +179,12 @@ module.exports = [
   {
     name: PATIENT_TRANSFER_REQUEST,
     icon: 'off',
-    title: 'Patient Transfer',
+    title: 'Patient Transfer Request',
     appliesTo: 'reports',
     appliesToType: [PATIENT_TRANSFER_REQUEST],
     actions: [{
       form: PATIENT_TRANSFER_OUTCOME,
-      label: 'Patient Transferred',
+      label: 'Patient Transferred Outcome',
       modifyContent: function (content) {
         content.is_task = true;
       }
@@ -271,7 +204,7 @@ module.exports = [
   {
     name: STOP_MESSAGE_REQUEST,
     icon: 'off',
-    title: 'Patient Transfer',
+    title: 'Stop Messages Request',
     appliesTo: 'reports',
     appliesToType: [STOP_MESSAGE_REQUEST],
     actions: [{
