@@ -258,6 +258,7 @@ module.exports = [
     }],
     resolvedIf: (contact, report) => {
       const mostRecentTransferReport = Utils.getMostRecentReport(contact.reports, PATIENT_TRANSFER_OUTCOME);
+      if (!mostRecentTransferReport) return false
       // There is been a newer change report making this obsolete
       return report.form === PATIENT_TRANSFER_REQUEST && mostRecentTransferReport.reported_date > report.reported_date;
     },
@@ -282,6 +283,7 @@ module.exports = [
     }],
     resolvedIf: (contact, report) => {
       const mostRecentTransferReport = Utils.getMostRecentReport(contact.reports, STOP_MESSAGE_OUTCOME);
+      if (!mostRecentTransferReport) return false
       // There is been a newer change report making this obsolete
       return report.form === STOP_MESSAGE_REQUEST && mostRecentTransferReport.reported_date > report.reported_date;
     },
