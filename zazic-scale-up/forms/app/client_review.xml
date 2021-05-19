@@ -32,8 +32,10 @@
           <n>
             <client_came/>
             <return_client>
-              <clinic_name/>
-              <clinic_name_other/>
+              <health_center>
+                <_id/>
+                <name/>
+              </health_center>
               <visit_date/>
               <ae_positive/>
               <ae_severity/>
@@ -74,24 +76,24 @@
       <bind nodeset="/r/is_no_contact" type="string" calculate="../inputs/is_no_contact"/>
       <bind nodeset="/r/n/client_came" type="select1" required="true()"/>
       <bind nodeset="/r/n/return_client" relevant=" /r/n/client_came  = 'yes'"/>
-      <bind nodeset="/r/n/return_client/clinic_name" type="select1" required="true()"/>
-      <bind nodeset="/r/n/return_client/clinic_name_other" type="string" required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please enter a valid clinic name" relevant=" /r/n/return_client/clinic_name  = 'other'"/>
-      <bind nodeset="/r/n/return_client/visit_date" type="date" required="true()" constraint=". &lt;= today() and ((decimal-date-time(today()) - decimal-date-time(.)) &lt;= 28)" jr:constraintMsg="Date is not in the future: and not more than 4 weeks ago"/>
+      <bind nodeset="/r/n/return_client/health_center/_id" type="db:health_center" required="true()"/>
+      <bind nodeset="/r/n/return_client/health_center/name" type="string"/>
+      <bind nodeset="/r/n/return_client/visit_date" type="date" jr:constraintMsg="Date is not in the future: and not more than 4 weeks ago" required="true()" constraint=". &lt;= today() and ((decimal-date-time(today()) - decimal-date-time(.)) &lt;= 28)"/>
       <bind nodeset="/r/n/return_client/ae_positive" type="select1" required="true()"/>
-      <bind nodeset="/r/n/return_client/ae_severity" type="select1" required="true()" relevant="../ae_positive = 'yes'"/>
-      <bind nodeset="/r/n/return_client/ae_type" type="string" required="true()" constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)" jr:constraintMsg="The AE Code should be captured in the same way they are recorded in the VMMC register" relevant="../ae_positive = 'yes'"/>
+      <bind nodeset="/r/n/return_client/ae_severity" type="select1" relevant="../ae_positive = 'yes'" required="true()"/>
+      <bind nodeset="/r/n/return_client/ae_type" type="string" relevant="../ae_positive = 'yes'" jr:constraintMsg="The AE Code should be captured in the same way they are recorded in the VMMC register" required="true()" constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)"/>
       <bind nodeset="/r/n/trace_client" relevant=" /r/n/client_came ='no'"/>
       <bind nodeset="/r/n/trace_client/tracing_method" type="select1" required="true()"/>
       <bind nodeset="/r/n/trace_client/client_traced" type="string" required="true()" calculate="if( /r/n/trace_client/tracing_method  = 'in_person', 'yes', if( /r/n/trace_client/tracing_method  = 'phone', 'yes', 'no'))"/>
-      <bind nodeset="/r/n/trace_client/client_not_traced_reason" type="string" required="true()" relevant=" /r/n/trace_client/client_traced  = 'no'"/>
-      <bind nodeset="/r/n/trace_client/client_ok" type="select1" required="true()" relevant=" /r/n/trace_client/client_traced  = 'yes'"/>
+      <bind nodeset="/r/n/trace_client/client_not_traced_reason" type="string" relevant=" /r/n/trace_client/client_traced  = 'no'" required="true()"/>
+      <bind nodeset="/r/n/trace_client/client_ok" type="select1" relevant=" /r/n/trace_client/client_traced  = 'yes'" required="true()"/>
       <bind nodeset="/r/n/trace_client/n_thanks" readonly="true()" type="string" relevant=" /r/n/trace_client/client_ok  = 'yes'"/>
       <bind nodeset="/r/n/trace_client/q_ae_positive" type="string" calculate="if( /r/n/trace_client/tracing_method  = &quot;in_person&quot;, &quot;Did nurse identify an AE?&quot;, &quot;Did nurse suspect an AE?&quot;)"/>
-      <bind nodeset="/r/n/trace_client/ae_positive" type="select1" required="true()" relevant=" /r/n/trace_client/client_ok  = 'no'"/>
-      <bind nodeset="/r/n/trace_client/ae_severity" type="select1" required="true()" relevant="../ae_positive = 'yes' and  /r/n/trace_client/tracing_method  = 'in_person'"/>
-      <bind nodeset="/r/n/trace_client/ae_type" type="string" required="true()" constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)" jr:constraintMsg="The AE Code should be captured in the same way they are recorded in the VMMC register" relevant="../ae_positive = 'yes' and  /r/n/trace_client/tracing_method  = 'in_person'"/>
+      <bind nodeset="/r/n/trace_client/ae_positive" type="select1" relevant=" /r/n/trace_client/client_ok  = 'no'" required="true()"/>
+      <bind nodeset="/r/n/trace_client/ae_severity" type="select1" relevant="../ae_positive = 'yes' and  /r/n/trace_client/tracing_method  = 'in_person'" required="true()"/>
+      <bind nodeset="/r/n/trace_client/ae_type" type="string" relevant="../ae_positive = 'yes' and  /r/n/trace_client/tracing_method  = 'in_person'" jr:constraintMsg="The AE Code should be captured in the same way they are recorded in the VMMC register" required="true()" constraint="regex(., &quot;^[a-zA-Z\-]+$&quot;)"/>
       <bind nodeset="/r/n/additional_comments" type="string" required="false()"/>
-      <bind nodeset="/r/n/nurse" type="string" required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space."/>
+      <bind nodeset="/r/n/nurse" type="string" jr:constraintMsg="Please type in name characters e.g letters and space." required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -139,188 +141,13 @@
       </select1>
       <group ref="/r/n/return_client">
         <label></label>
-        <select1 appearance="minimal" ref="/r/n/return_client/clinic_name">
-          <label>Which clinic?</label>
-          <item>
-            <label>1. Guruve Hospital</label>
-            <value>guruve_hospital</value>
-          </item>
-          <item>
-            <label>2. Bepura Clinic</label>
-            <value>bepura_clinic</value>
-          </item>
-          <item>
-            <label>3. Mhondoro Ngezi</label>
-            <value>mhondoro_ngezi</value>
-          </item>
-          <item>
-            <label>4. St Michael's Hospital</label>
-            <value>michael_hospital</value>
-          </item>
-          <item>
-            <label>5. Turf Clinic</label>
-            <value>turf_clinic</value>
-          </item>
-          <item>
-            <label>6. Donain Clinic</label>
-            <value>donain_clinic</value>
-          </item>
-          <item>
-            <label>7. Matobo District</label>
-            <value>matobo_district</value>
-          </item>
-          <item>
-            <label>8. Maphisa Hospital</label>
-            <value>maphisa_hospital</value>
-          </item>
-          <item>
-            <label>9. Tshelanyemba Hospital</label>
-            <value>tshelanyemba_hospital</value>
-          </item>
-          <item>
-            <label>10. St Joseph Hospital</label>
-            <value>joseph_hospital</value>
-          </item>
-          <item>
-            <label>11. Matobo Rural Hospital</label>
-            <value>matobo_rural_hospital</value>
-          </item>
-          <item>
-            <label>12. Sanyati Baptist Hospital</label>
-            <value>sanyati_baptist_hospital</value>
-          </item>
-          <item>
-            <label>13. Chakari Clinic</label>
-            <value>chakari_clinic</value>
-          </item>
-          <item>
-            <label>14. Gokwe District Hospital</label>
-            <value>gokwe_district_hospital</value>
-          </item>
-          <item>
-            <label>15. Sai Clinic</label>
-            <value>sai_clinic</value>
-          </item>
-          <item>
-            <label>16. Kana Mission Hospital</label>
-            <value>kana_mission_hospital</value>
-          </item>
-          <item>
-            <label>17. Chidamoyo Mission Hospital</label>
-            <value>chidamoyo_mission_hospital</value>
-          </item>
-          <item>
-            <label>18. Hurungwe Rural Hospital</label>
-            <value>hurungwe_rural_hospital</value>
-          </item>
-          <item>
-            <label>19. Karoi District Hospital</label>
-            <value>karoi_district_hospital</value>
-          </item>
-          <item>
-            <label>20. Chitsungo Mission Hospital</label>
-            <value>chitsungo_mission_hospital</value>
-          </item>
-          <item>
-            <label>21. Mahuwe RHC</label>
-            <value>mahuwe_rhc</value>
-          </item>
-          <item>
-            <label>22. St Luke's Mission Hospital</label>
-            <value>luke_mission_hospital</value>
-          </item>
-          <item>
-            <label>23. Paul's Mission Hospital</label>
-            <value>Paul_mission_hospital</value>
-          </item>
-          <item>
-            <label>24. Chitungwiza-Seke North clinic</label>
-            <value>seke_north</value>
-          </item>
-          <item>
-            <label>25. Chitungwiza-Seke South clinic</label>
-            <value>seke_south</value>
-          </item>
-          <item>
-            <label>26. Chitungwiza-City Med hospital</label>
-            <value>city_med</value>
-          </item>
-          <item>
-            <label>27. Chitungwiza-Zengeza Clinic</label>
-            <value>zengeza</value>
-          </item>
-          <item>
-            <label>28. Chitungwiza-Chitungwiza Central Hospital</label>
-            <value>chitungwiza_central</value>
-          </item>
-          <item>
-            <label>29. Chegutu- Norton hospital</label>
-            <value>chegutu_norton</value>
-          </item>
-          <item>
-            <label>30. Chegutu- District Hospital</label>
-            <value>chegutu_district</value>
-          </item>
-          <item>
-            <label>31. Chegutu-Monera clinic(Norton Outreach)</label>
-            <value>monera</value>
-          </item>
-          <item>
-            <label>32. Marondera- Marondera District Hospital</label>
-            <value>marondera</value>
-          </item>
-          <item>
-            <label>33. Marondera- Mahusekwa Hospital</label>
-            <value>mahusekwa</value>
-          </item>
-          <item>
-            <label>34. Goromonzi-Makumbe Mission Hospital</label>
-            <value>makumbe</value>
-          </item>
-          <item>
-            <label>35. Goromonzi-Ruwa Rehab Hospital</label>
-            <value>ruwa</value>
-          </item>
-          <item>
-            <label>36. Sanyati-Kadoma Hospital</label>
-            <value>kadoma</value>
-          </item>
-          <item>
-            <label>37. Sanyati-Kadoma City</label>
-            <value>kadoma_city</value>
-          </item>
-          <item>
-            <label>38. Zaka-Ndanga District Hospital</label>
-            <value>ndanga</value>
-          </item>
-          <item>
-            <label>39. Zaka-Musiso Mission Hospital</label>
-            <value>musiso</value>
-          </item>
-          <item>
-            <label>40. Mberengwa-Mnene Mission Hospital</label>
-            <value>mnene</value>
-          </item>
-          <item>
-            <label>41. Mberengwa-Musume Mission Hospital</label>
-            <value>musume</value>
-          </item>
-          <item>
-            <label>42. Mberengwa-Mberengwa District Hospital</label>
-            <value>mberengwa</value>
-          </item>
-          <item>
-            <label>43. Mberengwa-Masase Mission Hospital</label>
-            <value>masase</value>
-          </item>
-          <item>
-            <label>44. Other</label>
-            <value>other</value>
-          </item>
-        </select1>
-        <input ref="/r/n/return_client/clinic_name_other">
-          <label>Specify Other</label>
-        </input>
+        <group ref="/r/n/return_client/health_center">
+          <label></label>
+          <input appearance="db-object" ref="/r/n/return_client/health_center/_id">
+            <label>Which clinic?</label>
+          </input>
+          <input appearance="hidden" ref="/r/n/return_client/health_center/name"/>
+        </group>
         <input ref="/r/n/return_client/visit_date">
           <label>Date of visit/review</label>
         </input>
@@ -358,7 +185,7 @@
       <group ref="/r/n/trace_client">
         <label></label>
         <select1 ref="/r/n/trace_client/tracing_method">
-          <label>Was tracing successful?</label>
+          <label>Have you traced the client?</label>
           <item>
             <label>1. Yes, Via Physical visit</label>
             <value>in_person</value>

@@ -38,7 +38,7 @@ module.exports = {
     ],
     invalidVMMCNo: [
       [],
-      ['Person A', 'guruve_hospital', 'Location A', '12-345', '23', '+263732123456', '+263732456780', 'english']
+      ['Person A', 'guruve_hospital', 'Location A', '1-2345', '23', '+263732123456', '+263732456780', 'english']
     ]
   }
 };

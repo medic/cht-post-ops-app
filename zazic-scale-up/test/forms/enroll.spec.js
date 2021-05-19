@@ -31,6 +31,7 @@ describe('Enrollment', () => {
 
     it('should create a contact with all fields captured', async () => {
         const filledForm = await harness.fillForm('enroll', ...enroll.person);
+        console.log("filledForm.errors", filledForm.errors);
         expect(filledForm.errors).to.be.empty;
         expect(harness.state.contacts[2]).to.deep.equal({
             parent: {
@@ -41,7 +42,10 @@ describe('Enrollment', () => {
             },
             type: 'person',
             name: 'Person A',
-            enrollment_facility: 'guruve_hospital',
+            enrollment_facility: {
+                '_id': 'guruve_hospital',
+                'name': ''
+            },
             enrollment_location: 'Location A',
             vmmc_no: '12345',
             age_years: '23',
