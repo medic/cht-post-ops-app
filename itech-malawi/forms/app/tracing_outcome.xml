@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
-    <h:title>General Form</h:title>
+    <h:title>Tracing Outcome</h:title>
     <model>
       <instance>
-        <r id="general_form" prefix="J1!general_form!" delimiter="#" version="2017-09-30 00:00:00">
+        <r id="tracing_outcome" prefix="J1!tracing_outcome!" delimiter="#" version="2017-09-30 00:00:00">
           <inputs>
             <meta>
               <location>
@@ -69,7 +69,7 @@
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/patient_mpc_id" type="string" calculate="../inputs/contact/mpc_no"/>
       <bind nodeset="/r/b2c_outcome" type="select1" required="true()"/>
-      <bind nodeset="/r/explain" type="string" relevant="selected( /r/b2c_outcome , 'other')" required="true()"/>
+      <bind nodeset="/r/explain" type="string" required="true()" relevant="selected( /r/b2c_outcome , 'other')"/>
       <bind nodeset="/r/event" relevant="( /r/b2c_outcome  = 'Dead' or  /r/b2c_outcome  = 'T.O Self' or  /r/b2c_outcome  = 'T.O Official' or  /r/b2c_outcome  = 'Stop ARV self' or  /r/b2c_outcome  = 'Stop ARV Official')"/>
       <bind nodeset="/r/event/selected_outcome" readonly="true()" type="string"/>
       <bind nodeset="/r/event/date_of_event" type="date"/>

@@ -765,7 +765,7 @@
       "mute",
       "stop_message",
       "patient_transferred",
-      "general_form"
+      "tracing_outcome"
     ],
     "unmute_forms": [
       "unmute"
@@ -775,7 +775,7 @@
       "list": [
         {
           "property": "b2c_outcome",
-          "rule": "otherEquals('form', 'general_form') ? equals('Dead') : optional()"
+          "rule": "otherEquals('form', 'tracing_outcome') ? equals('Dead') : optional()"
         }
       ]
     }
