@@ -30,6 +30,7 @@
           <patient_id/>
           <phone/>
           <patient_phone/>
+          <transferred_out>TRUE</transferred_out>
           <n>
             <n_header tag="hidden"/>
             <_contact_name/>
@@ -43,6 +44,19 @@
             <client_ok/>
             <additional_notes/>
           </n>
+          <summary>
+            <task_label/>
+            <warning/>
+            <description/>
+            <patient_details/>
+            <_contact_name/>
+            <_contact_phone/>
+            <_national_id/>
+            <_filing_number/>
+            <_findings/>
+            <_outcome/>
+            <_explanation/>
+          </summary>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -63,6 +77,7 @@
       <bind nodeset="/r/patient_id" type="string" required="true()" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
+      <bind nodeset="/r/transferred_out" type="string" required="true()" calculate="true()"/>
       <bind nodeset="/r/n/n_header" readonly="true()" type="string"/>
       <bind nodeset="/r/n/_contact_name" readonly="true()" type="string"/>
       <bind nodeset="/r/n/_contact_phone" readonly="true()" type="string"/>
@@ -72,6 +87,17 @@
       <bind nodeset="/r/n/request/date_requested" type="string" calculate=" /r/inputs/request_date "/>
       <bind nodeset="/r/n/client_ok" type="select1" required="true()"/>
       <bind nodeset="/r/n/additional_notes" type="string" relevant="selected(../client_ok, 'others')" required="false()"/>
+      <bind nodeset="/r/summary/task_label" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/warning" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/description" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/patient_details" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_contact_name" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_contact_phone" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_national_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_filing_number" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_findings" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_outcome" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_explanation" readonly="true()" type="string"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -115,7 +141,7 @@
       <input ref="/r/n/n_header">
         <label>&lt;h4 style="color: #337ab7;"&gt;&lt;p&gt;Complete form if patient transferred clinic. Please note that the patient will no longer receive study messages when you submit this form.&lt;/p&gt;&lt;/h4&gt;</label>
       </input>
-      <input appearance="h1 blue" ref="/r/n/_contact_name">
+      <input ref="/r/n/_contact_name">
         <label>Patient Name: <output value=" /r/patient_name "/></label>
       </input>
       <input ref="/r/n/_contact_phone">
@@ -147,6 +173,42 @@
       </select1>
       <input ref="/r/n/additional_notes">
         <label>Please explain</label>
+      </input>
+    </group>
+    <group appearance="field-list summary" ref="/r/summary">
+      <label></label>
+      <input appearance="h1 blue" ref="/r/summary/task_label">
+        <label>Task Label</label>
+      </input>
+      <input appearance="h1" ref="/r/summary/warning">
+        <label>Be sure to submit to complete this action</label>
+      </input>
+      <input ref="/r/summary/description">
+        <label>Form description: Complete form if patient transferred clinic. Please note that the patient will no longer receive study messages when you submit this form.</label>
+      </input>
+      <input appearance="h1 yellow" ref="/r/summary/patient_details">
+        <label>Patient Details</label>
+      </input>
+      <input ref="/r/summary/_contact_name">
+        <label>Patient Name: <output value=" /r/patient_name "/></label>
+      </input>
+      <input ref="/r/summary/_contact_phone">
+        <label>Patient Phone Number: <output value=" /r/patient_phone "/></label>
+      </input>
+      <input ref="/r/summary/_national_id">
+        <label>National ID: <output value=" /r/inputs/contact/national_id "/></label>
+      </input>
+      <input ref="/r/summary/_filing_number">
+        <label>Filing Number: <output value=" /r/inputs/contact/filing_number "/></label>
+      </input>
+      <input appearance="h1 blue" ref="/r/summary/_findings">
+        <label>Findings</label>
+      </input>
+      <input ref="/r/summary/_outcome">
+        <label>Notified Back to Care?: <output value=" /r/n/client_ok "/></label>
+      </input>
+      <input ref="/r/summary/_explanation">
+        <label>Notes: <output value=" /r/n/additional_notes "/></label>
       </input>
     </group>
   </h:body>

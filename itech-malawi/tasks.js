@@ -123,17 +123,17 @@ module.exports = [
     }
   },
   {
-    name: 'next-day-reminder_day14-patient-transferred',
+    name: 'next-day-reminder_day14-patient-transferred-outcome',
     icon: 'off',
     title: 'Patient Transferred',
     appliesTo: 'reports',
-    appliesToType: ['patient_transferred'],
+    appliesToType: ['patient_transferred_outcome'],
     appliesIf: (contact, report) => {
-      return Utils.getMostRecentReport(contact.reports, 'patient_transferred') === report && Utils.getField(report, 'n.client_ok') === 'remind_me';
+      return Utils.getMostRecentReport(contact.reports, 'patient_transferred_outcome') === report && Utils.getField(report, 'n.client_ok') === 'remind_me';
     },
     actions: [{
-      form: 'patient_transferred',
-      label: 'Patient transferred',
+      form: 'patient_transferred_outcome',
+      label: 'Patient Transferred Outcome Reminder',
       modifyContent: function (content) {
         content.is_task = true;
       }
@@ -144,7 +144,7 @@ module.exports = [
       end: 14
     }],
     resolvedIf: (contact, report) => {
-      return Utils.getMostRecentReport(contact.reports, 'patient_transferred') === report && Utils.getField(report, 'n.client_ok') === 'yes';
+      return Utils.getMostRecentReport(contact.reports, 'patient_transferred_outcome') === report && Utils.getField(report, 'n.client_ok') === 'yes';
     }
   },
   {
