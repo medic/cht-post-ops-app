@@ -7,19 +7,15 @@
   },
   "scripts": {
     "eslint": "eslint **.js",
-    "test": "npm run eslint && npm run test-unit",
-    "test-contact-summary": "medic-contact-summary-test",
-    "test-unit": "nyc --exclude=tests/* mocha --reporter progress tests/*.spec.js --timeout 10000",
-    "travis": "npm install && npm test",
-    "deploy_app_forms": "medic-conf --instance=$instance --user=admin convert-app-forms upload-app-forms",
-    "deploy_contact_forms": "medic-conf --instance=$instance --user=admin convert-contact-forms upload-contact-forms",
-    "deploy_app_settings": "medic-conf --instance=$instance --user=admin compile-app-settings upload-app-settings",
-    "upload_translations": "medic-conf --instance=$instance --user=admin upload-custom-translations",
-    "deploy": "npm-run-all upload_translations deploy_app_forms deploy_contact_forms deploy_app_settings"
+    "test": "npm run eslint && npm run compile-forms && npm run compile-app-settings && npm run unittest",
+    "unittest": "TZ=Africa/Johannesburg mocha test/{,**}/*.spec.js --timeout 15000 --slow 500",
+    "compile-app-settings": "npx medic-conf compile-app-settings",
+    "compile-forms": "npx medic-conf convert-app-forms convert-contact-forms"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "medic-conf": "^3.6.0",
-    "medic-conf-test-harness": "^0.1.9"
+    "medic-conf-test-harness": "^1.0.4",
+    "mocha": "^8.4.0"
   }
 }
