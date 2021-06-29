@@ -379,7 +379,7 @@
           "expr": "doc.language_code"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.phone, 'telegram:' + doc.telegram_id ]"
+          "expr": "[ 'tel:' + doc.phone ]"
         },
         "groups": {
           "expr": "[ 'ecd753d6-129f-4001-a189-f69728f9158b' ]"
@@ -681,7 +681,10 @@
     "debounce_interval": 200
   },
   "sms": {
-    "outgoing_service": "medic-gateway"
+    "outgoing_service": "rapidpro",
+    "rapidpro": {
+      "url": "https://rapidpro.app.medicmobile.org"
+    }
   },
   "replications": [
     {
@@ -764,7 +767,7 @@
     "mute_forms": [
       "tracing_outcome",
       "stop_message_outcome",
-      "patient_transferred_outcome"
+      "patient_transfer_outcome"
     ],
     "unmute_forms": [
       "unmute"
@@ -774,11 +777,15 @@
       "list": [
         {
           "property": "transferred_out",
-          "rule": "otherEquals('form', 'patient_transferred_outcome') ? iequals('true') : optional()"
+          "rule": "otherEquals('form', 'patient_transfer_outcome') ? iequals('true') : optional()"
         },
         {
           "property": "b2c_outcome",
           "rule": "otherEquals('form', 'tracing_outcome') ? equals('Dead') : optional()"
+        },
+        {
+          "property": "will_be_muted",
+          "rule": "otherEquals('form', 'stop_message_outcome') ? equals('true') : optional()"
         }
       ]
     }

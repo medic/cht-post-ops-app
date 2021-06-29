@@ -33,6 +33,7 @@
           <explain/>
           <event>
             <selected_outcome/>
+            <is_date_known/>
             <date_of_event/>
             <formatted_doe/>
           </event>
@@ -47,6 +48,7 @@
             <_filing_number/>
             <_b2c_outcome/>
             <outcome/>
+            <_is_date_known/>
             <_date_of_event/>
           </group_summary>
           <meta tag="hidden">
@@ -69,10 +71,11 @@
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/patient_mpc_id" type="string" calculate="../inputs/contact/mpc_no"/>
       <bind nodeset="/r/b2c_outcome" type="select1" required="true()"/>
-      <bind nodeset="/r/explain" type="string" required="true()" relevant="selected( /r/b2c_outcome , 'other')"/>
+      <bind nodeset="/r/explain" type="string" relevant="selected( /r/b2c_outcome , 'other')" required="true()"/>
       <bind nodeset="/r/event" relevant="( /r/b2c_outcome  = 'Dead' or  /r/b2c_outcome  = 'T.O Self' or  /r/b2c_outcome  = 'T.O Official' or  /r/b2c_outcome  = 'Stop ARV self' or  /r/b2c_outcome  = 'Stop ARV Official')"/>
       <bind nodeset="/r/event/selected_outcome" readonly="true()" type="string"/>
-      <bind nodeset="/r/event/date_of_event" type="date"/>
+      <bind nodeset="/r/event/is_date_known" type="select1" required="true()"/>
+      <bind nodeset="/r/event/date_of_event" type="date" relevant=" /r/event/is_date_known  = 'yes'" required="true()"/>
       <bind nodeset="/r/event/formatted_doe" type="string" calculate="format-date( /r/event/date_of_event , '%d-%m-%y')"/>
       <bind nodeset="/r/group_summary/_task_label" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/_submit_warning" readonly="true()" type="string"/>
@@ -84,7 +87,8 @@
       <bind nodeset="/r/group_summary/_filing_number" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/_b2c_outcome" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/outcome" readonly="true()" type="string"/>
-      <bind nodeset="/r/group_summary/_date_of_event" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_is_date_known" readonly="true()" type="string"/>
+      <bind nodeset="/r/group_summary/_date_of_event" readonly="true()" type="string" relevant=" /r/event/is_date_known  = 'yes'"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -186,6 +190,17 @@
       <input ref="/r/event/selected_outcome">
         <label>Outcome: <output value=" /r/b2c_outcome "/></label>
       </input>
+      <select1 ref="/r/event/is_date_known">
+        <label>Is Date Known</label>
+        <item>
+          <label>Yes</label>
+          <value>yes</value>
+        </item>
+        <item>
+          <label>No</label>
+          <value>no</value>
+        </item>
+      </select1>
       <input ref="/r/event/date_of_event">
         <label>Date of Event</label>
       </input>
@@ -221,6 +236,9 @@
       </input>
       <input ref="/r/group_summary/outcome">
         <label>Back To Care Outcome: <output value=" /r/b2c_outcome "/></label>
+      </input>
+      <input ref="/r/group_summary/_is_date_known">
+        <label>Is Date Known: <output value=" /r/event/is_date_known "/></label>
       </input>
       <input ref="/r/group_summary/_date_of_event">
         <label>Date of Event: <output value=" /r/event/formatted_doe "/></label>

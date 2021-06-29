@@ -29,6 +29,11 @@
             <message_to_resume/>
             <comment/>
           </n>
+          <rapidpro>
+            <optout/>
+            <adherance/>
+            <reminders/>
+          </rapidpro>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -46,6 +51,9 @@
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/n/message_to_resume" type="select" required="true()"/>
       <bind nodeset="/r/n/comment" type="string"/>
+      <bind nodeset="/r/rapidpro/optout" type="string" calculate="false()"/>
+      <bind nodeset="/r/rapidpro/adherance" type="string" relevant="selected( /r/n/message_to_resume , 'motivational_messages')" calculate="true()"/>
+      <bind nodeset="/r/rapidpro/reminders" type="string" relevant="selected( /r/n/message_to_resume , 'visit_reminder')" calculate="true()"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -82,6 +90,9 @@
       <input ref="/r/n/comment">
         <label>Comments</label>
       </input>
+    </group>
+    <group appearance="hidden" ref="/r/rapidpro">
+      <label></label>
     </group>
   </h:body>
 </h:html>

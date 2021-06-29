@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
   <h:head>
-    <h:title>Patient Transferred Outcome</h:title>
+    <h:title>Patient Transfer Outcome</h:title>
     <model>
       <instance>
-        <r id="patient_transferred_outcome" prefix="J1!patient_transferred_outcome!" delimiter="#" version="17/3/2021 12:00:00 AM">
+        <r id="patient_transfer_outcome" prefix="J1!patient_transfer_outcome!" delimiter="#" version="17/3/2021 12:00:00 AM">
           <inputs>
             <meta>
               <location>
@@ -31,6 +31,9 @@
           <phone/>
           <patient_phone/>
           <transferred_out>TRUE</transferred_out>
+          <rapidpro>
+            <optout/>
+          </rapidpro>
           <n>
             <n_header tag="hidden"/>
             <_contact_name/>
@@ -78,6 +81,7 @@
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/transferred_out" type="string" required="true()" calculate="true()"/>
+      <bind nodeset="/r/rapidpro/optout" type="string" calculate="true()"/>
       <bind nodeset="/r/n/n_header" readonly="true()" type="string"/>
       <bind nodeset="/r/n/_contact_name" readonly="true()" type="string"/>
       <bind nodeset="/r/n/_contact_phone" readonly="true()" type="string"/>
@@ -86,7 +90,7 @@
       <bind nodeset="/r/n/request/_id" type="string" calculate=" /r/inputs/request_id "/>
       <bind nodeset="/r/n/request/date_requested" type="string" calculate=" /r/inputs/request_date "/>
       <bind nodeset="/r/n/client_ok" type="select1" required="true()"/>
-      <bind nodeset="/r/n/additional_notes" type="string" relevant="selected(../client_ok, 'others')" required="false()"/>
+      <bind nodeset="/r/n/additional_notes" type="string" required="false()" relevant="selected(../client_ok, 'others')"/>
       <bind nodeset="/r/summary/task_label" readonly="true()" type="string"/>
       <bind nodeset="/r/summary/warning" readonly="true()" type="string"/>
       <bind nodeset="/r/summary/description" readonly="true()" type="string"/>
@@ -135,6 +139,9 @@
           <label>Filing Number</label>
         </input>
       </group>
+    </group>
+    <group appearance="hidden" ref="/r/rapidpro">
+      <label></label>
     </group>
     <group appearance="field-list" ref="/r/n">
       <label></label>

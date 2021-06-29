@@ -28,8 +28,15 @@
           <message>
             <message_to_stop/>
           </message>
-          <reasons/>
+          <adherence_reasons/>
+          <reminders_reasons/>
+          <will_be_muted/>
           <explain/>
+          <rapidpro>
+            <optout/>
+            <adherence/>
+            <reminders/>
+          </rapidpro>
           <meta tag="hidden">
             <instanceID/>
           </meta>
@@ -46,8 +53,13 @@
       <bind nodeset="/r/phone" type="string" calculate="../inputs/contact/phone"/>
       <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/message/message_to_stop" type="select" required="true()"/>
-      <bind nodeset="/r/reasons" type="select" required="true()"/>
+      <bind nodeset="/r/adherence_reasons" type="select" required="true()" relevant="selected( /r/message/message_to_stop , 'motivation_messages')"/>
+      <bind nodeset="/r/reminders_reasons" type="select" required="true()" relevant="selected( /r/message/message_to_stop , 'visit_reminders')"/>
+      <bind nodeset="/r/will_be_muted" type="string" calculate="../message/message_to_stop = 'motivation_messages visit_reminders'"/>
       <bind nodeset="/r/explain" type="string"/>
+      <bind nodeset="/r/rapidpro/optout" type="string" calculate="../../message/message_to_stop = 'motivation_messages visit_reminders'"/>
+      <bind nodeset="/r/rapidpro/adherence" type="string" calculate="../../message/message_to_stop = motivation_messages"/>
+      <bind nodeset="/r/rapidpro/reminders" type="string" calculate="../../message/message_to_stop = 'visit_reminders'"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -71,7 +83,7 @@
     <group ref="/r/message">
       <label>Complete this form to stop sending message to client</label>
       <select ref="/r/message/message_to_stop">
-        <label>Which messages should be stopped?</label>
+        <label>Which messages would you like to stop for <output value=" /r/patient_name "/>?</label>
         <item>
           <label>Motivation Messages</label>
           <value>motivation_messages</value>
@@ -82,35 +94,46 @@
         </item>
       </select>
     </group>
-    <select ref="/r/reasons">
-      <label>Why? Select all that applies</label>
+    <select ref="/r/adherence_reasons">
+      <label>Reason(s) for opting out of motivational messages?</label>
       <item>
-        <label>Patient says the messages are too many</label>
+        <label>Messages are too many</label>
         <value>too_many_messages</value>
       </item>
       <item>
-        <label>Patient does not wish to continue participating in the study</label>
+        <label>Does not wish to continue participating in the study</label>
         <value>discontinue_study</value>
       </item>
       <item>
-        <label>Patient has raised confidentiality concerns</label>
+        <label>Has raised confidentiality concerns</label>
         <value>confidentiality_concerns</value>
       </item>
       <item>
-        <label>Patient no longer has access to a mobile device</label>
+        <label>No longer has access to a mobile device</label>
         <value>no_mobile_device</value>
       </item>
       <item>
-        <label>Patient has moved to another location/district</label>
-        <value>relocations</value>
+        <label>Other</label>
+        <value>other</value>
+      </item>
+    </select>
+    <select ref="/r/reminders_reasons">
+      <label>Reason(s) for opting out of visit reminders?</label>
+      <item>
+        <label>Messages are too many</label>
+        <value>too_many_messages</value>
       </item>
       <item>
-        <label>Patient died</label>
-        <value>death</value>
+        <label>Does not wish to continue participating in the study</label>
+        <value>discontinue_study</value>
       </item>
       <item>
-        <label>Cannot find or contact patient</label>
-        <value>no_contact</value>
+        <label>Has raised confidentiality concerns</label>
+        <value>confidentiality_concerns</value>
+      </item>
+      <item>
+        <label>No longer has access to a mobile device</label>
+        <value>no_mobile_device</value>
       </item>
       <item>
         <label>Other</label>
@@ -120,5 +143,8 @@
     <input ref="/r/explain">
       <label>Please Explain</label>
     </input>
+    <group appearance="hidden" ref="/r/rapidpro">
+      <label></label>
+    </group>
   </h:body>
 </h:html>

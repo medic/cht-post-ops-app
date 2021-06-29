@@ -40,7 +40,6 @@
             <name/>
             <national_id/>
             <filing_number>FN</filing_number>
-            <arv_no>MPC-ARV-</arv_no>
             <consent/>
             <phone/>
             <alt_phone/>
@@ -52,7 +51,6 @@
             <d_surname/>
             <d_national_id/>
             <d_filing_number/>
-            <d_arv_no/>
             <d_consent/>
             <d_phone/>
             <d_alt_phone/>
@@ -83,17 +81,15 @@
       <bind nodeset="/data/person/name" type="string" calculate="concat( /data/person/first_name , ' ',  /data/person/surname )"/>
       <bind nodeset="/data/person/national_id" type="string" required="true()" constraint="regex(., '^[a-zA-Z0-9]{6,13}$')"/>
       <bind nodeset="/data/person/filing_number" type="string" required="true()" constraint="regex(., '^FN[0-9]+$')"/>
-      <bind nodeset="/data/person/arv_no" type="string" constraint="regex(., '^MPC-ARV-[0-9]+$')"/>
       <bind nodeset="/data/person/consent" type="select1" required="true()" jr:constraintMsg="Please confirm consent"/>
-      <bind nodeset="/data/person/phone" type="string" required="true()" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number"/>
-      <bind nodeset="/data/person/alt_phone" type="string" required="false()" constraint="regex(., '^\+265[0-9]{9}$')" jr:constraintMsg="Please enter a valid mobile number"/>
+      <bind nodeset="/data/person/phone" type="string" required="true()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')"/>
+      <bind nodeset="/data/person/alt_phone" type="string" required="false()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., '^\+265[0-9]{9}$')"/>
       <bind nodeset="/data/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/data/person/language_code" type="string" calculate="if(selected( /data/person/language_preference , 'english'), 'eng', 'nya')"/>
       <bind nodeset="/data/summary/d_first_name" readonly="true()" type="string"/>
       <bind nodeset="/data/summary/d_surname" readonly="true()" type="string"/>
       <bind nodeset="/data/summary/d_national_id" readonly="true()" type="string"/>
       <bind nodeset="/data/summary/d_filing_number" readonly="true()" type="string"/>
-      <bind nodeset="/data/summary/d_arv_no" readonly="true()" type="string"/>
       <bind nodeset="/data/summary/d_consent" readonly="true()" type="string"/>
       <bind nodeset="/data/summary/d_phone" readonly="true()" type="string"/>
       <bind nodeset="/data/summary/d_alt_phone" readonly="true()" type="string"/>
@@ -145,10 +141,6 @@
         <label>Filing Number</label>
         <hint>Should be formatted like ..FN12345</hint>
       </input>
-      <input ref="/data/person/arv_no">
-        <label>ARV Number</label>
-        <hint>Should be in the format MPC-ARV-02392</hint>
-      </input>
       <select1 ref="/data/person/consent">
         <label>Does the patient consent to participate in the study?</label>
         <item>
@@ -193,9 +185,6 @@
       </input>
       <input ref="/data/summary/d_filing_number">
         <label>Filing Number: <output value=" /data/person/filing_number "/></label>
-      </input>
-      <input ref="/data/summary/d_arv_no">
-        <label>ARV Number: <output value=" /data/person/arv_no "/></label>
       </input>
       <input ref="/data/summary/d_consent">
         <label>Consent: <output value=" /data/person/consent "/></label>

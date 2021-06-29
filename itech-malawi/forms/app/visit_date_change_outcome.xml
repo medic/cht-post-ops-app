@@ -22,18 +22,24 @@
               <source_id/>
               <name/>
               <phone/>
-              <mpc_no/>
+              <national_id/>
+              <filing_number/>
             </contact>
           </inputs>
           <patient_name/>
           <patient_id tag="hidden"/>
           <patient_phone/>
-          <mpc_id/>
+          <filing_no/>
+          <national_iden/>
           <current_visit_date/>
+          <rapidpro>
+            <visit_date/>
+          </rapidpro>
           <n>
             <contact_name/>
             <contact_phone/>
-            <mpc_id/>
+            <filing_number_note/>
+            <national_identifiction/>
             <current_visit_date_g/>
             <new_date/>
             <days_apart/>
@@ -42,9 +48,15 @@
             </request>
           </n>
           <summary>
+            <task_label/>
+            <_warning/>
+            <_description/>
+            <_patient_details/>
             <contact_name/>
             <contact_phone/>
-            <mpc_id/>
+            <filing_number_note/>
+            <national_identifiction/>
+            <_findings/>
             <prev_visit_date_g/>
             <next_visit_date_g/>
           </summary>
@@ -62,22 +74,32 @@
       <bind nodeset="/r/inputs/contact/source_id" type="string"/>
       <bind nodeset="/r/inputs/contact/name" type="string"/>
       <bind nodeset="/r/inputs/contact/phone" type="string"/>
-      <bind nodeset="/r/inputs/contact/mpc_no" type="string"/>
+      <bind nodeset="/r/inputs/contact/national_id" type="string"/>
+      <bind nodeset="/r/inputs/contact/filing_number" type="string"/>
       <bind nodeset="/r/patient_name" type="string" calculate="../inputs/contact/name"/>
-      <bind nodeset="/r/patient_id" type="string" calculate="../inputs/contact/_id" required="true()"/>
+      <bind nodeset="/r/patient_id" type="string" required="true()" calculate="../inputs/contact/_id"/>
       <bind nodeset="/r/patient_phone" type="string" calculate="../inputs/contact/phone"/>
-      <bind nodeset="/r/mpc_id" type="string" calculate="../inputs/contact/mpc_no"/>
+      <bind nodeset="/r/filing_no" type="string" calculate="../inputs/contact/filing_number"/>
+      <bind nodeset="/r/national_iden" type="string" calculate="../inputs/contact/national_id"/>
       <bind nodeset="/r/current_visit_date" type="string" calculate="coalesce(instance('contact-summary')/context/current_visit_date, .)"/>
+      <bind nodeset="/r/rapidpro/visit_date" type="string" calculate="../../n/new_date"/>
       <bind nodeset="/r/n/contact_name" readonly="true()" type="string"/>
       <bind nodeset="/r/n/contact_phone" readonly="true()" type="string"/>
-      <bind nodeset="/r/n/mpc_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/filing_number_note" readonly="true()" type="string"/>
+      <bind nodeset="/r/n/national_identifiction" readonly="true()" type="string"/>
       <bind nodeset="/r/n/current_visit_date_g" readonly="true()" type="string"/>
-      <bind nodeset="/r/n/new_date" type="date" constraint="../days_apart &gt; 0 and ../days_apart &lt; 15" required="true()"/>
+      <bind nodeset="/r/n/new_date" type="date" constraint=".&gt;=date-time(floor(decimal-date-time(today()))) and ../days_apart &gt; 0 and ../days_apart &lt; 15" required="true()"/>
       <bind nodeset="/r/n/days_apart" type="string" calculate="round((decimal-date-time( /r/n/new_date ) - decimal-date-time( /r/current_visit_date )) , 0)"/>
       <bind nodeset="/r/n/request/_id" type="string" calculate=" /r/inputs/request_id "/>
+      <bind nodeset="/r/summary/task_label" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_warning" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_description" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_patient_details" readonly="true()" type="string"/>
       <bind nodeset="/r/summary/contact_name" readonly="true()" type="string"/>
       <bind nodeset="/r/summary/contact_phone" readonly="true()" type="string"/>
-      <bind nodeset="/r/summary/mpc_id" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/filing_number_note" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/national_identifiction" readonly="true()" type="string"/>
+      <bind nodeset="/r/summary/_findings" readonly="true()" type="string"/>
       <bind nodeset="/r/summary/prev_visit_date_g" readonly="true()" type="string"/>
       <bind nodeset="/r/summary/next_visit_date_g" readonly="true()" type="string"/>
       <bind nodeset="/r/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
@@ -110,10 +132,16 @@
         <input appearance="hidden" ref="/r/inputs/contact/phone">
           <label>Phone Number</label>
         </input>
-        <input appearance="hidden" ref="/r/inputs/contact/mpc_no">
-          <label>MPC Number</label>
+        <input appearance="hidden" ref="/r/inputs/contact/national_id">
+          <label>National ID</label>
+        </input>
+        <input appearance="hidden" ref="/r/inputs/contact/filing_number">
+          <label>Filing Number</label>
         </input>
       </group>
+    </group>
+    <group ref="/r/rapidpro">
+      <label></label>
     </group>
     <group appearance="field-list" ref="/r/n">
       <label></label>
@@ -123,8 +151,11 @@
       <input ref="/r/n/contact_phone">
         <label>Patient Phone: <output value=" /r/patient_phone "/></label>
       </input>
-      <input ref="/r/n/mpc_id">
-        <label>MPC Number: <output value=" /r/inputs/contact/mpc_no "/></label>
+      <input ref="/r/n/filing_number_note">
+        <label>Filing Number: <output value=" /r/filing_no "/></label>
+      </input>
+      <input ref="/r/n/national_identifiction">
+        <label>National ID: <output value=" /r/national_iden "/></label>
       </input>
       <input ref="/r/n/current_visit_date_g">
         <label>Current Visit Date: <output value=" /r/current_visit_date "/></label>
@@ -140,16 +171,34 @@
         </input>
       </group>
     </group>
-    <group appearance="field-list" ref="/r/summary">
-      <label>Summary</label>
+    <group appearance="field-list summary" ref="/r/summary">
+      <label></label>
+      <input appearance="h1 blue" ref="/r/summary/task_label">
+        <label>Task Label</label>
+      </input>
+      <input ref="/r/summary/_warning">
+        <label>Be sure to submit to complete this action</label>
+      </input>
+      <input ref="/r/summary/_description">
+        <label>Complete form if patient would like to change their next appointment visit date. Please note that the visit reminders will be scheduled against this new date.</label>
+      </input>
+      <input appearance="h1 yellow" ref="/r/summary/_patient_details">
+        <label>Patient Details &lt;I class="fa fa-user"&gt;&lt;/i&gt;</label>
+      </input>
       <input ref="/r/summary/contact_name">
         <label>Patient Name: <output value=" /r/patient_name "/></label>
       </input>
       <input ref="/r/summary/contact_phone">
         <label>Patient Phone: <output value=" /r/patient_phone "/></label>
       </input>
-      <input ref="/r/summary/mpc_id">
-        <label>MPC Number: <output value=" /r/inputs/contact/mpc_no "/></label>
+      <input ref="/r/summary/filing_number_note">
+        <label>Filing Number: <output value=" /r/filing_no "/></label>
+      </input>
+      <input ref="/r/summary/national_identifiction">
+        <label>National ID: <output value=" /r/national_iden "/></label>
+      </input>
+      <input appearance="h1 blue" ref="/r/summary/_findings">
+        <label>Dates</label>
       </input>
       <input ref="/r/summary/prev_visit_date_g">
         <label>Old Visit Date: <output value=" /r/current_visit_date "/></label>

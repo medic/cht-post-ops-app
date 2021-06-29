@@ -19,6 +19,8 @@ const fields = [
 
 ];
 
+const latestVisitReport = getNewestReport(reports, ['visit_date_change_outcome']);
+let currentVisitDate = getField(latestVisitReport, 'n.new_date');
 const cards = [
     {
         label: 'Contact Profile',
@@ -32,23 +34,22 @@ const cards = [
                 { label: 'National ID', value: thisContact.national_id, width: 6 },
                 { label: 'Filing Number', value: thisContact.filing_number, width: 6 },
                 { label: 'Preferred Language', value: thisContact.language_preference, width: 6, translate: true },
-                { label: 'Next Visit Date', value: thisContact.rapidpro.visit_date, filter: 'date', width: 6 }
             );
+
+            if (currentVisitDate) {
+                fields.push({ label: 'Next Visit Date', value: currentVisitDate, filter: 'date', width: 6 });
+            }
 
             return fields;
         },
         modifyContext: function (ctx) {
-            
-            const latestVisitReport = getNewestReport(reports, ['date_change_request']);
-            let currentVisitDate = getField(latestVisitReport, 'n.new_date');
-            console.log('@currentVisitDate', currentVisitDate);
             if (!currentVisitDate) {
                 currentVisitDate = thisContact.rapidpro.visit_date;
             }
             ctx.current_visit_date = currentVisitDate;
-          }
+        }
     },
-    
+
 ];
 
 module.exports = {
