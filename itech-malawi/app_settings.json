@@ -479,6 +479,27 @@
           "optional": true
         }
       }
+    },
+    "rapidpro-gateway": {
+      "relevant_to": "doc.type === 'data_record' && doc.tasks && doc.tasks[0] && doc.tasks[0].state && doc.tasks[0].state === 'pending'",
+      "destination": {
+        "base_url": "https://rapidpro.app.medicmobile.org",
+        "auth": {
+          "type": "header",
+          "name": "Authorization",
+          "value_key": "rapidpro.app"
+        },
+        "path": "/api/v2/flow_starts.json"
+      },
+      "mapping": {
+        "flow": {
+          "expr": "'d10690df-eca4-497b-9a92-4289432822d2'"
+        },
+        "urns": {
+          "expr": "[ 'tel:' + doc.tasks[0].messages[0].to ]",
+          "optional": false
+        }
+      }
     }
   },
   "forms": {
