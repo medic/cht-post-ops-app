@@ -494,7 +494,7 @@
           "optional": false
         },
         "extra.group": {
-          "expr": "doc.fields.randomization",
+          "expr": "'texting'",
           "optional": false
         }
       }
