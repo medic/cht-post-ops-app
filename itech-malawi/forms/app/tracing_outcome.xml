@@ -75,7 +75,7 @@
       <bind nodeset="/r/event" relevant="( /r/b2c_outcome  = 'Dead' or  /r/b2c_outcome  = 'T.O Self' or  /r/b2c_outcome  = 'T.O Official' or  /r/b2c_outcome  = 'Stop ARV self' or  /r/b2c_outcome  = 'Stop ARV Official')"/>
       <bind nodeset="/r/event/selected_outcome" readonly="true()" type="string"/>
       <bind nodeset="/r/event/is_date_known" type="select1" required="true()"/>
-      <bind nodeset="/r/event/date_of_event" type="date" relevant=" /r/event/is_date_known  = 'yes'" required="true()"/>
+      <bind nodeset="/r/event/date_of_event" type="date" jr:constraintMsg="Value must be current or previous date" relevant=" /r/event/is_date_known  = 'yes'" required="true()" constraint=".&lt;=date(today())"/>
       <bind nodeset="/r/event/formatted_doe" type="string" calculate="format-date( /r/event/date_of_event , '%d-%m-%y')"/>
       <bind nodeset="/r/group_summary/_task_label" readonly="true()" type="string"/>
       <bind nodeset="/r/group_summary/_submit_warning" readonly="true()" type="string"/>
@@ -202,7 +202,7 @@
         </item>
       </select1>
       <input ref="/r/event/date_of_event">
-        <label>Date of Event</label>
+        <label>Actual or Estimated Date of Event</label>
       </input>
     </group>
     <group appearance="field-list summary" ref="/r/group_summary">
@@ -241,7 +241,7 @@
         <label>Is Date Known: <output value=" /r/event/is_date_known "/></label>
       </input>
       <input ref="/r/group_summary/_date_of_event">
-        <label>Date of Event: <output value=" /r/event/formatted_doe "/></label>
+        <label>Actual or Estimated Date of Event: <output value=" /r/event/formatted_doe "/></label>
       </input>
     </group>
   </h:body>
