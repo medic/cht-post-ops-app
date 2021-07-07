@@ -31,6 +31,7 @@
           <place_id/>
           <phone/>
           <language_preference/>
+          <telegram_id/>
           <person db-doc="true">
             <parent>
               <_id/>
@@ -50,6 +51,7 @@
             <phone/>
             <alternative_phone/>
             <language_preference/>
+            <telegram_id/>
           </person>
           <meta tag="hidden">
             <instanceID/>
@@ -70,18 +72,20 @@
       <bind nodeset="/enroll/place_id" type="string" calculate="../inputs/contact/_id"/>
       <bind nodeset="/enroll/phone" type="string" calculate="../person/phone"/>
       <bind nodeset="/enroll/language_preference" type="string" calculate="../person/language_preference"/>
+      <bind nodeset="/enroll/telegram_id" type="string" calculate="../person/telegram_id"/>
       <bind nodeset="/enroll/person/parent/_id" type="string" calculate="../../../inputs/contact/_id"/>
       <bind nodeset="/enroll/person/parent/parent/_id" type="string" calculate="../../../../inputs/contact/parent/_id"/>
       <bind nodeset="/enroll/person/type" type="string" calculate="&quot;person&quot;" jr:constraintMsg="person"/>
-      <bind nodeset="/enroll/person/name" type="string" required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="Please type in name characters e.g letters and space."/>
+      <bind nodeset="/enroll/person/name" type="string" jr:constraintMsg="Please type in name characters e.g letters and space." required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)"/>
       <bind nodeset="/enroll/person/enrollment_facility/_id" type="db:health_center" required="true()"/>
       <bind nodeset="/enroll/person/enrollment_facility/name" type="string"/>
-      <bind nodeset="/enroll/person/enrollment_location" type="string" required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" jr:constraintMsg="This should be the place where the actual enrollment happened."/>
-      <bind nodeset="/enroll/person/vmmc_no" type="string" required="true()" constraint="regex(., '^[0-9]{5,9}$')" jr:constraintMsg="Please enter between 5 - 9 digits"/>
-      <bind nodeset="/enroll/person/age_years" type="decimal" required="true()" constraint="(.) &gt;= 18 and (.) &lt;= 75" jr:constraintMsg="Client should be from 18 to 75 years old"/>
-      <bind nodeset="/enroll/person/phone" type="string" required="true()" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)" jr:constraintMsg="Please enter a valid mobile number"/>
-      <bind nodeset="/enroll/person/alternative_phone" type="string" required="false()" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)" jr:constraintMsg="Please enter a valid mobile number"/>
+      <bind nodeset="/enroll/person/enrollment_location" type="string" jr:constraintMsg="This should be the place where the actual enrollment happened." required="true()" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)"/>
+      <bind nodeset="/enroll/person/vmmc_no" type="string" jr:constraintMsg="Please enter between 5 - 9 digits" required="true()" constraint="regex(., '^[0-9]{5,9}$')"/>
+      <bind nodeset="/enroll/person/age_years" type="decimal" jr:constraintMsg="Client should be from 18 to 75 years old" required="true()" constraint="(.) &gt;= 18 and (.) &lt;= 75"/>
+      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" required="true()" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)"/>
+      <bind nodeset="/enroll/person/alternative_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" required="false()" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
+      <bind nodeset="/enroll/person/telegram_id" type="string" required="false()"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
   </h:head>
@@ -129,8 +133,10 @@
         <label>VMMC Client Name</label>
       </input>
       <group ref="/enroll/person/enrollment_facility">
-        <label>Enrollment Facility</label>
-        <input appearance="db-object" ref="/enroll/person/enrollment_facility/_id"/>
+        <label></label>
+        <input appearance="db-object" ref="/enroll/person/enrollment_facility/_id">
+          <label>VMMC Enrollment Facility</label>
+        </input>
         <input appearance="hidden" ref="/enroll/person/enrollment_facility/name"/>
       </group>
       <input ref="/enroll/person/enrollment_location">
@@ -167,6 +173,10 @@
           <value>ndebele</value>
         </item>
       </select1>
+      <input ref="/enroll/person/telegram_id">
+        <label>Telegram ID</label>
+        <hint>This is for test purpose only</hint>
+      </input>
     </group>
   </h:body>
 </h:html>

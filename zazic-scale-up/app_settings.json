@@ -478,7 +478,7 @@
           "expr": "'44cdaa3e-2754-4d38-8e07-83fc7929d96a'"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.fields.phone ]",
+          "expr": "[ 'tel:' + doc.fields.phone, 'telegram:' + doc.fields.telegram_id  ]",
           "optional": false
         },
         "extra.language": {
