@@ -379,7 +379,7 @@
           "expr": "doc.language_code"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.phone ]"
+          "expr": "[ 'tel:' + doc.phone, 'telegram:' + doc.telegram_id ]"
         },
         "groups": {
           "expr": "[ '4096ada4-f420-48a7-a2b0-7df1b79669ea' ]"
@@ -702,10 +702,7 @@
     "debounce_interval": 200
   },
   "sms": {
-    "outgoing_service": "rapidpro",
-    "rapidpro": {
-      "url": "https://rapidpro.app.medicmobile.org"
-    }
+    "outgoing_service": "medic-gateway"
   },
   "replications": [
     {
