@@ -379,7 +379,7 @@
           "expr": "doc.language_code"
         },
         "urns": {
-          "expr": "[ 'tel:' + doc.phone ]"
+          "expr": "[ 'tel:' + doc.phone, 'telegram:' + doc.telegram_id ]"
         },
         "groups": {
           "expr": "[ 'd08bc6a5-d6ef-4182-be28-72dc66b763d5' ]"
@@ -493,7 +493,7 @@
       },
       "mapping": {
         "flow": {
-          "expr": "'4298b303-8b1f-404a-b182-b123df4f9e51'"
+          "expr": "'b242c3ac-4153-4076-a033-1b144e66cff9'"
         },
         "urns": {
           "expr": "[ 'tel:' + doc.tasks[0].messages[0].to ]",
@@ -702,10 +702,7 @@
     "debounce_interval": 200
   },
   "sms": {
-    "outgoing_service": "rapidpro",
-    "rapidpro": {
-      "url": "https://rapidpro.app.medicmobile.org"
-    }
+    "outgoing_service": "medic-gateway"
   },
   "replications": [
     {
