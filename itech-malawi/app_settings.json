@@ -382,7 +382,7 @@
           "expr": "[ 'tel:' + doc.phone, 'telegram:' + doc.telegram_id ]"
         },
         "groups": {
-          "expr": "[ 'd08bc6a5-d6ef-4182-be28-72dc66b763d5' ]"
+          "expr": "[ 'ecd753d6-129f-4001-a189-f69728f9158b' ]"
         },
         "fields.medic_id": {
           "expr": "doc._id"
@@ -405,7 +405,7 @@
       },
       "mapping": {
         "flow": {
-          "expr": "'8569c761-54bd-4f76-a85a-c519f6d23db3'"
+          "expr": "'6eca00f4-a371-49dc-9ce5-33750a88a3aa'"
         },
         "urns": {
           "expr": "['tel:' + doc.fields.phone]"
@@ -449,7 +449,7 @@
       },
       "mapping": {
         "flow": {
-          "expr": "'8569c761-54bd-4f76-a85a-c519f6d23db3'"
+          "expr": "'6eca00f4-a371-49dc-9ce5-33750a88a3aa'"
         },
         "urns": {
           "expr": "['tel:' + doc.phone]"
