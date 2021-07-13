@@ -103,7 +103,7 @@
       <bind nodeset="/enroll/person/rapidpro/language" type="string" calculate="../language_preference"/>
       <bind nodeset="/enroll/person/rapidpro/reminders" type="string" calculate="true()"/>
       <bind nodeset="/enroll/person/rapidpro/adherence" type="string" calculate="true()"/>
-      <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="date-time(decimal-date-time(now())+4)"/>
+      <bind nodeset="/enroll/person/rapidpro/visit_date" type="string" calculate="date-time(decimal-date-time(now())+90)"/>
       <bind nodeset="/enroll/person/first_name" type="string" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
       <bind nodeset="/enroll/person/surname" type="string" constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
       <bind nodeset="/enroll/person/name" type="string" calculate="concat( /enroll/person/first_name , ' ',  /enroll/person/surname )"/>
