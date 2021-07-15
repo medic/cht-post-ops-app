@@ -382,7 +382,7 @@
           "expr": "[ 'tel:' + doc.phone, 'telegram:' + doc.telegram_id ]"
         },
         "groups": {
-          "expr": "[ '4096ada4-f420-48a7-a2b0-7df1b79669ea' ]"
+          "expr": "[ 'd08bc6a5-d6ef-4182-be28-72dc66b763d5' ]"
         },
         "fields.medic_id": {
           "expr": "doc._id"
