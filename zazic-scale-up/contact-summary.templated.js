@@ -11,17 +11,24 @@ if (contact.type === 'person' && !isNurse()) {
 
 const fields = [
     { appliesToType: ['person', 'nurse'], appliesIf: isNurse, label: 'contact.profile.nurse', value: '', width: 12 },
-    { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.phone', value: thisContact.phone, width: 4, filter: 'phone' },
-    { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.alternate_phone', value: thisContact.alternate_phone, width: 4, filter: 'phone' },
+    { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.phone', value: thisContact.phone, width: 6, filter: 'phone' },
+    { appliesToType: 'person', appliesIf: isNotNurse, label: 'person.field.alternate_phone', value: thisContact.alternate_phone, width: 6, filter: 'phone' },
     { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.age', value: thisContact.age_years, width: 4},
-    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.days_since_enrollment', value: daysSinceEnrollment, width: 6 },
-    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.enrollment_date', value: contact.enrollment_date, width: 6, filter: 'date' },
-    { appliesToType: 'person', label: 'contact.parent', value: thisLineage, filter: 'lineage' },
+    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.days_since_enrollment', value: daysSinceEnrollment, width: 4 },
+    { appliesToType: 'person', appliesIf: isNotNurse, label: 'contact.enrollment_date', value: contact.enrollment_date, width: 4, filter: 'date' },
     { appliesToType: ['clinic', 'health_center', 'district_hospital'], label: 'Contact', value: thisContact.contact && thisContact.contact.name, width: 4 },
     { appliesToType: ['clinic', 'health_center', 'district_hospital'], label: 'contact.phone_number', value: thisContact.contact && thisContact.contact.phone, width: 4 },
     { appliesToType: ['clinic', 'health_center', 'district_hospital'], label: 'External ID', value: thisContact.external_id, width: 4 },
     { appliesToType: ['clinic', 'health_center', 'district_hospital'], appliesIf: function () { return thisContact.parent && thisLineage[0]; }, label: 'contact.parent', value: thisLineage, filter: 'lineage' }
 ];
+
+if (thisContact.is_minor) {
+    fields.push({ appliesToType: 'person', label: 'contact.parent', value: thisLineage, filter: 'lineage', width: 4 });
+    fields.push({ appliesToType: 'person', label: 'Is a minor', value: thisContact.is_minor, width: 4 });
+    fields.push({ appliesToType: 'person', label: 'Phone Ownership', value: thisContact.phone_owner, width: 4 });
+} else {
+    fields.push({ appliesToType: 'person', label: 'contact.parent', value: thisLineage, filter: 'lineage', width: 12 });
+}
 
 module.exports = {
     fields: fields
