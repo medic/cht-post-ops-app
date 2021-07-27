@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const TestRunner = require('medic-conf-test-harness');
 const harness = new TestRunner();
 
-describe('Tests for fields for Non-Nurse', () => {
+xdescribe('Tests for fields for Non-Nurse', () => {
   before(async () => { return await harness.start(); });
   after(async () => { return await harness.stop(); });
   beforeEach(async () => {

@@ -32,33 +32,33 @@
           <filing_no/>
           <national_iden/>
           <current_visit_date/>
-          <rapidpro>
+          <rapidpro tag="hidden">
             <visit_date/>
           </rapidpro>
           <n>
-            <contact_name/>
-            <contact_phone/>
-            <filing_number_note/>
-            <national_identifiction/>
-            <current_visit_date_g/>
+            <contact_name tag="hidden"/>
+            <contact_phone tag="hidden"/>
+            <filing_number_note tag="hidden"/>
+            <national_identifiction tag="hidden"/>
+            <current_visit_date_g tag="hidden"/>
             <new_date/>
             <days_apart/>
-            <request>
-              <_id/>
+            <request tag="hidden">
+              <_id tag="hidden"/>
             </request>
           </n>
-          <summary>
-            <task_label/>
-            <_warning/>
-            <_description/>
-            <_patient_details/>
-            <contact_name/>
-            <contact_phone/>
-            <filing_number_note/>
-            <national_identifiction/>
-            <_findings/>
-            <prev_visit_date_g/>
-            <next_visit_date_g/>
+          <summary tag="hidden">
+            <task_label tag="hidden"/>
+            <_warning tag="hidden"/>
+            <_description tag="hidden"/>
+            <_patient_details tag="hidden"/>
+            <contact_name tag="hidden"/>
+            <contact_phone tag="hidden"/>
+            <filing_number_note tag="hidden"/>
+            <national_identifiction tag="hidden"/>
+            <_findings tag="hidden"/>
+            <prev_visit_date_g tag="hidden"/>
+            <next_visit_date_g tag="hidden"/>
           </summary>
           <meta tag="hidden">
             <instanceID/>
@@ -88,7 +88,7 @@
       <bind nodeset="/r/n/filing_number_note" readonly="true()" type="string"/>
       <bind nodeset="/r/n/national_identifiction" readonly="true()" type="string"/>
       <bind nodeset="/r/n/current_visit_date_g" readonly="true()" type="string"/>
-      <bind nodeset="/r/n/new_date" type="date" constraint=".&gt;=date-time(floor(decimal-date-time(today()))) and ../days_apart &gt; 0 and ../days_apart &lt; 15" required="true()"/>
+      <bind nodeset="/r/n/new_date" type="date" required="true()" constraint=".&gt;=date-time(floor(decimal-date-time(today()))) and ../days_apart &gt; 0 and ../days_apart &lt; 15"/>
       <bind nodeset="/r/n/days_apart" type="string" calculate="round((decimal-date-time( /r/n/new_date ) - decimal-date-time( /r/current_visit_date )) , 0)"/>
       <bind nodeset="/r/n/request/_id" type="string" calculate=" /r/inputs/request_id "/>
       <bind nodeset="/r/summary/task_label" readonly="true()" type="string"/>
