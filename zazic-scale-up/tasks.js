@@ -126,7 +126,7 @@ module.exports = [
             }
         }],
         events: [{
-            days: 4,
+            days: 3,
             start: 1,
             end: 365
         }]
