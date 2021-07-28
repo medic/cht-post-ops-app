@@ -74,17 +74,17 @@
       <bind nodeset="/enroll/language_preference" type="string" calculate="../person/language_preference"/>
       <bind nodeset="/enroll/person/parent/_id" type="string" calculate="../../../inputs/contact/_id"/>
       <bind nodeset="/enroll/person/parent/parent/_id" type="string" calculate="../../../../inputs/contact/parent/_id"/>
-      <bind nodeset="/enroll/person/type" type="string" calculate="&quot;person&quot;" jr:constraintMsg="person"/>
-      <bind nodeset="/enroll/person/name" type="string" jr:constraintMsg="Please type in name characters e.g letters and space." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
+      <bind nodeset="/enroll/person/type" type="string" jr:constraintMsg="person" calculate="&quot;person&quot;"/>
+      <bind nodeset="/enroll/person/name" type="string" required="true()" jr:constraintMsg="Please type in name characters e.g letters and space." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)"/>
       <bind nodeset="/enroll/person/enrollment_facility/_id" type="db:health_center" required="true()"/>
       <bind nodeset="/enroll/person/enrollment_facility/name" type="string"/>
-      <bind nodeset="/enroll/person/enrollment_location" type="string" jr:constraintMsg="This should be the place where the actual enrollment happened." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)" required="true()"/>
-      <bind nodeset="/enroll/person/vmmc_no" type="string" jr:constraintMsg="Please enter between 5 - 9 digits" constraint="regex(., '^[0-9]{5,9}$')" required="true()"/>
-      <bind nodeset="/enroll/person/age_years" type="decimal" jr:constraintMsg="Client should be from 15 to 75 years old" constraint="(.) &gt;= 15 and (.) &lt;= 75" required="true()"/>
-      <bind nodeset="/enroll/person/is_minor" type="string" calculate=" /enroll/person/age_years  &lt; 18"/>
-      <bind nodeset="/enroll/person/phone_owner" type="select1" relevant=" /enroll/person/age_years  != ''"/>
-      <bind nodeset="/enroll/person/phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)" required="true()"/>
-      <bind nodeset="/enroll/person/alternative_phone" type="string" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)" required="false()"/>
+      <bind nodeset="/enroll/person/enrollment_location" type="string" required="true()" jr:constraintMsg="This should be the place where the actual enrollment happened." constraint="regex(., &quot;^[a-zA-Z\'\s]+$&quot;)"/>
+      <bind nodeset="/enroll/person/vmmc_no" type="string" required="true()" jr:constraintMsg="Please enter between 5 - 9 digits" constraint="regex(., '^[0-9]{5,9}$')"/>
+      <bind nodeset="/enroll/person/age_years" type="decimal" required="true()" jr:constraintMsg="Client should be from 15 to 75 years old" constraint="(.) &gt;= 15 and (.) &lt;= 75"/>
+      <bind nodeset="/enroll/person/is_minor" type="string" calculate="( /enroll/person/age_years ) &gt;= 15 and ( /enroll/person/age_years ) &lt;= 17"/>
+      <bind nodeset="/enroll/person/phone_owner" type="select1" relevant=" /enroll/person/is_minor  = 'true'"/>
+      <bind nodeset="/enroll/person/phone" type="string" required="true()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)"/>
+      <bind nodeset="/enroll/person/alternative_phone" type="string" required="false()" jr:constraintMsg="Please enter a valid mobile number" constraint="regex(., &quot;^(\+263)([0-9]{9})$&quot;)"/>
       <bind nodeset="/enroll/person/language_preference" type="select1" required="true()"/>
       <bind nodeset="/enroll/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
     </model>
