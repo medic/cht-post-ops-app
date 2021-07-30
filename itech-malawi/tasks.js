@@ -67,6 +67,11 @@ module.exports = [
     appliesTo: 'reports',
     appliesToType: ['enroll'],
     resolvedIf: (contact, report, event, dueDate) => {
+      let visitDateChanged = false;
+
+      if (contact.contact.muted) {
+        return true;
+      }
       const noContactAlreadySubmitted = Utils.isFormSubmittedInWindow(
         contact.reports,
         'day14_no_contact',
@@ -74,14 +79,13 @@ module.exports = [
         Utils.addDate(dueDate, event.end + 1).getTime()
       );
 
-      const someReportSubmitted = ['0', '1'].some((rep) => Utils.isFormSubmittedInWindow(
-        contact.reports,
-        rep,
-        report.reported_date,
-        Utils.addDate(dueDate, 1).getTime())
-      );
+      const visitDateChangeReport = Utils.getMostRecentReport(contact.reports, VISIT_DATE_CHANGE_OUTCOME);
+      if (visitDateChangeReport) {
+        visitDateChanged = visitDateChangeReport.reported_date > report.reported_date;
+      }
+      
 
-      return noContactAlreadySubmitted || someReportSubmitted;
+      return noContactAlreadySubmitted || visitDateChanged;
     },
     actions: [{
       form: 'day14_no_contact',
