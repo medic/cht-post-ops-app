@@ -408,10 +408,10 @@
           "expr": "'8569c761-54bd-4f76-a85a-c519f6d23db3'"
         },
         "urns": {
-          "expr": "['tel:' + doc.fields.phone]"
+          "expr": "['tel:' + doc.fields.patient_phone]"
         },
         "extra.patient_id": {
-          "expr": "doc.fields.patient_uuid",
+          "expr": "doc.fields.patient_id",
           "optional": false
         },
         "extra.optout": {

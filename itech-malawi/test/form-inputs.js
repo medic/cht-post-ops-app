@@ -42,11 +42,4 @@ module.exports = {
       ['2000-01-05']
     ]
   },
-
-  no_contact: {
-    remind: [
-      ['remind_me']
-    ]
-  }
-
 }
