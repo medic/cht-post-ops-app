@@ -6,5 +6,5 @@ backups
 /zazic-scale-up/backups
 .DS_Store
 /**/.DS_Store
-DS_**
+.DS_**
 .~lock*
