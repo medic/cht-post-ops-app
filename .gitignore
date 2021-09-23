@@ -5,6 +5,7 @@ venv/
 backups
 /zazic-scale-up/backups
 .DS_Store
-/**/.DS_Store
+**/.DS_Store
 .DS_**
 .~lock*
+.DS_Store
