@@ -1,4 +1,4 @@
-# VMMC App
+# CHT VMMC App
 ## Setting up
 ### CHT instance
 Use this guide if you need a development CHT instance.
