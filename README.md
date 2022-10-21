@@ -1,1 +1,1 @@
-# vmmc-app
+# VMMC App
