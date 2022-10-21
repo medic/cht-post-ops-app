@@ -10,3 +10,4 @@ More documents:
 1. [I-TECH Projects overview](https://docs.google.com/document/d/1HYElDNW7FLS9_RxLwjE1Xz0saV8Ub3FBF_i5UvzfxaA/edit)
 2. [ITECH ZIM SCALE-UP documents](https://drive.google.com/drive/folders/1RBx16eJcrAgWtzxHF4XNHq2o4F-Yb0mI)
 3. [ITECH AURUM RSA documents](https://drive.google.com/drive/folders/195viiHaZ4TYWbP1cGHbC-DEsRk4DXJsz)
+# vmmc-app
