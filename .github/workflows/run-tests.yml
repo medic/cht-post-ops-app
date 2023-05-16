@@ -5,9 +5,11 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     strategy:
       matrix:
-        node-version: [10.x, 16.x]
+        node-version: [16.x]
         application: ['./itech-aurum', './itech-malawi', './itech-rsa', './zazic', './zazic-scale-up']
 
     defaults:
@@ -15,9 +17,9 @@ jobs:
         working-directory: ${{ matrix.application }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - run: sudo python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic

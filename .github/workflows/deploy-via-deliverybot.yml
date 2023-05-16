@@ -4,7 +4,8 @@ on: ['deployment']
 
 jobs:
   deployment:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: 'Deployment pending'
@@ -13,10 +14,10 @@ jobs:
         state: 'pending'
         token: '${{ github.token }}'
 
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        node-version: 10.x
+        node-version: 16.x
 
     - name: Push itech-malawi to staging
       uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
@@ -35,6 +36,15 @@ jobs:
         hostname: itech-malawi.app.medicmobile.org
         username: ${{ secrets.MALAWI_PRODUCTION_USERNAME }}
         password: ${{ secrets.MALAWI_PRODUCTION_PASSWORD }}
+
+    - name: Push itech-zimbabwe to staging
+      uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
+      if: github.event.deployment.environment == 'itech-zimbabwe.staging'
+      with:
+        directory: './zazic'
+        hostname: itech-zimbabwe.dev.medicmobile.org
+        username: ${{ secrets.ZIMBABWE_STAGING_USERNAME }}
+        password: ${{ secrets.ZIMBABWE_STAGING_PASSWORD }}
 
     - name: Push itech-aurum to staging
       uses: 'medic/cht-core/.github/actions/deploy-with-medic-conf@master'
@@ -72,6 +82,12 @@ jobs:
         username: ${{ secrets.ZAZIC_PRODUCTION_USERNAME }}
         password: ${{ secrets.ZAZIC_PRODUCTION_PASSWORD }}
 
+    - name: 'Get message'
+      id: 'deploy-message'
+      run: |
+            echo "COMMIT_MSG=$(git log -1 --format=%B)" >> $GITHUB_ENV
+            echo "COMMIT_SHA=$(git log -1 --format=%H)" >> $GITHUB_ENV
+
     - name: 'Slack notify success'
       if: success() && github.event.deployment.environment == 'itech-malawi.production'
       uses: rtCamp/action-slack-notify@v2.1.2
@@ -81,35 +97,35 @@ jobs:
         SLACK_USERNAME: deliverybot
         SLACK_ICON_EMOJI: ':rocket:'
         SLACK_TITLE: 'Production deployment successful :successful:'
-        SLACK_FOOTER: ''
-        SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
-        MSG_MINIMAL: commit
+        SLACK_FOOTER: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+        SLACK_MESSAGE: '<https://github.com/medic/config-itech/commit/${{ env.COMMIT_SHA }}|${{ env.COMMIT_MSG }}>'
+        MSG_MINIMAL: true
 
     - name: 'Slack notify success'
       if: success() && github.event.deployment.environment == 'itech-aurum.production'
       uses: rtCamp/action-slack-notify@v2.1.2
       env:
-       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-       SLACK_CHANNEL: i-tech_southafrica
-       SLACK_USERNAME: deliverybot
-       SLACK_ICON_EMOJI: ':rocket:'
-       SLACK_TITLE: 'Production deployment successful :successful:'
-       SLACK_FOOTER: ''
-       SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
-       MSG_MINIMAL: commit
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: i-tech_southafrica
+        SLACK_USERNAME: deliverybot
+        SLACK_ICON_EMOJI: ':rocket:'
+        SLACK_TITLE: 'Production deployment successful :successful:'
+        SLACK_FOOTER: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+        SLACK_MESSAGE: '<https://github.com/medic/config-itech/commit/${{ env.COMMIT_SHA }}|${{ env.COMMIT_MSG }}>'
+        MSG_MINIMAL: true
 
     - name: 'Slack notify success'
       if: success() && github.event.deployment.environment == 'zazic-scale-up.production'
       uses: rtCamp/action-slack-notify@v2.1.2
       env:
-       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-       SLACK_CHANNEL: i-tech-zimbabwe
-       SLACK_USERNAME: deliverybot
-       SLACK_ICON_EMOJI: ':rocket:'
-       SLACK_TITLE: 'Production deployment successful :successful:'
-       SLACK_FOOTER: ''
-       SLACK_MESSAGE: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
-       MSG_MINIMAL: commit
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: i-tech-zimbabwe
+        SLACK_USERNAME: deliverybot
+        SLACK_ICON_EMOJI: ':rocket:'
+        SLACK_TITLE: 'Production deployment successful :successful:'
+        SLACK_FOOTER: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
+        SLACK_MESSAGE: '<https://github.com/medic/config-itech/commit/${{ env.COMMIT_SHA }}|${{ env.COMMIT_MSG }}>'
+        MSG_MINIMAL: true
 
     - name: 'Slack notify failure'
       if: failure()
@@ -122,8 +138,8 @@ jobs:
         SLACK_ICON_EMOJI: ':rocket:'
         SLACK_TITLE: 'Production deployment failed :warning:'
         SLACK_FOOTER: '<https://github.com/medic/config-itech/deployments/activity_log?environment=production|View all deployments>'
-        SLACK_MESSAGE: ${{ github.repository }}
-        MSG_MINIMAL: commit
+        SLACK_MESSAGE: '<https://github.com/medic/config-itech/commit/${{ env.COMMIT_SHA }}|${{ env.COMMIT_MSG }}>'
+        MSG_MINIMAL: true
 
     - name: 'Deployment success'
       if: success()
