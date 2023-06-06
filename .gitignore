@@ -10,3 +10,4 @@ backups
 .~lock*
 .DS_Store
 itech-malawi/forms/app/.DS_Store
+itech-aurum/.vscode/settings.json
