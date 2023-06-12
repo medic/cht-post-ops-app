@@ -11,3 +11,5 @@ backups
 .DS_Store
 itech-malawi/forms/app/.DS_Store
 itech-aurum/.vscode/settings.json
+zazic-scale-up/.vscode/launch.json
+zazic-scale-up/.vscode/settings.json
