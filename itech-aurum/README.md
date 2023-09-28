@@ -1,1 +1,0 @@
-### ITECH Aurum Project config

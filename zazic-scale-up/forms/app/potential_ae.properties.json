@@ -1,8 +1,0 @@
-{
-  "icon": "risk-message",
-  "context": {
-    "person": true,
-    "place": false,
-    "expression": ""
-  }
-}

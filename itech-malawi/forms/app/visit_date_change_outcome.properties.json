@@ -1,9 +1,0 @@
-{
-  "icon": "off",
-  "title": "Visit Date Change Outcome",
-  "context": {
-    "person": true,
-    "place": false,
-    "expression": "!contact.muted && contact.role === 'patient'"
-  }
-}
